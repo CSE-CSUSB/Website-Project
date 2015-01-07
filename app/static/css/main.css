@@ -1,0 +1,43 @@
+body{
+    background: #FFFFFF;
+    border-top-color: #F7f7f7;
+    font-family:'Open Sans', 'Helvetica Neue',
+                  Helvetica, Arial, sans-serif;
+}
+h2{
+    text-align: center;
+    font-size: 1.8em;
+    line-height: 1.5em;
+    color: #89B737;
+    font-family: 'Roboto Condensed', 'Open Sans', 'Helvetica Neue',
+                  Helvetica, Arial, sans-serif;
+}
+
+.login{
+    text-align: center;
+}
+
+.newuser{
+    background: #FFFFFF;
+    text-align: center;
+    font-family: 'Open Sans';
+    font-size: 12px; 
+    line-height: 3em;
+    
+}
+
+.newuser:hover{
+    color: Yellow;
+}
+
+.logo{
+    background: url(http://cse-club.com/assets/img/logo.png) 50% 0 no-repeat
+    transparent;
+    border: 0;
+    font-size: 1em;
+    height: 148px;
+    line-height: 1.5em;
+    margin: 0 auto 3em;
+    overflow: hidden;
+    width: 240px;
+}
