@@ -8,3 +8,6 @@ WTForm==1.0
 WTForms==2.0.1
 Werkzeug==0.9.6
 itsdangerous==0.24
+psycopg2==2.5.4
+py-bcrypt==0.4
+Flask-Bcrypt==0.6.0

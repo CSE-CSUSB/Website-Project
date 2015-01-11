@@ -1,1 +1,10 @@
+# Instead, rebuild the environment with your own virtualenvironment
 .env
+
+# Python cache files
+__pycache__
+*.pyc
+
+# PyCharm local-specific files for those who use it
+.idea/workspace.xml
+.idea/libraries
