@@ -3,4 +3,4 @@ class Config:
     DEBUG = True
     SECRET_KEY = '1234567890'
 
-    SQLALCHEMY_DATABASE_URI = 'postgresql://csecw:csecw@localhost/csecw'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://csecw:csecw@cse-club.com/csecw'
