@@ -23,3 +23,5 @@ for root, dirs, files in os.walk(app.basepath + 'blueprints'):
         attr = getattr(imp, attr)
         if hasattr(attr, 'blueprint'):
             app.register_blueprint(attr.blueprint)
+
+import util.template
