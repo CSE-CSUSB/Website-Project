@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, session
+from flask import Blueprint, redirect, session, render_template
 
 from util.auth import Auth
 from forms.login import LoginForm
@@ -48,3 +48,7 @@ def mktestuser():
     db.session.commit()
 
     return "Done. username=\"cowbell\", password=\"cowbell\""
+
+@blueprint.route('/test')
+def testlayout():
+    return render_template('member/layout.html')

@@ -4,6 +4,10 @@ body {
   padding: 0;
 }
 
+.container {
+    position: relative;
+}
+
 html {
   font-size: 15px;
   line-height: 1.5em;
@@ -75,49 +79,23 @@ a {
    .logo {
      font-size: 1em;
      line-height: 1.5em;
-     background: url("/static/img/logo.png") center top no-repeat;
-     width: 240px;
-     height: 148px;
+     width: 80px;
+     height: 50px;
      margin: 0 auto 3em auto;
      background-color: transparent;
      border: 0;
      overflow: hidden;
      *text-indent: -9999px;
+
+       display: inline;
    }
 
      .logo:before {
-       content: "";
-       display: block;
-       width: 0;
-       height: 150%;
+         content: "";
+         display: block;
+         width: 0;
+         height: 150%;
      }
-
-  .nav {
-    border-top: 1px solid #ccc;
-    padding-top: 1em;
-  }
-
-    .nav ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-
-      .nav li {
-        margin: 0;
-        padding: 0;
-        display: inline;
-        margin-right: 1em;
-      }
-
-        .nav a {
-          text-decoration: none;
-        }
-
-          .nav a:hover,
-          .nav a:focus {
-            color: #000;
-          }
 
    .copyright {
      margin-top: 4em;
@@ -173,6 +151,10 @@ a {
     width: 580px;
   }
 
+    .nav {
+        width: 460px;
+    }
+
     .button {
       display: inline-block;
       margin: 0;
@@ -209,60 +191,42 @@ a {
     width: 800px;
   }
 
-    .sidebar,
-    .content {
-      border-top: 1px solid #ccc;
-      padding-top: 1em;
+  .nav {
+        width: 680px;
     }
-
-    .sidebar {
-      width: 180px;
-      margin-right: 20px;
-      float: left;
-      display: inline;
-    }
-
-      .nav {
-        border-top: 0;
-        padding-top: .5em;
-      }
-
-        .nav li {
-          display: block;
-          float: none;
-          margin: 0;
-        }
-
-          .nav a {
-            display: block;
-            padding: .5em 1em;
-            position: relative;
-          }
-
-            .nav a:hover,
-            .nav a:focus {
-              background: #d2ebff;
-              border-radius: 4px;
-            }
-
-            .nav a:hover:after,
-            .nav a:focus:after {
-              content: "";
-              position: absolute;
-              top: 50%;
-              right: 1em;
-              width: 0;
-              height: 0;
-              border-top: .5em solid rgba(0,0,0,.25);
-              border-left: .5em solid transparent;
-              border-right: .5em solid transparent;
-              margin-top: -.175em;
-            }
 
     .content {
       width: 600px;
       display: inline;
       float: left;
-      border-top-width: 2px;
     }
+}
+
+.logo {
+    float: left;
+}
+
+.nav {
+    float: left;
+    text-align: right;
+}
+
+.nav li {
+    display: inline-block;
+    list-style-type: none;
+    font-size: 1.25em;
+    margin-left: 1em;
+}
+
+.nav li a {
+    text-decoration: none;
+}
+
+.welcome {
+    font-size: .7em;
+    position: absolute;
+    z-index: 999;
+    top: -2em;
+    right: 0px;
+    color: #aaa;
 }
