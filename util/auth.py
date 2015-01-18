@@ -1,7 +1,8 @@
 from models.user import User
 from loader import bcrypt
 from functools import wraps
-from flask import session
+from flask import session, redirect, url_for
+
 
 class Auth:
     @staticmethod
@@ -18,7 +19,7 @@ class Auth:
         user = User.query.filter_by(username=username).first()
 
         if user is not None and bcrypt.check_password_hash(user.password, password):
-            session["username"] = username;
+            session['user'] = user.id
 
         return
 
@@ -30,7 +31,7 @@ class Auth:
 def loggedin(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if not session["username"]:
+        if not session['user']:
             return redirect(url_for('.index'))
 
         return f(*args, **kwargs)

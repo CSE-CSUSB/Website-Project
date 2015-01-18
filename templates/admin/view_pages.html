@@ -3,11 +3,11 @@
     <head>
         <meta charset='utf-8'>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        {%  if title %}
+        {% if title %}
         <title>{{ title }} - CSE Club at CSU, San Bernardino</title>
-        {%  else  %}
+        {% else %}
         <title>CSE Club at CSU, San Bernardino</title>
-        {% endif %}
+        {%  endif %}
         <meta content='The official website of the Computer Science and Engineering Club of CSU, San Bernardino.' name='description'>
         <meta content='width=device-width' name='viewport'>
 
@@ -24,9 +24,30 @@
                 </h1>
             </header>
 
-            {% autoescape false %}
-            {{ content }}
-            {% endautoescape %}
+            <h2>Site Content</h2>
+
+            <a href="content/add" class="button right">New Page</a>
+
+            <table>
+                <tr>
+                    <th>Title</th>
+                    <th>Path</th>
+                    <th>Author</th>
+                    <th>Last Edit</th>
+                    <th>Actions</th>
+                </tr>
+                {% for page in pages %}
+                <tr>
+                    <td>{{ page.title }}</td>
+                    <td><a href="/{{ page.url }}">{{ page.url }}</a></td>
+                    <td>{{ page.created_by }}</td>
+                    <td>{{ page.edited_on }} by {{ page.edited_by }}</td>
+                    <td><a href="/content/edit/{{ page.id }}" class="button">Edit</a> <a href="/content/edit/{{ page.id }}" class="button">Delete</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <a href="content/add" class="button right">New Page</a>
 
             <div class='clearfix'></div>
 
