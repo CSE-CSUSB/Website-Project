@@ -32,6 +32,7 @@ class Auth:
         hash = base64.b64encode(scrypt.hash(password, salt))
         return (b''.join([b'$', salt, b'$', hash])).decode('ascii')
 
+    @staticmethod
     def verify_password(password, hash):
         salt, hash = re.split(b'\$', hash.encode('utf-8'))[1:]
         if scrypt.hash(password, salt) == base64.b64decode(hash):
@@ -42,7 +43,7 @@ class Auth:
 def loggedin(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if not session['user']:
+        if not "user" in session:
             return redirect(url_for('.index'))
 
         return f(*args, **kwargs)

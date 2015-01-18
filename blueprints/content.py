@@ -30,13 +30,14 @@ def content(path):
 
 
 @blueprint.route('/admin/content')
+@loggedin
 def view_pages():
     pages = Content.query.all()
 
     return render_template('admin/view_pages.html', pages=pages)
 
-@loggedin
 @blueprint.route('/admin/content/add', methods=['GET', 'POST'])
+@loggedin
 def add_page():
     form = EditPageForm()
 
@@ -57,8 +58,8 @@ def add_page():
 
     return render_template('admin/add_page.html', action='Create New', title='Create Page', form=form)
 
-@loggedin
 @blueprint.route('/admin/content/edit/<id>', methods=['GET', 'POST'])
+@loggedin
 def edit_page(id):
     page = Content.query.get(id)
 
@@ -86,8 +87,8 @@ def edit_page(id):
 
     return render_template('admin/add_page.html', action='Edit', title='Edit Page', form=form)
 
-@loggedin
 @blueprint.route('/admin/content/delete/<id>', methods=['GET', 'POST'])
+@loggedin
 def delete_page(id):
     page = Content.query.get(id)
 
