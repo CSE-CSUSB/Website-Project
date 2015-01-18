@@ -28,7 +28,7 @@ def login():
 
             return redirect('/admin/')
 
-    return redicect('/')
+    return redirect('/')
 
 
 @blueprint.route('/logout')
