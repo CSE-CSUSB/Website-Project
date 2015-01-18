@@ -51,7 +51,7 @@ def mktestuser():
 
     user = User()
     user.username = "test"
-    user.salt = str(uuid.uuid4)
+    user.salt = str(uuid.uuid4())
     user.password = scrypt.hash("test", user.salt)
     user.email = 'test@example.com'
     user.created = datetime.now()
