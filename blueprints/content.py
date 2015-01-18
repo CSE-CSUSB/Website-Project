@@ -18,7 +18,7 @@ def content(path):
     item = Content.query.filter_by(url=path).first()
 
     if not item:
-       abort(404)
+        abort(404)
 
     parser = DocParser()
     ast = parser.parse(item.content)
