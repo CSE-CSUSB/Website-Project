@@ -1,12 +1,7 @@
 from models.user import User
 from functools import wraps
-<<<<<<< HEAD
-from flask import session
-import scrypt
-=======
 from flask import session, redirect, url_for
-
->>>>>>> a342d6abfdfebf6ab5a484732c87062eee66356e
+import scrypt
 
 class Auth:
     @staticmethod
