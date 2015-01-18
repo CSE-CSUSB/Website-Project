@@ -48,9 +48,4 @@ class Auth:
         if scrypt.hash(password, salt) == base64.b64decode(hash):
             return True
 
-<<<<<<< HEAD
         return False
-=======
-        return False
-
->>>>>>> b9fe1f0b0b5cb3572a6d27e78151189083a7442a
