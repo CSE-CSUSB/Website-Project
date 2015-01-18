@@ -2,7 +2,6 @@ import os
 
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.bcrypt import Bcrypt
 
 from config import Config
 
@@ -17,7 +16,6 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 sessionStore = SQLAlchemyStore(db.engine, db.metadata, 'sessions')
 KVSessionExtension(sessionStore, app)
-bcrypt = Bcrypt(app)
 
 app.basepath = '/'.join(os.path.realpath(__file__).split("/")[:-1]) + '/'
 

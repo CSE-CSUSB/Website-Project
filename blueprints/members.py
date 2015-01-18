@@ -4,9 +4,10 @@ from util.auth import Auth, loggedin
 from forms.login import LoginForm
 
 # Used simply for creating a test user, remove it when project is complete
-from loader import bcrypt, db
+from loader import db
 from models.user import User
 from datetime import datetime
+import scrypt
 
 blueprint = Blueprint('index', __name__)
 
@@ -50,7 +51,8 @@ def mktestuser():
 
     user = User()
     user.username = "test"
-    user.password = bcrypt.generate_password_hash("test")
+    user.salt = randstr(64)
+    user.password = scrypt.hash("test", user.salt)
     user.email = 'test@example.com'
     user.created = datetime.now()
     user.role = 0
