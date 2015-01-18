@@ -8,7 +8,6 @@ class User(db.Model):
 
     username = db.Column(db.Text, unique=True)
     password = db.Column(db.Text)
-    salt = db.Column(db.Text)
 
     email = db.Column(db.Text, unique=True)
 

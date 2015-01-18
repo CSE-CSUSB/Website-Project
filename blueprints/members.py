@@ -7,7 +7,6 @@ from forms.login import LoginForm
 from loader import db
 from models.user import User
 from datetime import datetime
-import scrypt, uuid, base64
 
 blueprint = Blueprint('index', __name__)
 
@@ -50,14 +49,13 @@ def logout():
 def mktestuser():
 
     user = User()
-    user.username = "club"
-    user.salt = str(uuid.uuid4())
-    user.password = "club"
-    user.email = 'club@example.com'
+    user.username = "cowbell"
+    user.password = Auth.hash_password("cowbell")
+    user.email = 'cowbell@example.com'
     user.created = datetime.now()
     user.role = 0
 
     db.session.add(user)
     db.session.commit()
 
-    return "Done. username=\"test\", password=\"test\""
+    return "Done. username=\"cowbell\", password=\"cowbell\""
