@@ -1,9 +1,5 @@
 from models.user import User
-
-from util.session import Session
-
 from loader import bcrypt
-
 
 class Auth:
     @staticmethod
@@ -20,7 +16,7 @@ class Auth:
         user = User.query.filter_by(username=username).first()
 
         if user is not None and bcrypt.check_password_hash(user.password, password):
-            Session.create(user)
+            session["username"] = username;
 
         return
 
@@ -28,3 +24,13 @@ class Auth:
     def logout():
         Session.destroy()
 
+
+def loggedin(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session["username"]:
+            return redirect(url_for('.index'))
+
+        return f(*args, **kwargs)
+
+    return decorated_function

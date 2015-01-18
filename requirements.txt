@@ -8,6 +8,8 @@ MarkupSafe==0.23
 psycopg2==2.5.4
 py-bcrypt==0.4
 scrypt==0.6.1
+simplekv==0.9.2
+six==1.9.0
 SQLAlchemy==0.9.8
 Werkzeug==0.9.6
 WTForm==1.0
