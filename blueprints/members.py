@@ -39,9 +39,8 @@ def loggedinpage():
 
 @blueprint.route('/logout')
 def logout():
-    session.destroy()
-
-    return redirect(url_for('.index'))
+    Auth.logout()
+    return redirect('/')
 
 # This can be treated as an example of how to create a user/how to add something to the database. However, we aren't
 # going to be using this particular function other than for testing purposes

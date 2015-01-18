@@ -26,6 +26,7 @@ class Auth:
     def logout():
         session.destroy()
 
+
     @staticmethod
     def hash_password(password):
         salt = base64.b64encode((''.join(chr(random.randint(0,255)) for i in range(32))).encode('utf-8'))
@@ -44,7 +45,7 @@ def loggedin(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not "user" in session:
-            return redirect('index')
+            return redirect('/')
 
         return f(*args, **kwargs)
 
