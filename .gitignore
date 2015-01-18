@@ -5,6 +5,5 @@
 __pycache__
 *.pyc
 
-# PyCharm local-specific files for those who use it
-.idea/workspace.xml
-.idea/libraries
+# PyCharm
+.idea/
