@@ -28,6 +28,10 @@ def content(path):
 
     return render_template('content.html', content=renderer.render(ast), title=item.title)
 
+@blueprint.route('/admin/')
+@loggedin
+def view_dashboard():
+    return render_template('admin/view_dashboard.html')
 
 @blueprint.route('/admin/content')
 @loggedin
@@ -44,7 +48,7 @@ def add_page():
     if form.validate_on_submit():
         page = Content()
         page.title = form.title.data
-        page.url = form.url.data.lower()    
+        page.url = form.url.data.lower()
         page.content = form.content.data
         page.created_by = session['user'].id
         page.created_on = datetime.now()
