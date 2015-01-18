@@ -7,12 +7,13 @@ from flask import Blueprint, render_template, redirect, session
 from models.content import Content
 from forms.editpage import EditPageForm
 from forms.delpage import DelPageForm
+from util.auth import Auth
 
 blueprint = Blueprint('admin', __name__)
 
 @blueprint.before_request
 def check_auth():
-    if session['user'].role < 0 or not session['user']:
+    if not 'user' in session or session['user'].role >= Auth.member:
         return redirect('/')
 
 @blueprint.route('/admin/')

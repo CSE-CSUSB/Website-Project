@@ -4,7 +4,6 @@ from flask import session, redirect, url_for
 import scrypt, base64, random, re
 
 
-
 class Auth:
 
     # role constants
@@ -50,4 +49,3 @@ class Auth:
             return True
 
         return False
-

@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, session
 
-from util.auth import Auth, loggedin
+from util.auth import Auth
 from forms.login import LoginForm
 
 # Used simply for creating a test user, remove it when project is complete
@@ -26,11 +26,11 @@ def login():
         if Auth.check(form.username.data, form.password.data):
             Auth.login(form.username.data, form.password.data)
 
-        if session['user'].role == 0:
+        if session['user'].role >= Auth.member:
             return redirect('/')
 
-        if session['user'].role == 1:
-            return redirect('/admins/')
+        if session['user'].role <= Auth.admin:
+            return redirect('/admin/')
 
     return redirect('/')
 
