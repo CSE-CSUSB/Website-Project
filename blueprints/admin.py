@@ -12,12 +12,8 @@ blueprint = Blueprint('admin', __name__)
 
 @blueprint.before_request
 def check_auth():
-    print(session['user'].role)
-
-    if not session['user'].role:
+    if session['user'].role < 0 or not session['user']:
         return redirect('/')
-
-    return
 
 @blueprint.route('/admin/')
 def view_dashboard():
