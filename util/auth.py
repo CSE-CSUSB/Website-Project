@@ -3,7 +3,17 @@ from functools import wraps
 from flask import session, redirect, url_for
 import scrypt, base64, random, re
 
+
+
 class Auth:
+
+    # role constants
+    officer = -2
+    admin = -1
+    member = 0
+    alumni = 1
+    associate = 2
+
     @staticmethod
     def check(username, password):
         user = User.query.filter_by(username=username).first()
