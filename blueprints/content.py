@@ -28,6 +28,10 @@ def content(path):
 
     return render_template('content.html', content=renderer.render(ast), title=item.title)
 
+@blueprint.route('/admin/')
+@loggedin
+def view_dashboard():
+    return render_template('admin/view_dashboard.html')
 
 @blueprint.route('/admin/content')
 @loggedin
