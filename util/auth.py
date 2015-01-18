@@ -1,14 +1,14 @@
 from models.user import User
 from functools import wraps
 from flask import session, redirect, url_for
-import scrypt
+import scrypt, base64
 
 class Auth:
     @staticmethod
     def check(username, password):
         user = User.query.filter_by(username=username).first()
 
-        if user is not None and (password == scrypt.hash(user.password, user.salt)):
+        if user is not None and (password == user.password):
             return True
 
         return False
@@ -17,7 +17,7 @@ class Auth:
     def login(username, password):
         user = User.query.filter_by(username=username).first()
 
-        if user is not None and (password == scrypt.hash(user.password, user.salt)):
+        if user is not None and (password == user.password):
             session['user'] = user
 
         return
