@@ -7,7 +7,7 @@ from forms.login import LoginForm
 from loader import db
 from models.user import User
 from datetime import datetime
-import scrypt
+import scrypt, uuid
 
 blueprint = Blueprint('index', __name__)
 
@@ -51,7 +51,7 @@ def mktestuser():
 
     user = User()
     user.username = "test"
-    user.salt = randstr(64)
+    user.salt = str(uuid.uuid4)
     user.password = scrypt.hash("test", user.salt)
     user.email = 'test@example.com'
     user.created = datetime.now()
