@@ -44,7 +44,7 @@ def loggedin(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not "user" in session:
-            return redirect(url_for('.index'))
+            return redirect('index')
 
         return f(*args, **kwargs)
 
