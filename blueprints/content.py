@@ -49,7 +49,7 @@ def add_page():
         page.created_by = session['user'].id
         page.created_on = datetime.now()
         page.edited_by = 0
-        page.edited_on = 0
+        page.edited_on = datetime.now()
 
         db.session.add(page)
         db.session.commit()
