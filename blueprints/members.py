@@ -26,15 +26,9 @@ def login():
         if Auth.check(form.username.data, form.password.data):
             Auth.login(form.username.data, form.password.data)
 
-            return 'Logged in! :)'
+            return redirect('/admin/')
 
-    return 'Not logged in :('
-
-
-@blueprint.route('/loggedin')
-@loggedin
-def loggedinpage():
-    return 'Still logged in! <a href="/logout">Sign out</a>'
+    return redicect('/')
 
 
 @blueprint.route('/logout')
