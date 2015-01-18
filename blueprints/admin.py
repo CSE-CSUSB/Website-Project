@@ -9,24 +9,24 @@ from forms.editpage import EditPageForm
 from forms.delpage import DelPageForm
 from util.auth import Auth
 
-blueprint = Blueprint('admin', __name__)
+blueprint = Blueprint('admin', __name__, url_prefix='/admin')
 
 @blueprint.before_request
 def check_auth():
     if not 'user' in session or session['user'].role >= Auth.member:
         return redirect('/')
 
-@blueprint.route('/admin/')
+@blueprint.route('/')
 def view_dashboard():
     return render_template('admin/view_dashboard.html')
 
-@blueprint.route('/admin/content')
+@blueprint.route('/content')
 def view_pages():
     pages = Content.query.all()
 
     return render_template('admin/content/view_pages.html', pages=pages)
 
-@blueprint.route('/admin/content/add', methods=['GET', 'POST'])
+@blueprint.route('/content/add', methods=['GET', 'POST'])
 def add_page():
     form = EditPageForm()
 
@@ -47,7 +47,7 @@ def add_page():
 
     return render_template('admin/content/edit_page.html', action='Create New', title='Create Page', form=form)
 
-@blueprint.route('/admin/content/edit/<id>', methods=['GET', 'POST'])
+@blueprint.route('/content/edit/<id>', methods=['GET', 'POST'])
 def edit_page(id):
     page = Content.query.get(id)
 
@@ -75,7 +75,7 @@ def edit_page(id):
 
     return render_template('admin/content/edit_page.html', action='Edit', title='Edit Page', form=form)
 
-@blueprint.route('/admin/content/delete/<id>', methods=['GET', 'POST'])
+@blueprint.route('/content/delete/<id>', methods=['GET', 'POST'])
 def delete_page(id):
     page = Content.query.get(id)
 

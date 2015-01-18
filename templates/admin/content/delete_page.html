@@ -1,46 +1,14 @@
-<!doctype html>
-<html class='no-js'>
-    <head>
-        <meta charset='utf-8'>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        {% if title %}
-        <title>{{ title }} - CSE Club at CSU, San Bernardino</title>
-        {% else %}
-        <title>CSE Club at CSU, San Bernardino</title>
-        {%  endif %}
-        <meta content='The official website of the Computer Science and Engineering Club of CSU, San Bernardino.' name='description'>
-        <meta content='width=device-width' name='viewport'>
+{% extends 'layout.html' %}
+{% block content %}
+    <h2>{{ action }} Page</h2>
 
-        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,700italic|Roboto+Condensed:300' rel='stylesheet' type='text/css'>
+    <p>Please confirm you wish to delete <em>{{ page.title }}</em> at <a href="/{{ page.url }}">{{ page.url }}</a>. <strong>This cannot be undone!</strong></p>
 
-        <link rel='stylesheet' href='{{ url_for('static', filename='css/main.css') }}'>
-    </head>
+    <a href="javascript:history.go(-1);">Go back</a>
 
-    <body>
-        <div class='container'>
-            <header>
-                <h1 class='logo'>
-                    CSE Club
-                </h1>
-            </header>
+    <form method="post">
+        {{ form.csrf_token }}
 
-            <h2>{{ action }} Page</h2>
-
-            <p>Please confirm you wish to delete <em>{{ page.title }}</em> at <a href="/{{ page.url }}">{{ page.url }}</a>. <strong>This cannot be undone!</strong></p>
-
-            <a href="javascript:history.go(-1);">Go back</a>
-
-            <form method="post">
-                {{ form.csrf_token }}
-
-                {{ form.submit }}
-            </form>
-
-            <div class='clearfix'></div>
-
-            <footer class='copyright'>
-                Copyright &copy; {{ get_year() }} by the Computer Science &amp; Engineering Club at California State University, San Bernardino.
-            </footer>
-        </div>
-    </body>
-</html>
+        {{ form.submit }}
+    </form>
+{% endblock %}

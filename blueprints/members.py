@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, session
+from flask import Blueprint, redirect, session
 
 from util.auth import Auth
 from forms.login import LoginForm
@@ -8,15 +8,7 @@ from loader import db
 from models.user import User
 from datetime import datetime
 
-blueprint = Blueprint('index', __name__)
-
-@blueprint.route('/')
-@blueprint.route('/index')
-def index():
-    form = LoginForm()
-
-    return render_template('login.html', form=form)
-
+blueprint = Blueprint('members', __name__)
 
 @blueprint.route('/login', methods=["POST"])
 def login():
