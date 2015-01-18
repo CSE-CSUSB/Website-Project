@@ -51,12 +51,3 @@ class Auth:
 
         return False
 
-def loggedin(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if not "user" in session:
-            return redirect('/')
-
-        return f(*args, **kwargs)
-
-    return decorated_function
