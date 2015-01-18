@@ -1,5 +1,7 @@
 from models.user import User
 from loader import bcrypt
+from functools import wraps
+from flask import session
 
 class Auth:
     @staticmethod
@@ -22,7 +24,7 @@ class Auth:
 
     @staticmethod
     def logout():
-        Session.destroy()
+        session.destroy()
 
 
 def loggedin(f):

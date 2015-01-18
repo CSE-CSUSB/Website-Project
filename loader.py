@@ -10,7 +10,6 @@ from util.session import KVSessionInterface, KVSessionExtension
 from simplekv.db.sql import SQLAlchemyStore
 
 from flask import session
-import util.template
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -30,3 +29,5 @@ for root, dirs, files in os.walk(app.basepath + 'blueprints'):
         attr = getattr(imp, attr)
         if hasattr(attr, 'blueprint'):
             app.register_blueprint(attr.blueprint)
+
+import util.template

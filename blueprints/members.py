@@ -1,7 +1,6 @@
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, session
 
-from util.auth import Auth
-from util.session import Session, loggedin
+from util.auth import Auth, loggedin
 from forms.login import LoginForm
 
 # Used simply for creating a test user, remove it when project is complete
@@ -40,7 +39,7 @@ def loggedinpage():
 
 @blueprint.route('/logout')
 def logout():
-    Session.destroy()
+    session.destroy()
 
     return redirect(url_for('.index'))
 
