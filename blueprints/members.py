@@ -50,16 +50,14 @@ def logout():
 def mktestuser():
 
     user = User()
-    user.username = "plain"
+    user.username = "club"
     user.salt = str(uuid.uuid4())
-    user.password = "plain"
-    user.email = 'plain@example.com'
+    user.password = "club"
+    user.email = 'club@example.com'
     user.created = datetime.now()
     user.role = 0
 
     db.session.add(user)
-    print("test")
     db.session.commit()
-    print("test")
 
     return "Done. username=\"test\", password=\"test\""

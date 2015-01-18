@@ -1,7 +1,7 @@
 from models.user import User
 from functools import wraps
 from flask import session, redirect, url_for
-import scrypt, base64
+import scrypt, base64, random, re
 
 class Auth:
     @staticmethod
@@ -26,6 +26,18 @@ class Auth:
     def logout():
         session.destroy()
 
+    @staticmethod
+    def hash_password(password):
+        salt = base64.b64encode((''.join(chr(random.randint(0,255)) for i in range(32))).encode('utf-8'))
+        hash = base64.b64encode(scrypt.hash(password, salt))
+        return b''.join([b'$', salt, b'$', hash])
+
+    def verify_password(hash, password):
+        salt, hash = re.split(b'\$', hash)[1:]
+        if scrypt.hash(password, salt) == base64.b64decode(hash):
+            return True
+
+        return False
 
 def loggedin(f):
     @wraps(f)
