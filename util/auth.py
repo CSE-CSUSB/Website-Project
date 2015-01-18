@@ -4,7 +4,6 @@ from flask import session, redirect, url_for
 import scrypt, base64, random, re
 
 
-
 class Auth:
 
     # role constants
@@ -50,13 +49,3 @@ class Auth:
             return True
 
         return False
-
-def loggedin(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if not "user" in session:
-            return redirect('/')
-
-        return f(*args, **kwargs)
-
-    return decorated_function
