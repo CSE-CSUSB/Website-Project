@@ -5,7 +5,8 @@ from loader import db
 from flask import Blueprint, render_template, abort, redirect, session
 
 from models.content import Content
-from forms.addpage import AddPageForm
+from forms.editpage import EditPageForm
+from forms.delpage import DelPageForm
 
 from CommonMark.CommonMark import DocParser, HTMLRenderer
 from util.auth import loggedin
@@ -37,18 +38,17 @@ def view_pages():
 @loggedin
 @blueprint.route('/admin/content/add', methods=['GET', 'POST'])
 def add_page():
-    form = AddPageForm()
+    form = EditPageForm()
 
     if form.validate_on_submit():
-        print(session['user'])
         page = Content()
         page.title = form.title.data
         page.url = form.url.data
         page.content = form.content.data
-        page.created_by = session['user']
+        page.created_by = session['user'].id
         page.created_on = datetime.now()
         page.edited_by = 0
-        page.edited_on = datetime.now()
+        page.edited_on = 0
 
         db.session.add(page)
         db.session.commit()
@@ -57,12 +57,49 @@ def add_page():
 
     return render_template('admin/add_page.html', action='Create New', title='Create Page', form=form)
 
-
-@blueprint.route('/admin/content/edit/<id>')
+@loggedin
+@blueprint.route('/admin/content/edit/<id>', methods=['GET', 'POST'])
 def edit_page(id):
-    return
+    page = Content.query.get(id)
 
+    if not page:
+        return redirect('/admin/content')
 
-@blueprint.route('/admin/content/delete/<id>')
+    form = EditPageForm()
+
+    if form.validate_on_submit():
+        page.title = form.title.data
+        page.url = form.url.data
+        page.content = form.content.data
+        page.edited_by = session['user'].id
+        page.edited_on = datetime.now()
+
+        db.session.merge(page)
+        db.session.commit()
+
+        return redirect('/admin/content')
+
+    else:
+        form.title.data = page.title
+        form.url.data = page.url
+        form.content.data = page.content
+
+    return render_template('admin/add_page.html', action='Edit', title='Edit Page', form=form)
+
+@loggedin
+@blueprint.route('/admin/content/delete/<id>', methods=['GET', 'POST'])
 def delete_page(id):
-    return
+    page = Content.query.get(id)
+
+    if not page:
+        return redirect('/admin/content')
+
+    form = DelPageForm()
+
+    if form.validate_on_submit():
+        db.session.delete(page)
+        db.session.commit()
+
+        return redirect('/admin/content')
+
+    return render_template('admin/delete_page.html', title='Delete Page', page=page, form=form)
