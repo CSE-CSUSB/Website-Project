@@ -44,7 +44,7 @@ def add_page():
     if form.validate_on_submit():
         page = Content()
         page.title = form.title.data
-        page.url = form.url.data
+        page.url = form.url.data.lower()    
         page.content = form.content.data
         page.created_by = session['user'].id
         page.created_on = datetime.now()
