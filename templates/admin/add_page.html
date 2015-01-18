@@ -3,11 +3,11 @@
     <head>
         <meta charset='utf-8'>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        {%  if title %}
+        {% if title %}
         <title>{{ title }} - CSE Club at CSU, San Bernardino</title>
-        {%  else  %}
+        {% else %}
         <title>CSE Club at CSU, San Bernardino</title>
-        {% endif %}
+        {%  endif %}
         <meta content='The official website of the Computer Science and Engineering Club of CSU, San Bernardino.' name='description'>
         <meta content='width=device-width' name='viewport'>
 
@@ -24,9 +24,22 @@
                 </h1>
             </header>
 
-            {% autoescape false %}
-            {{ content }}
-            {% endautoescape %}
+            <h2>{{ action }} Page</h2>
+
+            <form method="post">
+                {{ form.csrf_token }}
+
+                {{ form.title.label }}
+                {{ form.title }}<br />
+
+                {{ form.url.label }}
+                {{ form.url }}<br />
+
+                {{ form.content.label }}<br />
+                {{ form.content }}<br />
+
+                {{ form.submit }}
+            </form>
 
             <div class='clearfix'></div>
 
