@@ -30,11 +30,14 @@ class Auth:
     def hash_password(password):
         salt = base64.b64encode((''.join(chr(random.randint(0,255)) for i in range(32))).encode('utf-8'))
         hash = base64.b64encode(scrypt.hash(password, salt))
-        return b''.join([b'$', salt, b'$', hash])
+        return (b''.join([b'$', salt, b'$', hash])).decode('ascii')
 
     def verify_password(password, hash):
-        return True
+        salt, hash = re.split(b'\$', hash.encode('utf-8'))[1:]
+        if scrypt.hash(password, salt) == base64.b64decode(hash):
+            return True
 
+        return False
 
 def loggedin(f):
     @wraps(f)

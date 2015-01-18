@@ -49,9 +49,9 @@ def logout():
 def mktestuser():
 
     user = User()
-    user.username = "cowbell"
-    user.password = Auth.hash_password("cowbell")
-    user.email = 'cowbell@example.com'
+    user.username = "mike"
+    user.password = Auth.hash_password("mike")
+    user.email = 'mike@example.com'
     user.created = datetime.now()
     user.role = 0
 
