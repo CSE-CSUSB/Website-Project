@@ -24,30 +24,17 @@
                 </h1>
             </header>
 
-            <h2>Site Content</h2>
+            <h2>{{ action }} Page</h2>
 
-            <a href="content/add" class="button right">New Page</a>
+            <p>Please confirm you wish to delete <em>{{ page.title }}</em> at <a href="/{{ page.url }}">{{ page.url }}</a>. <strong>This cannot be undone!</strong></p>
 
-            <table>
-                <tr>
-                    <th>Title</th>
-                    <th>Path</th>
-                    <th>Author</th>
-                    <th>Last Edit</th>
-                    <th>Actions</th>
-                </tr>
-                {% for page in pages %}
-                <tr>
-                    <td>{{ page.title }}</td>
-                    <td><a href="/{{ page.url }}">{{ page.url }}</a></td>
-                    <td>{{ page.created_by }}</td>
-                    <td>{{ page.edited_on }} by {{ page.edited_by }}</td>
-                    <td><a href="/admin/content/edit/{{ page.id }}" class="button">Edit</a> <a href="/admin/content/delete/{{ page.id }}" class="button">Delete</a></td>
-                </tr>
-                {% endfor %}
-            </table>
+            <a href="javascript:history.go(-1);">Go back</a>
 
-            <a href="content/add" class="button right">New Page</a>
+            <form method="post">
+                {{ form.csrf_token }}
+
+                {{ form.submit }}
+            </form>
 
             <div class='clearfix'></div>
 

@@ -3,7 +3,7 @@ from wtforms import TextField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired
 
 
-class AddPageForm(Form):
+class EditPageForm(Form):
 
     title = TextField('Title', validators=[DataRequired()])
     url = TextField('URL', validators=[DataRequired()])
