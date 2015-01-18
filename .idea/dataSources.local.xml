@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal">
-    <data-source name="PostgreSQL - csecw@localhost" uuid="8a765d28-8e57-4fa0-8be5-2e961e183048">
+    <data-source name="PostgreSQL - csecw@cse-club.com" uuid="9e8beb34-5018-4ffc-ac5b-f765d63ce3f2">
       <secret-storage>master_key</secret-storage>
       <user-name>csecw</user-name>
       <schema-pattern>csecw.pg_catalog csecw.public</schema-pattern>

@@ -14,3 +14,4 @@ SQLAlchemy==0.9.8
 Werkzeug==0.9.6
 WTForm==1.0
 WTForms==2.0.1
+commonmark==0.5.4

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="2055692213">
-    <data-source source="LOCAL" name="PostgreSQL - csecw@localhost" uuid="8a765d28-8e57-4fa0-8be5-2e961e183048">
+  <component name="DataSourceManagerImpl" format="xml" hash="658752074">
+    <data-source source="LOCAL" name="PostgreSQL - csecw@cse-club.com" uuid="9e8beb34-5018-4ffc-ac5b-f765d63ce3f2">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
+      <auto-commit>false</auto-commit>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/csecw</jdbc-url>
+      <jdbc-url>jdbc:postgresql://cse-club.com:5432/csecw</jdbc-url>
       <libraries />
     </data-source>
   </component>

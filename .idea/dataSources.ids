@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
-  <data-source name="PostgreSQL - csecw@localhost" uuid="8a765d28-8e57-4fa0-8be5-2e961e183048">
-    <database-info product="PostgreSQL" version="9.3.5" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.3 JDBC4 (build 1100)">
+  <data-source name="PostgreSQL - csecw@cse-club.com" uuid="9e8beb34-5018-4ffc-ac5b-f765d63ce3f2">
+    <database-info product="PostgreSQL" version="9.4.0" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.3 JDBC4 (build 1100)">
       <identifier-quote-string>&quot;</identifier-quote-string>
     </database-info>
     <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact"/>
@@ -9,11 +9,22 @@
     <schema name="public" catalog="csecw"/>
     <table name="pg_aggregate" schema="pg_catalog" catalog="csecw" type="SYSTEM TABLE">
       <column name="aggfnoid" sqlType="regproc" precision="2147483647" scale="0" nullable="false" jdbcType="1111"/>
+      <column name="aggkind" sqlType="char" precision="1" scale="0" nullable="false" jdbcType="1"/>
+      <column name="aggnumdirectargs" sqlType="int2" precision="5" scale="0" nullable="false" jdbcType="5"/>
       <column name="aggtransfn" sqlType="regproc" precision="2147483647" scale="0" nullable="false" jdbcType="1111"/>
       <column name="aggfinalfn" sqlType="regproc" precision="2147483647" scale="0" nullable="false" jdbcType="1111"/>
+      <column name="aggmtransfn" sqlType="regproc" precision="2147483647" scale="0" nullable="false" jdbcType="1111"/>
+      <column name="aggminvtransfn" sqlType="regproc" precision="2147483647" scale="0" nullable="false" jdbcType="1111"/>
+      <column name="aggmfinalfn" sqlType="regproc" precision="2147483647" scale="0" nullable="false" jdbcType="1111"/>
+      <column name="aggfinalextra" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="aggmfinalextra" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
       <column name="aggsortop" sqlType="oid" precision="10" scale="0" nullable="false" jdbcType="-5"/>
       <column name="aggtranstype" sqlType="oid" precision="10" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="aggtransspace" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="aggmtranstype" sqlType="oid" precision="10" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="aggmtransspace" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="agginitval" sqlType="text" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
+      <column name="aggminitval" sqlType="text" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
       <index name="pg_aggregate_fnoid_index" unique="true" columns="aggfnoid"/>
     </table>
     <table name="pg_aggregate_fnoid_index" schema="pg_catalog" catalog="csecw" type="SYSTEM INDEX">
@@ -234,7 +245,6 @@
       <column name="reltuples" sqlType="float4" precision="8" scale="8" nullable="false" jdbcType="7"/>
       <column name="relallvisible" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="reltoastrelid" sqlType="oid" precision="10" scale="0" nullable="false" jdbcType="-5"/>
-      <column name="reltoastidxid" sqlType="oid" precision="10" scale="0" nullable="false" jdbcType="-5"/>
       <column name="relhasindex" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
       <column name="relisshared" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
       <column name="relpersistence" sqlType="char" precision="1" scale="0" nullable="false" jdbcType="1"/>
@@ -247,12 +257,14 @@
       <column name="relhastriggers" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
       <column name="relhassubclass" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
       <column name="relispopulated" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="relreplident" sqlType="char" precision="1" scale="0" nullable="false" jdbcType="1"/>
       <column name="relfrozenxid" sqlType="xid" precision="2147483647" scale="0" nullable="false" jdbcType="1111"/>
       <column name="relminmxid" sqlType="xid" precision="2147483647" scale="0" nullable="false" jdbcType="1111"/>
       <column name="relacl" sqlType="_aclitem" precision="2147483647" scale="0" nullable="true" jdbcType="2003"/>
       <column name="reloptions" sqlType="_text" precision="2147483647" scale="0" nullable="true" jdbcType="2003"/>
       <index name="pg_class_oid_index" unique="true" columns="oid"/>
       <index name="pg_class_relname_nsp_index" unique="true" columns="relname,relnamespace"/>
+      <index name="pg_class_tblspc_relfilenode_index" unique="false" columns="reltablespace,relfilenode"/>
     </table>
     <table name="pg_class_oid_index" schema="pg_catalog" catalog="csecw" type="SYSTEM INDEX">
       <column name="oid" sqlType="oid" precision="10" scale="0" nullable="true" jdbcType="-5"/>
@@ -260,6 +272,10 @@
     <table name="pg_class_relname_nsp_index" schema="pg_catalog" catalog="csecw" type="SYSTEM INDEX">
       <column name="relname" sqlType="cstring" precision="2147483647" scale="0" nullable="true" jdbcType="1111"/>
       <column name="relnamespace" sqlType="oid" precision="10" scale="0" nullable="true" jdbcType="-5"/>
+    </table>
+    <table name="pg_class_tblspc_relfilenode_index" schema="pg_catalog" catalog="csecw" type="SYSTEM INDEX">
+      <column name="reltablespace" sqlType="oid" precision="10" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="relfilenode" sqlType="oid" precision="10" scale="0" nullable="true" jdbcType="-5"/>
     </table>
     <table name="pg_collation" schema="pg_catalog" catalog="csecw" type="SYSTEM TABLE">
       <column name="collname" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
@@ -549,6 +565,7 @@
       <column name="indcheckxmin" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
       <column name="indisready" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
       <column name="indislive" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="indisreplident" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
       <column name="indkey" sqlType="int2vector" precision="2147483647" scale="0" nullable="false" jdbcType="1111"/>
       <column name="indcollation" sqlType="oidvector" precision="2147483647" scale="0" nullable="false" jdbcType="1111"/>
       <column name="indclass" sqlType="oidvector" precision="2147483647" scale="0" nullable="false" jdbcType="1111"/>
@@ -802,10 +819,20 @@
     <table name="pg_range_rngtypid_index" schema="pg_catalog" catalog="csecw" type="SYSTEM INDEX">
       <column name="rngtypid" sqlType="oid" precision="10" scale="0" nullable="true" jdbcType="-5"/>
     </table>
+    <table name="pg_replication_slots" schema="pg_catalog" catalog="csecw" type="SYSTEM VIEW">
+      <column name="slot_name" sqlType="name" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
+      <column name="plugin" sqlType="name" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
+      <column name="slot_type" sqlType="text" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
+      <column name="datoid" sqlType="oid" precision="10" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="database" sqlType="name" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
+      <column name="active" sqlType="bool" precision="1" scale="0" nullable="true" jdbcType="-7"/>
+      <column name="xmin" sqlType="xid" precision="2147483647" scale="0" nullable="true" jdbcType="1111"/>
+      <column name="catalog_xmin" sqlType="xid" precision="2147483647" scale="0" nullable="true" jdbcType="1111"/>
+      <column name="restart_lsn" sqlType="pg_lsn" precision="2147483647" scale="0" nullable="true" jdbcType="1111"/>
+    </table>
     <table name="pg_rewrite" schema="pg_catalog" catalog="csecw" type="SYSTEM TABLE">
       <column name="rulename" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
       <column name="ev_class" sqlType="oid" precision="10" scale="0" nullable="false" jdbcType="-5"/>
-      <column name="ev_attr" sqlType="int2" precision="5" scale="0" nullable="false" jdbcType="5"/>
       <column name="ev_type" sqlType="char" precision="1" scale="0" nullable="false" jdbcType="1"/>
       <column name="ev_enabled" sqlType="char" precision="1" scale="0" nullable="false" jdbcType="1"/>
       <column name="is_instead" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
@@ -954,6 +981,8 @@
       <column name="state_change" sqlType="timestamptz" precision="35" scale="6" nullable="true" jdbcType="93"/>
       <column name="waiting" sqlType="bool" precision="1" scale="0" nullable="true" jdbcType="-7"/>
       <column name="state" sqlType="text" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
+      <column name="backend_xid" sqlType="xid" precision="2147483647" scale="0" nullable="true" jdbcType="1111"/>
+      <column name="backend_xmin" sqlType="xid" precision="2147483647" scale="0" nullable="true" jdbcType="1111"/>
       <column name="query" sqlType="text" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
     </table>
     <table name="pg_stat_all_indexes" schema="pg_catalog" catalog="csecw" type="SYSTEM VIEW">
@@ -980,6 +1009,7 @@
       <column name="n_tup_hot_upd" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <column name="n_live_tup" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <column name="n_dead_tup" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="n_mod_since_analyze" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <column name="last_vacuum" sqlType="timestamptz" precision="35" scale="6" nullable="true" jdbcType="93"/>
       <column name="last_autovacuum" sqlType="timestamptz" precision="35" scale="6" nullable="true" jdbcType="93"/>
       <column name="last_analyze" sqlType="timestamptz" precision="35" scale="6" nullable="true" jdbcType="93"/>
@@ -988,6 +1018,15 @@
       <column name="autovacuum_count" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <column name="analyze_count" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <column name="autoanalyze_count" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+    </table>
+    <table name="pg_stat_archiver" schema="pg_catalog" catalog="csecw" type="SYSTEM VIEW">
+      <column name="archived_count" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="last_archived_wal" sqlType="text" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
+      <column name="last_archived_time" sqlType="timestamptz" precision="35" scale="6" nullable="true" jdbcType="93"/>
+      <column name="failed_count" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="last_failed_wal" sqlType="text" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
+      <column name="last_failed_time" sqlType="timestamptz" precision="35" scale="6" nullable="true" jdbcType="93"/>
+      <column name="stats_reset" sqlType="timestamptz" precision="35" scale="6" nullable="true" jdbcType="93"/>
     </table>
     <table name="pg_stat_bgwriter" schema="pg_catalog" catalog="csecw" type="SYSTEM VIEW">
       <column name="checkpoints_timed" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
@@ -1041,11 +1080,12 @@
       <column name="client_hostname" sqlType="text" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
       <column name="client_port" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="backend_start" sqlType="timestamptz" precision="35" scale="6" nullable="true" jdbcType="93"/>
+      <column name="backend_xmin" sqlType="xid" precision="2147483647" scale="0" nullable="true" jdbcType="1111"/>
       <column name="state" sqlType="text" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
-      <column name="sent_location" sqlType="text" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
-      <column name="write_location" sqlType="text" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
-      <column name="flush_location" sqlType="text" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
-      <column name="replay_location" sqlType="text" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
+      <column name="sent_location" sqlType="pg_lsn" precision="2147483647" scale="0" nullable="true" jdbcType="1111"/>
+      <column name="write_location" sqlType="pg_lsn" precision="2147483647" scale="0" nullable="true" jdbcType="1111"/>
+      <column name="flush_location" sqlType="pg_lsn" precision="2147483647" scale="0" nullable="true" jdbcType="1111"/>
+      <column name="replay_location" sqlType="pg_lsn" precision="2147483647" scale="0" nullable="true" jdbcType="1111"/>
       <column name="sync_priority" sqlType="int4" precision="10" scale="0" nullable="true" jdbcType="4"/>
       <column name="sync_state" sqlType="text" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
     </table>
@@ -1073,6 +1113,7 @@
       <column name="n_tup_hot_upd" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <column name="n_live_tup" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <column name="n_dead_tup" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="n_mod_since_analyze" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <column name="last_vacuum" sqlType="timestamptz" precision="35" scale="6" nullable="true" jdbcType="93"/>
       <column name="last_autovacuum" sqlType="timestamptz" precision="35" scale="6" nullable="true" jdbcType="93"/>
       <column name="last_analyze" sqlType="timestamptz" precision="35" scale="6" nullable="true" jdbcType="93"/>
@@ -1114,6 +1155,7 @@
       <column name="n_tup_hot_upd" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <column name="n_live_tup" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <column name="n_dead_tup" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="n_mod_since_analyze" sqlType="int8" precision="19" scale="0" nullable="true" jdbcType="-5"/>
       <column name="last_vacuum" sqlType="timestamptz" precision="35" scale="6" nullable="true" jdbcType="93"/>
       <column name="last_autovacuum" sqlType="timestamptz" precision="35" scale="6" nullable="true" jdbcType="93"/>
       <column name="last_analyze" sqlType="timestamptz" precision="35" scale="6" nullable="true" jdbcType="93"/>
@@ -1526,6 +1568,30 @@
       <column name="viewname" sqlType="name" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
       <column name="viewowner" sqlType="name" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
       <column name="definition" sqlType="text" precision="2147483647" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="content" schema="public" catalog="csecw" type="TABLE">
+      <column name="id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnY29udGVudF9pZF9zZXEnOjpyZWdjbGFzcyk=" autoIncrement="true"/>
+      <column name="url" sqlType="text" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="title" sqlType="text" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="created_by" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="created_on" sqlType="timestamp" precision="29" scale="6" nullable="false" jdbcType="93"/>
+      <column name="edited_by" sqlType="int4" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="edited_on" sqlType="timestamp" precision="29" scale="6" nullable="false" jdbcType="93"/>
+      <column name="content" sqlType="text" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="content_pkey" columns="id"/>
+      <index name="content_url_key" unique="true" columns="url"/>
+    </table>
+    <table name="content_id_seq" schema="public" catalog="csecw" type="SEQUENCE">
+      <column name="sequence_name" sqlType="name" precision="2147483647" scale="0" nullable="false" jdbcType="12"/>
+      <column name="last_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="start_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="increment_by" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="max_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="min_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="cache_value" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="log_cnt" sqlType="int8" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="is_cycled" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="is_called" sqlType="bool" precision="1" scale="0" nullable="false" jdbcType="-7"/>
     </table>
     <table name="sessions" schema="public" catalog="csecw" type="TABLE">
       <column name="id" sqlType="serial" precision="10" scale="0" nullable="false" jdbcType="4" def="bmV4dHZhbCgnc2Vzc2lvbnNfaWRfc2VxJzo6cmVnY2xhc3Mp" autoIncrement="true"/>
@@ -1967,6 +2033,7 @@
     <procedure name="array_agg_finalfn" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIGZpbmFsIGZ1bmN0aW9u">
       <prototype>
         <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="anyelement" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
         <parameter name="returnValue" sqlType="anyarray" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
@@ -2529,9 +2596,35 @@
         <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
       </prototype>
     </procedure>
+    <procedure name="bool_accum" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIHRyYW5zaXRpb24gZnVuY3Rpb24=">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="bool_accum_inv" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIHRyYW5zaXRpb24gZnVuY3Rpb24=">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="bool_alltrue" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIGZpbmFsIGZ1bmN0aW9u">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
     <procedure name="bool_and" schema="pg_catalog" catalog="csecw" type="2" remarks="Ym9vbGVhbi1hbmQgYWdncmVnYXRl">
       <prototype>
         <parameter name="$1" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="bool_anytrue" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIGZpbmFsIGZ1bmN0aW9u">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
       </prototype>
     </procedure>
@@ -3346,6 +3439,13 @@
         <parameter name="returnValue" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="5" index="0"/>
       </prototype>
     </procedure>
+    <procedure name="btrecordimagecmp" schema="pg_catalog" catalog="csecw" type="2" remarks="bGVzcy1lcXVhbC1ncmVhdGVyIGJhc2VkIG9uIGJ5dGUgaW1hZ2Vz">
+      <prototype>
+        <parameter name="$1" sqlType="record" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="record" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="5" index="0"/>
+      </prototype>
+    </procedure>
     <procedure name="btreltimecmp" schema="pg_catalog" catalog="csecw" type="2" remarks="bGVzcy1lcXVhbC1ncmVhdGVy">
       <prototype>
         <parameter name="$1" sqlType="reltime" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
@@ -3526,6 +3626,12 @@
       <prototype>
         <parameter name="$1" sqlType="bytea" precision="0" scale="0" nullable="true" jdbcType="-2" type="1" index="1"/>
         <parameter name="returnValue" sqlType="bytea" precision="0" scale="0" nullable="true" jdbcType="-2" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="cardinality" schema="pg_catalog" catalog="csecw" type="2" remarks="YXJyYXkgY2FyZGluYWxpdHk=">
+      <prototype>
+        <parameter name="$1" sqlType="anyarray" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="cash_cmp" schema="pg_catalog" catalog="csecw" type="2" remarks="bGVzcy1lcXVhbC1ncmVhdGVy">
@@ -4298,8 +4404,19 @@
         <parameter name="returnValue" sqlType="bytea" precision="0" scale="0" nullable="true" jdbcType="-2" type="5" index="0"/>
       </prototype>
     </procedure>
-    <procedure name="cume_dist" schema="pg_catalog" catalog="csecw" type="2" remarks="ZnJhY3Rpb25hbCByb3cgbnVtYmVyIHdpdGhpbiBwYXJ0aXRpb24=">
+    <procedure name="cume_dist" schema="pg_catalog" catalog="csecw" type="2" remarks="Y3VtdWxhdGl2ZSBkaXN0cmlidXRpb24gb2YgaHlwb3RoZXRpY2FsIHJvdw==">
       <prototype>
+        <parameter name="returnValue" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="5" index="0"/>
+      </prototype>
+      <prototype>
+        <parameter name="$1" sqlType="any" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="cume_dist_final" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIGZpbmFsIGZ1bmN0aW9u">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="any" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
         <parameter name="returnValue" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="5" index="0"/>
       </prototype>
     </procedure>
@@ -4753,8 +4870,19 @@
         <parameter name="returnValue" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="5" index="0"/>
       </prototype>
     </procedure>
-    <procedure name="dense_rank" schema="pg_catalog" catalog="csecw" type="2" remarks="aW50ZWdlciByYW5rIHdpdGhvdXQgZ2Fwcw==">
+    <procedure name="dense_rank" schema="pg_catalog" catalog="csecw" type="2" remarks="cmFuayBvZiBoeXBvdGhldGljYWwgcm93IHdpdGhvdXQgZ2Fwcw==">
       <prototype>
+        <parameter name="returnValue" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="5" index="0"/>
+      </prototype>
+      <prototype>
+        <parameter name="$1" sqlType="any" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="dense_rank_final" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIGZpbmFsIGZ1bmN0aW9u">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="any" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
         <parameter name="returnValue" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="5" index="0"/>
       </prototype>
     </procedure>
@@ -6015,6 +6143,79 @@
         <parameter name="returnValue" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="5" index="0"/>
       </prototype>
     </procedure>
+    <procedure name="gin_compare_jsonb" schema="pg_catalog" catalog="csecw" type="2" remarks="R0lOIHN1cHBvcnQ=">
+      <prototype>
+        <parameter name="$1" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="1"/>
+        <parameter name="$2" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="gin_consistent_jsonb" schema="pg_catalog" catalog="csecw" type="2" remarks="R0lOIHN1cHBvcnQ=">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="int2" precision="0" scale="0" nullable="true" jdbcType="5" type="1" index="2"/>
+        <parameter name="$3" sqlType="anyarray" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="3"/>
+        <parameter name="$4" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="4"/>
+        <parameter name="$5" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="5"/>
+        <parameter name="$6" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="6"/>
+        <parameter name="$7" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="7"/>
+        <parameter name="$8" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="8"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="gin_consistent_jsonb_path" schema="pg_catalog" catalog="csecw" type="2" remarks="R0lOIHN1cHBvcnQ=">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="int2" precision="0" scale="0" nullable="true" jdbcType="5" type="1" index="2"/>
+        <parameter name="$3" sqlType="anyarray" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="3"/>
+        <parameter name="$4" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="4"/>
+        <parameter name="$5" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="5"/>
+        <parameter name="$6" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="6"/>
+        <parameter name="$7" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="7"/>
+        <parameter name="$8" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="8"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="gin_extract_jsonb" schema="pg_catalog" catalog="csecw" type="2" remarks="R0lOIHN1cHBvcnQ=">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="$3" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="3"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="gin_extract_jsonb_path" schema="pg_catalog" catalog="csecw" type="2" remarks="R0lOIHN1cHBvcnQ=">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="$3" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="3"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="gin_extract_jsonb_query" schema="pg_catalog" catalog="csecw" type="2" remarks="R0lOIHN1cHBvcnQ=">
+      <prototype>
+        <parameter name="$1" sqlType="anyarray" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="$3" sqlType="int2" precision="0" scale="0" nullable="true" jdbcType="5" type="1" index="3"/>
+        <parameter name="$4" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="4"/>
+        <parameter name="$5" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="5"/>
+        <parameter name="$6" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="6"/>
+        <parameter name="$7" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="7"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="gin_extract_jsonb_query_path" schema="pg_catalog" catalog="csecw" type="2" remarks="R0lOIHN1cHBvcnQ=">
+      <prototype>
+        <parameter name="$1" sqlType="anyarray" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="$3" sqlType="int2" precision="0" scale="0" nullable="true" jdbcType="5" type="1" index="3"/>
+        <parameter name="$4" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="4"/>
+        <parameter name="$5" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="5"/>
+        <parameter name="$6" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="6"/>
+        <parameter name="$7" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="7"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
     <procedure name="gin_extract_tsquery" schema="pg_catalog" catalog="csecw" type="2" remarks="R0lOIHRzdmVjdG9yIHN1cHBvcnQ=">
       <prototype>
         <parameter name="$1" sqlType="tsquery" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
@@ -6048,6 +6249,30 @@
         <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
+    <procedure name="gin_triconsistent_jsonb" schema="pg_catalog" catalog="csecw" type="2" remarks="R0lOIHN1cHBvcnQ=">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="int2" precision="0" scale="0" nullable="true" jdbcType="5" type="1" index="2"/>
+        <parameter name="$3" sqlType="anyarray" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="3"/>
+        <parameter name="$4" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="4"/>
+        <parameter name="$5" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="5"/>
+        <parameter name="$6" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="6"/>
+        <parameter name="$7" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="7"/>
+        <parameter name="returnValue" sqlType="char" precision="0" scale="0" nullable="true" jdbcType="1" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="gin_triconsistent_jsonb_path" schema="pg_catalog" catalog="csecw" type="2" remarks="R0lOIHN1cHBvcnQ=">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="int2" precision="0" scale="0" nullable="true" jdbcType="5" type="1" index="2"/>
+        <parameter name="$3" sqlType="anyarray" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="3"/>
+        <parameter name="$4" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="4"/>
+        <parameter name="$5" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="5"/>
+        <parameter name="$6" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="6"/>
+        <parameter name="$7" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="7"/>
+        <parameter name="returnValue" sqlType="char" precision="0" scale="0" nullable="true" jdbcType="1" type="5" index="0"/>
+      </prototype>
+    </procedure>
     <procedure name="gin_tsquery_consistent" schema="pg_catalog" catalog="csecw" type="2" remarks="R0lOIHRzdmVjdG9yIHN1cHBvcnQ=">
       <prototype>
         <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
@@ -6068,6 +6293,18 @@
         <parameter name="$7" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="7"/>
         <parameter name="$8" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="8"/>
         <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="gin_tsquery_triconsistent" schema="pg_catalog" catalog="csecw" type="2" remarks="R0lOIHRzdmVjdG9yIHN1cHBvcnQ=">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="int2" precision="0" scale="0" nullable="true" jdbcType="5" type="1" index="2"/>
+        <parameter name="$3" sqlType="tsquery" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="3"/>
+        <parameter name="$4" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="4"/>
+        <parameter name="$5" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="5"/>
+        <parameter name="$6" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="6"/>
+        <parameter name="$7" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="7"/>
+        <parameter name="returnValue" sqlType="char" precision="0" scale="0" nullable="true" jdbcType="1" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="ginarrayconsistent" schema="pg_catalog" catalog="csecw" type="2" remarks="R0lOIGFycmF5IHN1cHBvcnQ=">
@@ -6094,6 +6331,18 @@
         <parameter name="$1" sqlType="anyarray" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="$2" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
         <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="ginarraytriconsistent" schema="pg_catalog" catalog="csecw" type="2" remarks="R0lOIGFycmF5IHN1cHBvcnQ=">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="int2" precision="0" scale="0" nullable="true" jdbcType="5" type="1" index="2"/>
+        <parameter name="$3" sqlType="anyarray" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="3"/>
+        <parameter name="$4" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="4"/>
+        <parameter name="$5" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="5"/>
+        <parameter name="$6" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="6"/>
+        <parameter name="$7" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="7"/>
+        <parameter name="returnValue" sqlType="char" precision="0" scale="0" nullable="true" jdbcType="1" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="ginbeginscan" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2luKGludGVybmFsKQ==">
@@ -7358,6 +7607,58 @@
         <parameter name="returnValue" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="5" index="0"/>
       </prototype>
     </procedure>
+    <procedure name="inet_gist_compress" schema="pg_catalog" catalog="csecw" type="2" remarks="R2lTVCBzdXBwb3J0">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="inet_gist_consistent" schema="pg_catalog" catalog="csecw" type="2" remarks="R2lTVCBzdXBwb3J0">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="inet" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="$3" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="3"/>
+        <parameter name="$4" sqlType="oid" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="4"/>
+        <parameter name="$5" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="5"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="inet_gist_decompress" schema="pg_catalog" catalog="csecw" type="2" remarks="R2lTVCBzdXBwb3J0">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="inet_gist_penalty" schema="pg_catalog" catalog="csecw" type="2" remarks="R2lTVCBzdXBwb3J0">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="$3" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="3"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="inet_gist_picksplit" schema="pg_catalog" catalog="csecw" type="2" remarks="R2lTVCBzdXBwb3J0">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="inet_gist_same" schema="pg_catalog" catalog="csecw" type="2" remarks="R2lTVCBzdXBwb3J0">
+      <prototype>
+        <parameter name="$1" sqlType="inet" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="inet" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="$3" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="3"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="inet_gist_union" schema="pg_catalog" catalog="csecw" type="2" remarks="R2lTVCBzdXBwb3J0">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
     <procedure name="inet_in" schema="pg_catalog" catalog="csecw" type="2" remarks="SS9P">
       <prototype>
         <parameter name="$1" sqlType="cstring" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
@@ -7603,12 +7904,26 @@
     </procedure>
     <procedure name="int2_accum" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIHRyYW5zaXRpb24gZnVuY3Rpb24=">
       <prototype>
-        <parameter name="$1" sqlType="_numeric" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="1"/>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="$2" sqlType="int2" precision="0" scale="0" nullable="true" jdbcType="5" type="1" index="2"/>
-        <parameter name="returnValue" sqlType="_numeric" precision="0" scale="0" nullable="true" jdbcType="2003" type="5" index="0"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="int2_accum_inv" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIHRyYW5zaXRpb24gZnVuY3Rpb24=">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="int2" precision="0" scale="0" nullable="true" jdbcType="5" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="int2_avg_accum" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIHRyYW5zaXRpb24gZnVuY3Rpb24=">
+      <prototype>
+        <parameter name="$1" sqlType="_int8" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="1"/>
+        <parameter name="$2" sqlType="int2" precision="0" scale="0" nullable="true" jdbcType="5" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="_int8" precision="0" scale="0" nullable="true" jdbcType="2003" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="int2_avg_accum_inv" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIHRyYW5zaXRpb24gZnVuY3Rpb24=">
       <prototype>
         <parameter name="$1" sqlType="_int8" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="1"/>
         <parameter name="$2" sqlType="int2" precision="0" scale="0" nullable="true" jdbcType="5" type="1" index="2"/>
@@ -7674,6 +7989,12 @@
       <prototype>
         <parameter name="$1" sqlType="cstring" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="returnValue" sqlType="int2" precision="0" scale="0" nullable="true" jdbcType="5" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="int2int4_sum" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIGZpbmFsIGZ1bmN0aW9u">
+      <prototype>
+        <parameter name="$1" sqlType="_int8" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="int2larger" schema="pg_catalog" catalog="csecw" type="2" remarks="bGFyZ2VyIG9mIHR3bw==">
@@ -8010,12 +8331,26 @@
     </procedure>
     <procedure name="int4_accum" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIHRyYW5zaXRpb24gZnVuY3Rpb24=">
       <prototype>
-        <parameter name="$1" sqlType="_numeric" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="1"/>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="$2" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="2"/>
-        <parameter name="returnValue" sqlType="_numeric" precision="0" scale="0" nullable="true" jdbcType="2003" type="5" index="0"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="int4_accum_inv" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIHRyYW5zaXRpb24gZnVuY3Rpb24=">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="int4_avg_accum" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIHRyYW5zaXRpb24gZnVuY3Rpb24=">
+      <prototype>
+        <parameter name="$1" sqlType="_int8" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="1"/>
+        <parameter name="$2" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="_int8" precision="0" scale="0" nullable="true" jdbcType="2003" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="int4_avg_accum_inv" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIHRyYW5zaXRpb24gZnVuY3Rpb24=">
       <prototype>
         <parameter name="$1" sqlType="_int8" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="1"/>
         <parameter name="$2" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="2"/>
@@ -8411,9 +8746,16 @@
     </procedure>
     <procedure name="int8_accum" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIHRyYW5zaXRpb24gZnVuY3Rpb24=">
       <prototype>
-        <parameter name="$1" sqlType="_numeric" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="1"/>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="$2" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="2"/>
-        <parameter name="returnValue" sqlType="_numeric" precision="0" scale="0" nullable="true" jdbcType="2003" type="5" index="0"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="int8_accum_inv" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIHRyYW5zaXRpb24gZnVuY3Rpb24=">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="int8_avg" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIGZpbmFsIGZ1bmN0aW9u">
@@ -8424,9 +8766,9 @@
     </procedure>
     <procedure name="int8_avg_accum" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIHRyYW5zaXRpb24gZnVuY3Rpb24=">
       <prototype>
-        <parameter name="$1" sqlType="_numeric" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="1"/>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="$2" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="2"/>
-        <parameter name="returnValue" sqlType="_numeric" precision="0" scale="0" nullable="true" jdbcType="2003" type="5" index="0"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="int8_sum" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIHRyYW5zaXRpb24gZnVuY3Rpb24=">
@@ -8446,6 +8788,19 @@
       <prototype>
         <parameter name="$1" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="1"/>
         <parameter name="$2" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="int8dec" schema="pg_catalog" catalog="csecw" type="2" remarks="ZGVjcmVtZW50">
+      <prototype>
+        <parameter name="$1" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="int8dec_any" schema="pg_catalog" catalog="csecw" type="2" remarks="ZGVjcmVtZW50LCBpZ25vcmVzIHNlY29uZCBhcmd1bWVudA==">
+      <prototype>
+        <parameter name="$1" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="1"/>
+        <parameter name="$2" sqlType="any" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
         <parameter name="returnValue" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="5" index="0"/>
       </prototype>
     </procedure>
@@ -8717,6 +9072,13 @@
       </prototype>
     </procedure>
     <procedure name="interval_accum" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIHRyYW5zaXRpb24gZnVuY3Rpb24=">
+      <prototype>
+        <parameter name="$1" sqlType="_interval" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="1"/>
+        <parameter name="$2" sqlType="interval" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="_interval" precision="0" scale="0" nullable="true" jdbcType="2003" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="interval_accum_inv" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIHRyYW5zaXRpb24gZnVuY3Rpb24=">
       <prototype>
         <parameter name="$1" sqlType="_interval" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="1"/>
         <parameter name="$2" sqlType="interval" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
@@ -9103,14 +9465,14 @@
         <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
-    <procedure name="json_array_element" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2V0IGpzb24gYXJyYXkgZWxlbWVudA==">
+    <procedure name="json_array_element" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgLT4gb3BlcmF0b3I=">
       <prototype>
         <parameter name="from_json" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="element_index" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="2"/>
         <parameter name="returnValue" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
-    <procedure name="json_array_element_text" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2V0IGpzb24gYXJyYXkgZWxlbWVudCBhcyB0ZXh0">
+    <procedure name="json_array_element_text" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgLT4+IG9wZXJhdG9y">
       <prototype>
         <parameter name="from_json" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="element_index" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="2"/>
@@ -9124,10 +9486,35 @@
         <parameter name="returnValue" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
+    <procedure name="json_array_elements_text" schema="pg_catalog" catalog="csecw" type="2" remarks="ZWxlbWVudHMgb2YganNvbiBhcnJheQ==">
+      <prototype>
+        <parameter name="from_json" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="value" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="2"/>
+        <parameter name="returnValue" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="5" index="0"/>
+      </prototype>
+    </procedure>
     <procedure name="json_array_length" schema="pg_catalog" catalog="csecw" type="2" remarks="bGVuZ3RoIG9mIGpzb24gYXJyYXk=">
       <prototype>
         <parameter name="$1" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="returnValue" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="json_build_array" schema="pg_catalog" catalog="csecw" type="2" remarks="YnVpbGQgYW4gZW1wdHkganNvbiBhcnJheQ==">
+      <prototype>
+        <parameter name="$1" sqlType="any" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+      <prototype>
+        <parameter name="returnValue" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="json_build_object" schema="pg_catalog" catalog="csecw" type="2" remarks="YnVpbGQgYW4gZW1wdHkganNvbiBvYmplY3Q=">
+      <prototype>
+        <parameter name="$1" sqlType="any" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+      <prototype>
+        <parameter name="returnValue" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="json_each" schema="pg_catalog" catalog="csecw" type="2" remarks="a2V5IHZhbHVlIHBhaXJzIG9mIGEganNvbiBvYmplY3Q=">
@@ -9151,21 +9538,7 @@
         <parameter name="returnValue" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
-    <procedure name="json_extract_path_op" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2V0IHZhbHVlIGZyb20ganNvbiB3aXRoIHBhdGggZWxlbWVudHM=">
-      <prototype>
-        <parameter name="from_json" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
-        <parameter name="path_elems" sqlType="_text" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="2"/>
-        <parameter name="returnValue" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
-      </prototype>
-    </procedure>
     <procedure name="json_extract_path_text" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2V0IHZhbHVlIGZyb20ganNvbiBhcyB0ZXh0IHdpdGggcGF0aCBlbGVtZW50cw==">
-      <prototype>
-        <parameter name="from_json" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
-        <parameter name="path_elems" sqlType="_text" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="2"/>
-        <parameter name="returnValue" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="5" index="0"/>
-      </prototype>
-    </procedure>
-    <procedure name="json_extract_path_text_op" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2V0IHZhbHVlIGZyb20ganNvbiBhcyB0ZXh0IHdpdGggcGF0aCBlbGVtZW50cw==">
       <prototype>
         <parameter name="from_json" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="path_elems" sqlType="_text" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="2"/>
@@ -9178,14 +9551,46 @@
         <parameter name="returnValue" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
-    <procedure name="json_object_field" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2V0IGpzb24gb2JqZWN0IGZpZWxk">
+    <procedure name="json_object" schema="pg_catalog" catalog="csecw" type="2" remarks="bWFwIHRleHQgYXJyYXlzIG9mIGtleXMgYW5kIHZhbHVlcyB0byBqc29uIG9iamVjdA==">
+      <prototype>
+        <parameter name="$1" sqlType="_text" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+      <prototype>
+        <parameter name="$1" sqlType="_text" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="1"/>
+        <parameter name="$2" sqlType="_text" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="json_object_agg" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIGlucHV0IGludG8gYSBqc29uIG9iamVjdA==">
+      <prototype>
+        <parameter name="$1" sqlType="any" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="any" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="json_object_agg_finalfn" schema="pg_catalog" catalog="csecw" type="2" remarks="anNvbiBvYmplY3QgYWdncmVnYXRlIGZpbmFsIGZ1bmN0aW9u">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="json_object_agg_transfn" schema="pg_catalog" catalog="csecw" type="2" remarks="anNvbiBvYmplY3QgYWdncmVnYXRlIHRyYW5zaXRpb24gZnVuY3Rpb24=">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="any" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="$3" sqlType="any" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="3"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="json_object_field" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgLT4gb3BlcmF0b3I=">
       <prototype>
         <parameter name="from_json" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="field_name" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="2"/>
         <parameter name="returnValue" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
-    <procedure name="json_object_field_text" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2V0IGpzb24gb2JqZWN0IGZpZWxkIGFzIHRleHQ=">
+    <procedure name="json_object_field_text" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgLT4+IG9wZXJhdG9y">
       <prototype>
         <parameter name="from_json" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="field_name" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="2"/>
@@ -9230,6 +9635,252 @@
       <prototype>
         <parameter name="$1" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="returnValue" sqlType="bytea" precision="0" scale="0" nullable="true" jdbcType="-2" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="json_to_record" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2V0IHJlY29yZCBmaWVsZHMgZnJvbSBhIGpzb24gb2JqZWN0">
+      <prototype>
+        <parameter name="$1" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="record" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="json_to_recordset" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2V0IHNldCBvZiByZWNvcmRzIHdpdGggZmllbGRzIGZyb20gYSBqc29uIGFycmF5IG9mIG9iamVjdHM=">
+      <prototype>
+        <parameter name="$1" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="record" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="json_typeof" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2V0IHRoZSB0eXBlIG9mIGEganNvbiB2YWx1ZQ==">
+      <prototype>
+        <parameter name="$1" sqlType="json" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_array_element" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgLT4gb3BlcmF0b3I=">
+      <prototype>
+        <parameter name="from_json" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="element_index" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_array_element_text" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgLT4+IG9wZXJhdG9y">
+      <prototype>
+        <parameter name="from_json" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="element_index" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_array_elements" schema="pg_catalog" catalog="csecw" type="2" remarks="ZWxlbWVudHMgb2YgYSBqc29uYiBhcnJheQ==">
+      <prototype>
+        <parameter name="from_json" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="value" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="4" index="2"/>
+        <parameter name="returnValue" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_array_elements_text" schema="pg_catalog" catalog="csecw" type="2" remarks="ZWxlbWVudHMgb2YganNvbmIgYXJyYXk=">
+      <prototype>
+        <parameter name="from_json" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="value" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="2"/>
+        <parameter name="returnValue" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_array_length" schema="pg_catalog" catalog="csecw" type="2" remarks="bGVuZ3RoIG9mIGpzb25iIGFycmF5">
+      <prototype>
+        <parameter name="$1" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_cmp" schema="pg_catalog" catalog="csecw" type="2" remarks="bGVzcy1lcXVhbC1ncmVhdGVy">
+      <prototype>
+        <parameter name="$1" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_contained" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgPEAgb3BlcmF0b3I=">
+      <prototype>
+        <parameter name="$1" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_contains" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgQD4gb3BlcmF0b3I=">
+      <prototype>
+        <parameter name="$1" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_each" schema="pg_catalog" catalog="csecw" type="2" remarks="a2V5IHZhbHVlIHBhaXJzIG9mIGEganNvbmIgb2JqZWN0">
+      <prototype>
+        <parameter name="from_json" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="key" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="2"/>
+        <parameter name="value" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="4" index="3"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_each_text" schema="pg_catalog" catalog="csecw" type="2" remarks="a2V5IHZhbHVlIHBhaXJzIG9mIGEganNvbmIgb2JqZWN0">
+      <prototype>
+        <parameter name="from_json" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="key" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="2"/>
+        <parameter name="value" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="3"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_eq" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgPSBvcGVyYXRvcg==">
+      <prototype>
+        <parameter name="$1" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_exists" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgPyBvcGVyYXRvcg==">
+      <prototype>
+        <parameter name="$1" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_exists_all" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgPyYgb3BlcmF0b3I=">
+      <prototype>
+        <parameter name="$1" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="_text" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_exists_any" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgP3wgb3BlcmF0b3I=">
+      <prototype>
+        <parameter name="$1" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="_text" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_extract_path" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2V0IHZhbHVlIGZyb20ganNvbmIgd2l0aCBwYXRoIGVsZW1lbnRz">
+      <prototype>
+        <parameter name="from_json" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="path_elems" sqlType="_text" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_extract_path_text" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2V0IHZhbHVlIGZyb20ganNvbmIgYXMgdGV4dCB3aXRoIHBhdGggZWxlbWVudHM=">
+      <prototype>
+        <parameter name="from_json" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="path_elems" sqlType="_text" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_ge" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgPj0gb3BlcmF0b3I=">
+      <prototype>
+        <parameter name="$1" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_gt" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgPiBvcGVyYXRvcg==">
+      <prototype>
+        <parameter name="$1" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_hash" schema="pg_catalog" catalog="csecw" type="2" remarks="aGFzaA==">
+      <prototype>
+        <parameter name="$1" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_in" schema="pg_catalog" catalog="csecw" type="2" remarks="SS9P">
+      <prototype>
+        <parameter name="$1" sqlType="cstring" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_le" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgPD0gb3BlcmF0b3I=">
+      <prototype>
+        <parameter name="$1" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_lt" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgPCBvcGVyYXRvcg==">
+      <prototype>
+        <parameter name="$1" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_ne" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgPD4gb3BlcmF0b3I=">
+      <prototype>
+        <parameter name="$1" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_object_field" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgLT4gb3BlcmF0b3I=">
+      <prototype>
+        <parameter name="from_json" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="field_name" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_object_field_text" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgLT4+IG9wZXJhdG9y">
+      <prototype>
+        <parameter name="from_json" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="field_name" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_object_keys" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2V0IGpzb25iIG9iamVjdCBrZXlz">
+      <prototype>
+        <parameter name="$1" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_out" schema="pg_catalog" catalog="csecw" type="2" remarks="SS9P">
+      <prototype>
+        <parameter name="$1" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="cstring" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_populate_record" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2V0IHJlY29yZCBmaWVsZHMgZnJvbSBhIGpzb25iIG9iamVjdA==">
+      <prototype>
+        <parameter name="$1" sqlType="anyelement" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="anyelement" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_populate_recordset" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2V0IHNldCBvZiByZWNvcmRzIHdpdGggZmllbGRzIGZyb20gYSBqc29uYiBhcnJheSBvZiBvYmplY3Rz">
+      <prototype>
+        <parameter name="$1" sqlType="anyelement" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="anyelement" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_recv" schema="pg_catalog" catalog="csecw" type="2" remarks="SS9P">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_send" schema="pg_catalog" catalog="csecw" type="2" remarks="SS9P">
+      <prototype>
+        <parameter name="$1" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="bytea" precision="0" scale="0" nullable="true" jdbcType="-2" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_to_record" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2V0IHJlY29yZCBmaWVsZHMgZnJvbSBhIGpzb24gb2JqZWN0">
+      <prototype>
+        <parameter name="$1" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="record" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_to_recordset" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2V0IHNldCBvZiByZWNvcmRzIHdpdGggZmllbGRzIGZyb20gYSBqc29uIGFycmF5IG9mIG9iamVjdHM=">
+      <prototype>
+        <parameter name="$1" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="record" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="jsonb_typeof" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2V0IHRoZSB0eXBlIG9mIGEganNvbmIgdmFsdWU=">
+      <prototype>
+        <parameter name="$1" sqlType="jsonb" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="justify_days" schema="pg_catalog" catalog="csecw" type="2" remarks="cHJvbW90ZSBncm91cHMgb2YgMzAgZGF5cyB0byBudW1iZXJzIG9mIG1vbnRocw==">
@@ -9627,6 +10278,25 @@
         <parameter name="returnValue" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="5" index="0"/>
       </prototype>
     </procedure>
+    <procedure name="lo_from_bytea" schema="pg_catalog" catalog="csecw" type="2" remarks="Y3JlYXRlIG5ldyBsYXJnZSBvYmplY3Qgd2l0aCBnaXZlbiBjb250ZW50">
+      <prototype>
+        <parameter name="$1" sqlType="oid" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="1"/>
+        <parameter name="$2" sqlType="bytea" precision="0" scale="0" nullable="true" jdbcType="-2" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="oid" precision="0" scale="0" nullable="true" jdbcType="-5" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="lo_get" schema="pg_catalog" catalog="csecw" type="2" remarks="cmVhZCBsYXJnZSBvYmplY3QgZnJvbSBvZmZzZXQgZm9yIGxlbmd0aA==">
+      <prototype>
+        <parameter name="$1" sqlType="oid" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="bytea" precision="0" scale="0" nullable="true" jdbcType="-2" type="5" index="0"/>
+      </prototype>
+      <prototype>
+        <parameter name="$1" sqlType="oid" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="1"/>
+        <parameter name="$2" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="2"/>
+        <parameter name="$3" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="3"/>
+        <parameter name="returnValue" sqlType="bytea" precision="0" scale="0" nullable="true" jdbcType="-2" type="5" index="0"/>
+      </prototype>
+    </procedure>
     <procedure name="lo_import" schema="pg_catalog" catalog="csecw" type="2" remarks="bGFyZ2Ugb2JqZWN0IGltcG9ydA==">
       <prototype>
         <parameter name="$1" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="1"/>
@@ -9659,6 +10329,14 @@
         <parameter name="$1" sqlType="oid" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="1"/>
         <parameter name="$2" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="2"/>
         <parameter name="returnValue" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="lo_put" schema="pg_catalog" catalog="csecw" type="2" remarks="d3JpdGUgZGF0YSBhdCBvZmZzZXQ=">
+      <prototype>
+        <parameter name="$1" sqlType="oid" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="1"/>
+        <parameter name="$2" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="2"/>
+        <parameter name="$3" sqlType="bytea" precision="0" scale="0" nullable="true" jdbcType="-2" type="1" index="3"/>
+        <parameter name="returnValue" sqlType="void" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="lo_tell" schema="pg_catalog" catalog="csecw" type="2" remarks="bGFyZ2Ugb2JqZWN0IHBvc2l0aW9u">
@@ -9995,6 +10673,66 @@
       <prototype>
         <parameter name="$1" sqlType="macaddr" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="returnValue" sqlType="bytea" precision="0" scale="0" nullable="true" jdbcType="-2" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="make_date" schema="pg_catalog" catalog="csecw" type="2" remarks="Y29uc3RydWN0IGRhdGU=">
+      <prototype>
+        <parameter name="year" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="1"/>
+        <parameter name="month" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="2"/>
+        <parameter name="day" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="3"/>
+        <parameter name="returnValue" sqlType="date" precision="0" scale="0" nullable="true" jdbcType="91" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="make_interval" schema="pg_catalog" catalog="csecw" type="2" remarks="Y29uc3RydWN0IGludGVydmFs">
+      <prototype>
+        <parameter name="years" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="1"/>
+        <parameter name="months" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="2"/>
+        <parameter name="weeks" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="3"/>
+        <parameter name="days" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="4"/>
+        <parameter name="hours" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="5"/>
+        <parameter name="mins" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="6"/>
+        <parameter name="secs" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="1" index="7"/>
+        <parameter name="returnValue" sqlType="interval" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="make_time" schema="pg_catalog" catalog="csecw" type="2" remarks="Y29uc3RydWN0IHRpbWU=">
+      <prototype>
+        <parameter name="hour" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="1"/>
+        <parameter name="min" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="2"/>
+        <parameter name="sec" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="1" index="3"/>
+        <parameter name="returnValue" sqlType="time" precision="0" scale="0" nullable="true" jdbcType="92" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="make_timestamp" schema="pg_catalog" catalog="csecw" type="2" remarks="Y29uc3RydWN0IHRpbWVzdGFtcA==">
+      <prototype>
+        <parameter name="year" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="1"/>
+        <parameter name="month" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="2"/>
+        <parameter name="mday" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="3"/>
+        <parameter name="hour" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="4"/>
+        <parameter name="min" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="5"/>
+        <parameter name="sec" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="1" index="6"/>
+        <parameter name="returnValue" sqlType="timestamp" precision="0" scale="0" nullable="true" jdbcType="93" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="make_timestamptz" schema="pg_catalog" catalog="csecw" type="2" remarks="Y29uc3RydWN0IHRpbWVzdGFtcCB3aXRoIHRpbWUgem9uZQ==">
+      <prototype>
+        <parameter name="year" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="1"/>
+        <parameter name="month" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="2"/>
+        <parameter name="mday" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="3"/>
+        <parameter name="hour" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="4"/>
+        <parameter name="min" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="5"/>
+        <parameter name="sec" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="1" index="6"/>
+        <parameter name="returnValue" sqlType="timestamptz" precision="0" scale="0" nullable="true" jdbcType="93" type="5" index="0"/>
+      </prototype>
+      <prototype>
+        <parameter name="year" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="1"/>
+        <parameter name="month" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="2"/>
+        <parameter name="mday" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="3"/>
+        <parameter name="hour" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="4"/>
+        <parameter name="min" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="5"/>
+        <parameter name="sec" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="1" index="6"/>
+        <parameter name="timezone" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="7"/>
+        <parameter name="returnValue" sqlType="timestamptz" precision="0" scale="0" nullable="true" jdbcType="93" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="makeaclitem" schema="pg_catalog" catalog="csecw" type="2" remarks="bWFrZSBBQ0wgaXRlbQ==">
@@ -10375,6 +11113,19 @@
         <parameter name="returnValue" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="5" index="0"/>
       </prototype>
     </procedure>
+    <procedure name="mode" schema="pg_catalog" catalog="csecw" type="2" remarks="bW9zdCBjb21tb24gdmFsdWU=">
+      <prototype>
+        <parameter name="$1" sqlType="anyelement" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="anyelement" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="mode_final" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIGZpbmFsIGZ1bmN0aW9u">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="anyelement" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="anyelement" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
     <procedure name="money" schema="pg_catalog" catalog="csecw" type="2" remarks="Y29udmVydCBudW1lcmljIHRvIG1vbmV5">
       <prototype>
         <parameter name="$1" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="1"/>
@@ -10612,6 +11363,13 @@
         <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
       </prototype>
     </procedure>
+    <procedure name="network_overlap" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgJiYgb3BlcmF0b3I=">
+      <prototype>
+        <parameter name="$1" sqlType="inet" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="inet" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
     <procedure name="network_sub" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgPDwgb3BlcmF0b3I=">
       <prototype>
         <parameter name="$1" sqlType="inet" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
@@ -10638,6 +11396,25 @@
         <parameter name="$1" sqlType="inet" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="$2" sqlType="inet" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
         <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="networkjoinsel" schema="pg_catalog" catalog="csecw" type="2" remarks="am9pbiBzZWxlY3Rpdml0eSBmb3IgbmV0d29yayBvcGVyYXRvcnM=">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="oid" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="2"/>
+        <parameter name="$3" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="3"/>
+        <parameter name="$4" sqlType="int2" precision="0" scale="0" nullable="true" jdbcType="5" type="1" index="4"/>
+        <parameter name="$5" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="5"/>
+        <parameter name="returnValue" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="networksel" schema="pg_catalog" catalog="csecw" type="2" remarks="cmVzdHJpY3Rpb24gc2VsZWN0aXZpdHkgZm9yIG5ldHdvcmsgb3BlcmF0b3Jz">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="oid" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="2"/>
+        <parameter name="$3" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="3"/>
+        <parameter name="$4" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="4"/>
+        <parameter name="returnValue" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="nextval" schema="pg_catalog" catalog="csecw" type="2" remarks="c2VxdWVuY2UgbmV4dCB2YWx1ZQ==">
@@ -10749,9 +11526,16 @@
     </procedure>
     <procedure name="numeric_accum" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIHRyYW5zaXRpb24gZnVuY3Rpb24=">
       <prototype>
-        <parameter name="$1" sqlType="_numeric" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="1"/>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="$2" sqlType="numeric" precision="0" scale="0" nullable="true" jdbcType="2" type="1" index="2"/>
-        <parameter name="returnValue" sqlType="_numeric" precision="0" scale="0" nullable="true" jdbcType="2003" type="5" index="0"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="numeric_accum_inv" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIHRyYW5zaXRpb24gZnVuY3Rpb24=">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="numeric" precision="0" scale="0" nullable="true" jdbcType="2" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="numeric_add" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgKyBvcGVyYXRvcg==">
@@ -10763,15 +11547,15 @@
     </procedure>
     <procedure name="numeric_avg" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIGZpbmFsIGZ1bmN0aW9u">
       <prototype>
-        <parameter name="$1" sqlType="_numeric" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="1"/>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="returnValue" sqlType="numeric" precision="0" scale="0" nullable="true" jdbcType="2" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="numeric_avg_accum" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIHRyYW5zaXRpb24gZnVuY3Rpb24=">
       <prototype>
-        <parameter name="$1" sqlType="_numeric" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="1"/>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="$2" sqlType="numeric" precision="0" scale="0" nullable="true" jdbcType="2" type="1" index="2"/>
-        <parameter name="returnValue" sqlType="_numeric" precision="0" scale="0" nullable="true" jdbcType="2003" type="5" index="0"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="numeric_cmp" schema="pg_catalog" catalog="csecw" type="2" remarks="bGVzcy1lcXVhbC1ncmVhdGVy">
@@ -10939,13 +11723,13 @@
     </procedure>
     <procedure name="numeric_stddev_pop" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIGZpbmFsIGZ1bmN0aW9u">
       <prototype>
-        <parameter name="$1" sqlType="_numeric" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="1"/>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="returnValue" sqlType="numeric" precision="0" scale="0" nullable="true" jdbcType="2" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="numeric_stddev_samp" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIGZpbmFsIGZ1bmN0aW9u">
       <prototype>
-        <parameter name="$1" sqlType="_numeric" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="1"/>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="returnValue" sqlType="numeric" precision="0" scale="0" nullable="true" jdbcType="2" type="5" index="0"/>
       </prototype>
     </procedure>
@@ -10953,6 +11737,12 @@
       <prototype>
         <parameter name="$1" sqlType="numeric" precision="0" scale="0" nullable="true" jdbcType="2" type="1" index="1"/>
         <parameter name="$2" sqlType="numeric" precision="0" scale="0" nullable="true" jdbcType="2" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="numeric" precision="0" scale="0" nullable="true" jdbcType="2" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="numeric_sum" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIGZpbmFsIGZ1bmN0aW9u">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="returnValue" sqlType="numeric" precision="0" scale="0" nullable="true" jdbcType="2" type="5" index="0"/>
       </prototype>
     </procedure>
@@ -10976,13 +11766,13 @@
     </procedure>
     <procedure name="numeric_var_pop" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIGZpbmFsIGZ1bmN0aW9u">
       <prototype>
-        <parameter name="$1" sqlType="_numeric" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="1"/>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="returnValue" sqlType="numeric" precision="0" scale="0" nullable="true" jdbcType="2" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="numeric_var_samp" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIGZpbmFsIGZ1bmN0aW9u">
       <prototype>
-        <parameter name="$1" sqlType="_numeric" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="1"/>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="returnValue" sqlType="numeric" precision="0" scale="0" nullable="true" jdbcType="2" type="5" index="0"/>
       </prototype>
     </procedure>
@@ -11261,6 +12051,19 @@
       <prototype>
         <parameter name="$1" sqlType="opaque" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="returnValue" sqlType="cstring" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="ordered_set_transition" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIHRyYW5zaXRpb24gZnVuY3Rpb24=">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="any" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="ordered_set_transition_multi" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIHRyYW5zaXRpb24gZnVuY3Rpb24=">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="any" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
       </prototype>
     </procedure>
     <procedure name="overlaps" schema="pg_catalog" catalog="csecw" type="2" remarks="aW50ZXJ2YWxzIG92ZXJsYXA/">
@@ -11542,9 +12345,98 @@
         <parameter name="returnValue" sqlType="path" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
-    <procedure name="percent_rank" schema="pg_catalog" catalog="csecw" type="2" remarks="ZnJhY3Rpb25hbCByYW5rIHdpdGhpbiBwYXJ0aXRpb24=">
+    <procedure name="percent_rank" schema="pg_catalog" catalog="csecw" type="2" remarks="ZnJhY3Rpb25hbCByYW5rIG9mIGh5cG90aGV0aWNhbCByb3c=">
       <prototype>
         <parameter name="returnValue" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="5" index="0"/>
+      </prototype>
+      <prototype>
+        <parameter name="$1" sqlType="any" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="percent_rank_final" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIGZpbmFsIGZ1bmN0aW9u">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="any" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="percentile_cont" schema="pg_catalog" catalog="csecw" type="2" remarks="bXVsdGlwbGUgY29udGludW91cyBwZXJjZW50aWxlcw==">
+      <prototype>
+        <parameter name="$1" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="1" index="1"/>
+        <parameter name="$2" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="5" index="0"/>
+      </prototype>
+      <prototype>
+        <parameter name="$1" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="1" index="1"/>
+        <parameter name="$2" sqlType="interval" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="interval" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+      <prototype>
+        <parameter name="$1" sqlType="_float8" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="1"/>
+        <parameter name="$2" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="_float8" precision="0" scale="0" nullable="true" jdbcType="2003" type="5" index="0"/>
+      </prototype>
+      <prototype>
+        <parameter name="$1" sqlType="_float8" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="1"/>
+        <parameter name="$2" sqlType="interval" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="_interval" precision="0" scale="0" nullable="true" jdbcType="2003" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="percentile_cont_float8_final" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIGZpbmFsIGZ1bmN0aW9u">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="percentile_cont_float8_multi_final" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIGZpbmFsIGZ1bmN0aW9u">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="_float8" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="_float8" precision="0" scale="0" nullable="true" jdbcType="2003" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="percentile_cont_interval_final" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIGZpbmFsIGZ1bmN0aW9u">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="interval" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="percentile_cont_interval_multi_final" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIGZpbmFsIGZ1bmN0aW9u">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="_float8" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="_interval" precision="0" scale="0" nullable="true" jdbcType="2003" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="percentile_disc" schema="pg_catalog" catalog="csecw" type="2" remarks="bXVsdGlwbGUgZGlzY3JldGUgcGVyY2VudGlsZXM=">
+      <prototype>
+        <parameter name="$1" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="1" index="1"/>
+        <parameter name="$2" sqlType="anyelement" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="anyelement" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+      <prototype>
+        <parameter name="$1" sqlType="_float8" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="1"/>
+        <parameter name="$2" sqlType="anyelement" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="anyarray" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="percentile_disc_final" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIGZpbmFsIGZ1bmN0aW9u">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="1" index="2"/>
+        <parameter name="$3" sqlType="anyelement" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="3"/>
+        <parameter name="returnValue" sqlType="anyelement" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="percentile_disc_multi_final" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIGZpbmFsIGZ1bmN0aW9u">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="_float8" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="2"/>
+        <parameter name="$3" sqlType="anyelement" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="3"/>
+        <parameter name="returnValue" sqlType="anyarray" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="pg_advisory_lock" schema="pg_catalog" catalog="csecw" type="2" remarks="b2J0YWluIGV4Y2x1c2l2ZSBhZHZpc29yeSBsb2Nr">
@@ -11700,20 +12592,35 @@
         <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
       </prototype>
     </procedure>
+    <procedure name="pg_create_logical_replication_slot" schema="pg_catalog" catalog="csecw" type="2" remarks="c2V0IHVwIGEgbG9naWNhbCByZXBsaWNhdGlvbiBzbG90">
+      <prototype>
+        <parameter name="slot_name" sqlType="name" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="1"/>
+        <parameter name="plugin" sqlType="name" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="2"/>
+        <parameter name="slot_name" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="3"/>
+        <parameter name="xlog_position" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="4" index="4"/>
+      </prototype>
+    </procedure>
+    <procedure name="pg_create_physical_replication_slot" schema="pg_catalog" catalog="csecw" type="2" remarks="Y3JlYXRlIGEgcGh5c2ljYWwgcmVwbGljYXRpb24gc2xvdA==">
+      <prototype>
+        <parameter name="slot_name" sqlType="name" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="1"/>
+        <parameter name="slot_name" sqlType="name" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="2"/>
+        <parameter name="xlog_position" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="4" index="3"/>
+      </prototype>
+    </procedure>
     <procedure name="pg_create_restore_point" schema="pg_catalog" catalog="csecw" type="2" remarks="Y3JlYXRlIGEgbmFtZWQgcmVzdG9yZSBwb2ludA==">
       <prototype>
         <parameter name="$1" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="1"/>
-        <parameter name="returnValue" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="5" index="0"/>
+        <parameter name="returnValue" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="pg_current_xlog_insert_location" schema="pg_catalog" catalog="csecw" type="2" remarks="Y3VycmVudCB4bG9nIGluc2VydCBsb2NhdGlvbg==">
       <prototype>
-        <parameter name="returnValue" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="5" index="0"/>
+        <parameter name="returnValue" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="pg_current_xlog_location" schema="pg_catalog" catalog="csecw" type="2" remarks="Y3VycmVudCB4bG9nIHdyaXRlIGxvY2F0aW9u">
       <prototype>
-        <parameter name="returnValue" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="5" index="0"/>
+        <parameter name="returnValue" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="pg_cursor" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2V0IHRoZSBvcGVuIGN1cnNvcnMgZm9yIHRoaXMgc2Vzc2lvbg==">
@@ -11742,6 +12649,12 @@
         <parameter name="$2" sqlType="oid" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="2"/>
         <parameter name="$3" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="3"/>
         <parameter name="returnValue" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="pg_drop_replication_slot" schema="pg_catalog" catalog="csecw" type="2" remarks="ZHJvcCBhIHJlcGxpY2F0aW9uIHNsb3Q=">
+      <prototype>
+        <parameter name="$1" sqlType="name" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="void" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="pg_encoding_max_length" schema="pg_catalog" catalog="csecw" type="2" remarks="bWF4aW11bSBvY3RldCBsZW5ndGggb2YgYSBjaGFyYWN0ZXIgaW4gZ2l2ZW4gZW5jb2Rpbmc=">
@@ -11787,6 +12700,13 @@
         <parameter name="path" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="4"/>
       </prototype>
     </procedure>
+    <procedure name="pg_filenode_relation" schema="pg_catalog" catalog="csecw" type="2" remarks="cmVsYXRpb24gT0lEIGZvciBmaWxlbm9kZSBhbmQgdGFibGVzcGFjZQ==">
+      <prototype>
+        <parameter name="$1" sqlType="oid" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="1"/>
+        <parameter name="$2" sqlType="oid" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="regclass" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
     <procedure name="pg_function_is_visible" schema="pg_catalog" catalog="csecw" type="2" remarks="aXMgZnVuY3Rpb24gdmlzaWJsZSBpbiBzZWFyY2ggcGF0aD8=">
       <prototype>
         <parameter name="$1" sqlType="oid" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="1"/>
@@ -11814,6 +12734,13 @@
         <parameter name="$1" sqlType="pg_node_tree" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="$2" sqlType="oid" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="2"/>
         <parameter name="$3" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="1" index="3"/>
+        <parameter name="returnValue" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="pg_get_function_arg_default" schema="pg_catalog" catalog="csecw" type="2" remarks="ZnVuY3Rpb24gYXJndW1lbnQgZGVmYXVsdA==">
+      <prototype>
+        <parameter name="$1" sqlType="oid" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="1"/>
+        <parameter name="$2" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="2"/>
         <parameter name="returnValue" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="5" index="0"/>
       </prototype>
     </procedure>
@@ -11865,6 +12792,18 @@
         <parameter name="multixid" sqlType="xid" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="xid" sqlType="xid" precision="0" scale="0" nullable="true" jdbcType="1111" type="4" index="2"/>
         <parameter name="mode" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="3"/>
+      </prototype>
+    </procedure>
+    <procedure name="pg_get_replication_slots" schema="pg_catalog" catalog="csecw" type="2" remarks="aW5mb3JtYXRpb24gYWJvdXQgcmVwbGljYXRpb24gc2xvdHMgY3VycmVudGx5IGluIHVzZQ==">
+      <prototype>
+        <parameter name="slot_name" sqlType="name" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="1"/>
+        <parameter name="plugin" sqlType="name" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="2"/>
+        <parameter name="slot_type" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="3"/>
+        <parameter name="datoid" sqlType="oid" precision="0" scale="0" nullable="true" jdbcType="-5" type="4" index="4"/>
+        <parameter name="active" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="4" index="5"/>
+        <parameter name="xmin" sqlType="xid" precision="0" scale="0" nullable="true" jdbcType="1111" type="4" index="6"/>
+        <parameter name="catalog_xmin" sqlType="xid" precision="0" scale="0" nullable="true" jdbcType="1111" type="4" index="7"/>
+        <parameter name="restart_lsn" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="4" index="8"/>
       </prototype>
     </procedure>
     <procedure name="pg_get_ruledef" schema="pg_catalog" catalog="csecw" type="2" remarks="c291cmNlIHRleHQgb2YgYSBydWxlIHdpdGggcHJldHR5LXByaW50IG9wdGlvbg==">
@@ -12008,12 +12947,12 @@
     </procedure>
     <procedure name="pg_last_xlog_receive_location" schema="pg_catalog" catalog="csecw" type="2" remarks="Y3VycmVudCB4bG9nIGZsdXNoIGxvY2F0aW9u">
       <prototype>
-        <parameter name="returnValue" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="5" index="0"/>
+        <parameter name="returnValue" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="pg_last_xlog_replay_location" schema="pg_catalog" catalog="csecw" type="2" remarks="bGFzdCB4bG9nIHJlcGxheSBsb2NhdGlvbg==">
       <prototype>
-        <parameter name="returnValue" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="5" index="0"/>
+        <parameter name="returnValue" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="pg_listening_channels" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2V0IHRoZSBjaGFubmVscyB0aGF0IHRoZSBjdXJyZW50IGJhY2tlbmQgbGlzdGVucyB0bw==">
@@ -12040,10 +12979,140 @@
         <parameter name="fastpath" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="4" index="15"/>
       </prototype>
     </procedure>
+    <procedure name="pg_logical_slot_get_binary_changes" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2V0IGJpbmFyeSBjaGFuZ2VzIGZyb20gcmVwbGljYXRpb24gc2xvdA==">
+      <prototype>
+        <parameter name="slot_name" sqlType="name" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="1"/>
+        <parameter name="upto_lsn" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="upto_nchanges" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="3"/>
+        <parameter name="options" sqlType="_text" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="4"/>
+        <parameter name="location" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="4" index="5"/>
+        <parameter name="xid" sqlType="xid" precision="0" scale="0" nullable="true" jdbcType="1111" type="4" index="6"/>
+        <parameter name="data" sqlType="bytea" precision="0" scale="0" nullable="true" jdbcType="-2" type="4" index="7"/>
+      </prototype>
+    </procedure>
+    <procedure name="pg_logical_slot_get_changes" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2V0IGNoYW5nZXMgZnJvbSByZXBsaWNhdGlvbiBzbG90">
+      <prototype>
+        <parameter name="slot_name" sqlType="name" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="1"/>
+        <parameter name="upto_lsn" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="upto_nchanges" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="3"/>
+        <parameter name="options" sqlType="_text" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="4"/>
+        <parameter name="location" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="4" index="5"/>
+        <parameter name="xid" sqlType="xid" precision="0" scale="0" nullable="true" jdbcType="1111" type="4" index="6"/>
+        <parameter name="data" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="7"/>
+      </prototype>
+    </procedure>
+    <procedure name="pg_logical_slot_peek_binary_changes" schema="pg_catalog" catalog="csecw" type="2" remarks="cGVlayBhdCBiaW5hcnkgY2hhbmdlcyBmcm9tIHJlcGxpY2F0aW9uIHNsb3Q=">
+      <prototype>
+        <parameter name="slot_name" sqlType="name" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="1"/>
+        <parameter name="upto_lsn" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="upto_nchanges" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="3"/>
+        <parameter name="options" sqlType="_text" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="4"/>
+        <parameter name="location" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="4" index="5"/>
+        <parameter name="xid" sqlType="xid" precision="0" scale="0" nullable="true" jdbcType="1111" type="4" index="6"/>
+        <parameter name="data" sqlType="bytea" precision="0" scale="0" nullable="true" jdbcType="-2" type="4" index="7"/>
+      </prototype>
+    </procedure>
+    <procedure name="pg_logical_slot_peek_changes" schema="pg_catalog" catalog="csecw" type="2" remarks="cGVlayBhdCBjaGFuZ2VzIGZyb20gcmVwbGljYXRpb24gc2xvdA==">
+      <prototype>
+        <parameter name="slot_name" sqlType="name" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="1"/>
+        <parameter name="upto_lsn" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="upto_nchanges" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="1" index="3"/>
+        <parameter name="options" sqlType="_text" precision="0" scale="0" nullable="true" jdbcType="2003" type="1" index="4"/>
+        <parameter name="location" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="4" index="5"/>
+        <parameter name="xid" sqlType="xid" precision="0" scale="0" nullable="true" jdbcType="1111" type="4" index="6"/>
+        <parameter name="data" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="7"/>
+      </prototype>
+    </procedure>
     <procedure name="pg_ls_dir" schema="pg_catalog" catalog="csecw" type="2" remarks="bGlzdCBhbGwgZmlsZXMgaW4gYSBkaXJlY3Rvcnk=">
       <prototype>
         <parameter name="$1" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="1"/>
         <parameter name="returnValue" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="pg_lsn_cmp" schema="pg_catalog" catalog="csecw" type="2" remarks="bGVzcy1lcXVhbC1ncmVhdGVy">
+      <prototype>
+        <parameter name="$1" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="pg_lsn_eq" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgPSBvcGVyYXRvcg==">
+      <prototype>
+        <parameter name="$1" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="pg_lsn_ge" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgPj0gb3BlcmF0b3I=">
+      <prototype>
+        <parameter name="$1" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="pg_lsn_gt" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgPiBvcGVyYXRvcg==">
+      <prototype>
+        <parameter name="$1" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="pg_lsn_hash" schema="pg_catalog" catalog="csecw" type="2" remarks="aGFzaA==">
+      <prototype>
+        <parameter name="$1" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="pg_lsn_in" schema="pg_catalog" catalog="csecw" type="2" remarks="SS9P">
+      <prototype>
+        <parameter name="$1" sqlType="cstring" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="pg_lsn_le" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgPD0gb3BlcmF0b3I=">
+      <prototype>
+        <parameter name="$1" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="pg_lsn_lt" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgPCBvcGVyYXRvcg==">
+      <prototype>
+        <parameter name="$1" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="pg_lsn_mi" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgLSBvcGVyYXRvcg==">
+      <prototype>
+        <parameter name="$1" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="numeric" precision="0" scale="0" nullable="true" jdbcType="2" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="pg_lsn_ne" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgPD4gb3BlcmF0b3I=">
+      <prototype>
+        <parameter name="$1" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="pg_lsn_out" schema="pg_catalog" catalog="csecw" type="2" remarks="SS9P">
+      <prototype>
+        <parameter name="$1" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="cstring" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="pg_lsn_recv" schema="pg_catalog" catalog="csecw" type="2" remarks="SS9P">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="pg_lsn_send" schema="pg_catalog" catalog="csecw" type="2" remarks="SS9P">
+      <prototype>
+        <parameter name="$1" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="bytea" precision="0" scale="0" nullable="true" jdbcType="-2" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="pg_my_temp_schema" schema="pg_catalog" catalog="csecw" type="2" remarks="Z2V0IE9JRCBvZiBjdXJyZW50IHNlc3Npb24ncyB0ZW1wIHNjaGVtYSwgaWYgYW55">
@@ -12240,11 +13309,23 @@
         <parameter name="returnValue" sqlType="void" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
+    <procedure name="pg_sleep_for" schema="pg_catalog" catalog="csecw" type="2" remarks="c2xlZXAgZm9yIHRoZSBzcGVjaWZpZWQgaW50ZXJ2YWw=">
+      <prototype>
+        <parameter name="$1" sqlType="interval" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="void" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="pg_sleep_until" schema="pg_catalog" catalog="csecw" type="2" remarks="c2xlZXAgdW50aWwgdGhlIHNwZWNpZmllZCB0aW1l">
+      <prototype>
+        <parameter name="$1" sqlType="timestamptz" precision="0" scale="0" nullable="true" jdbcType="93" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="void" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
     <procedure name="pg_start_backup" schema="pg_catalog" catalog="csecw" type="2" remarks="cHJlcGFyZSBmb3IgdGFraW5nIGFuIG9ubGluZSBiYWNrdXA=">
       <prototype>
         <parameter name="label" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="1"/>
         <parameter name="fast" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="1" index="2"/>
-        <parameter name="returnValue" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="5" index="0"/>
+        <parameter name="returnValue" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="pg_stat_clear_snapshot" schema="pg_catalog" catalog="csecw" type="2" remarks="c3RhdGlzdGljczogZGlzY2FyZCBjdXJyZW50IHRyYW5zYWN0aW9uJ3Mgc3RhdGlzdGljcyBzbmFwc2hvdA==">
@@ -12280,12 +13361,25 @@
         <parameter name="client_addr" sqlType="inet" precision="0" scale="0" nullable="true" jdbcType="1111" type="4" index="13"/>
         <parameter name="client_hostname" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="14"/>
         <parameter name="client_port" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="4" index="15"/>
+        <parameter name="backend_xid" sqlType="xid" precision="0" scale="0" nullable="true" jdbcType="1111" type="4" index="16"/>
+        <parameter name="backend_xmin" sqlType="xid" precision="0" scale="0" nullable="true" jdbcType="1111" type="4" index="17"/>
       </prototype>
     </procedure>
     <procedure name="pg_stat_get_analyze_count" schema="pg_catalog" catalog="csecw" type="2" remarks="c3RhdGlzdGljczogbnVtYmVyIG9mIG1hbnVhbCBhbmFseXplcyBmb3IgYSB0YWJsZQ==">
       <prototype>
         <parameter name="$1" sqlType="oid" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="1"/>
         <parameter name="returnValue" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="pg_stat_get_archiver" schema="pg_catalog" catalog="csecw" type="2" remarks="c3RhdGlzdGljczogaW5mb3JtYXRpb24gYWJvdXQgV0FMIGFyY2hpdmVy">
+      <prototype>
+        <parameter name="archived_count" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="4" index="1"/>
+        <parameter name="last_archived_wal" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="2"/>
+        <parameter name="last_archived_time" sqlType="timestamptz" precision="0" scale="0" nullable="true" jdbcType="93" type="4" index="3"/>
+        <parameter name="failed_count" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="4" index="4"/>
+        <parameter name="last_failed_wal" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="5"/>
+        <parameter name="last_failed_time" sqlType="timestamptz" precision="0" scale="0" nullable="true" jdbcType="93" type="4" index="6"/>
+        <parameter name="stats_reset" sqlType="timestamptz" precision="0" scale="0" nullable="true" jdbcType="93" type="4" index="7"/>
       </prototype>
     </procedure>
     <procedure name="pg_stat_get_autoanalyze_count" schema="pg_catalog" catalog="csecw" type="2" remarks="c3RhdGlzdGljczogbnVtYmVyIG9mIGF1dG8gYW5hbHl6ZXMgZm9yIGEgdGFibGU=">
@@ -12618,6 +13712,12 @@
         <parameter name="returnValue" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="5" index="0"/>
       </prototype>
     </procedure>
+    <procedure name="pg_stat_get_mod_since_analyze" schema="pg_catalog" catalog="csecw" type="2" remarks="c3RhdGlzdGljczogbnVtYmVyIG9mIHR1cGxlcyBjaGFuZ2VkIHNpbmNlIGxhc3QgYW5hbHl6ZQ==">
+      <prototype>
+        <parameter name="$1" sqlType="oid" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="5" index="0"/>
+      </prototype>
+    </procedure>
     <procedure name="pg_stat_get_numscans" schema="pg_catalog" catalog="csecw" type="2" remarks="c3RhdGlzdGljczogbnVtYmVyIG9mIHNjYW5zIGRvbmUgZm9yIHRhYmxlL2luZGV4">
       <prototype>
         <parameter name="$1" sqlType="oid" precision="0" scale="0" nullable="true" jdbcType="-5" type="1" index="1"/>
@@ -12670,10 +13770,10 @@
       <prototype>
         <parameter name="pid" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="4" index="1"/>
         <parameter name="state" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="2"/>
-        <parameter name="sent_location" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="3"/>
-        <parameter name="write_location" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="4"/>
-        <parameter name="flush_location" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="5"/>
-        <parameter name="replay_location" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="6"/>
+        <parameter name="sent_location" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="4" index="3"/>
+        <parameter name="write_location" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="4" index="4"/>
+        <parameter name="flush_location" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="4" index="5"/>
+        <parameter name="replay_location" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="4" index="6"/>
         <parameter name="sync_priority" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="4" index="7"/>
         <parameter name="sync_state" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="8"/>
       </prototype>
@@ -12775,12 +13875,12 @@
     </procedure>
     <procedure name="pg_stop_backup" schema="pg_catalog" catalog="csecw" type="2" remarks="ZmluaXNoIHRha2luZyBhbiBvbmxpbmUgYmFja3Vw">
       <prototype>
-        <parameter name="returnValue" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="5" index="0"/>
+        <parameter name="returnValue" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="pg_switch_xlog" schema="pg_catalog" catalog="csecw" type="2" remarks="c3dpdGNoIHRvIG5ldyB4bG9nIGZpbGU=">
       <prototype>
-        <parameter name="returnValue" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="5" index="0"/>
+        <parameter name="returnValue" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="pg_table_is_visible" schema="pg_catalog" catalog="csecw" type="2" remarks="aXMgdGFibGUgdmlzaWJsZSBpbiBzZWFyY2ggcGF0aD8=">
@@ -12931,8 +14031,8 @@
     </procedure>
     <procedure name="pg_xlog_location_diff" schema="pg_catalog" catalog="csecw" type="2" remarks="ZGlmZmVyZW5jZSBpbiBieXRlcywgZ2l2ZW4gdHdvIHhsb2cgbG9jYXRpb25z">
       <prototype>
-        <parameter name="$1" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="1"/>
-        <parameter name="$2" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="2"/>
+        <parameter name="$1" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
         <parameter name="returnValue" sqlType="numeric" precision="0" scale="0" nullable="true" jdbcType="2" type="5" index="0"/>
       </prototype>
     </procedure>
@@ -12948,13 +14048,13 @@
     </procedure>
     <procedure name="pg_xlogfile_name" schema="pg_catalog" catalog="csecw" type="2" remarks="eGxvZyBmaWxlbmFtZSwgZ2l2ZW4gYW4geGxvZyBsb2NhdGlvbg==">
       <prototype>
-        <parameter name="$1" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="1"/>
+        <parameter name="$1" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="returnValue" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="pg_xlogfile_name_offset" schema="pg_catalog" catalog="csecw" type="2" remarks="eGxvZyBmaWxlbmFtZSBhbmQgYnl0ZSBvZmZzZXQsIGdpdmVuIGFuIHhsb2cgbG9jYXRpb24=">
       <prototype>
-        <parameter name="wal_location" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="1"/>
+        <parameter name="wal_location" sqlType="pg_lsn" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="file_name" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="4" index="2"/>
         <parameter name="file_offset" sqlType="int4" precision="0" scale="0" nullable="true" jdbcType="4" type="4" index="3"/>
       </prototype>
@@ -13713,8 +14813,19 @@
         <parameter name="returnValue" sqlType="float8" precision="0" scale="0" nullable="true" jdbcType="8" type="5" index="0"/>
       </prototype>
     </procedure>
-    <procedure name="rank" schema="pg_catalog" catalog="csecw" type="2" remarks="aW50ZWdlciByYW5rIHdpdGggZ2Fwcw==">
+    <procedure name="rank" schema="pg_catalog" catalog="csecw" type="2" remarks="cmFuayBvZiBoeXBvdGhldGljYWwgcm93">
       <prototype>
+        <parameter name="returnValue" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="5" index="0"/>
+      </prototype>
+      <prototype>
+        <parameter name="$1" sqlType="any" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="rank_final" schema="pg_catalog" catalog="csecw" type="2" remarks="YWdncmVnYXRlIGZpbmFsIGZ1bmN0aW9u">
+      <prototype>
+        <parameter name="$1" sqlType="internal" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="any" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
         <parameter name="returnValue" sqlType="int8" precision="0" scale="0" nullable="true" jdbcType="-5" type="5" index="0"/>
       </prototype>
     </procedure>
@@ -13733,6 +14844,48 @@
       </prototype>
     </procedure>
     <procedure name="record_gt" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgPiBvcGVyYXRvcg==">
+      <prototype>
+        <parameter name="$1" sqlType="record" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="record" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="record_image_eq" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgKj0gb3BlcmF0b3I=">
+      <prototype>
+        <parameter name="$1" sqlType="record" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="record" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="record_image_ge" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgKj49IG9wZXJhdG9y">
+      <prototype>
+        <parameter name="$1" sqlType="record" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="record" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="record_image_gt" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgKj4gb3BlcmF0b3I=">
+      <prototype>
+        <parameter name="$1" sqlType="record" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="record" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="record_image_le" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgKjw9IG9wZXJhdG9y">
+      <prototype>
+        <parameter name="$1" sqlType="record" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="record" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="record_image_lt" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgKjwgb3BlcmF0b3I=">
+      <prototype>
+        <parameter name="$1" sqlType="record" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="$2" sqlType="record" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
+        <parameter name="returnValue" sqlType="bool" precision="0" scale="0" nullable="true" jdbcType="-7" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="record_image_ne" schema="pg_catalog" catalog="csecw" type="2" remarks="aW1wbGVtZW50YXRpb24gb2YgKjw+IG9wZXJhdG9y">
       <prototype>
         <parameter name="$1" sqlType="record" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
         <parameter name="$2" sqlType="record" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="2"/>
@@ -16534,6 +17687,42 @@
         <parameter name="$1" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="1"/>
         <parameter name="$2" sqlType="text" precision="0" scale="0" nullable="true" jdbcType="12" type="1" index="2"/>
         <parameter name="returnValue" sqlType="numeric" precision="0" scale="0" nullable="true" jdbcType="2" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="to_regclass" schema="pg_catalog" catalog="csecw" type="2" remarks="Y29udmVydCBjbGFzc25hbWUgdG8gcmVnY2xhc3M=">
+      <prototype>
+        <parameter name="$1" sqlType="cstring" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="regclass" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="to_regoper" schema="pg_catalog" catalog="csecw" type="2" remarks="Y29udmVydCBvcGVyYXRvciBuYW1lIHRvIHJlZ29wZXI=">
+      <prototype>
+        <parameter name="$1" sqlType="cstring" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="regoper" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="to_regoperator" schema="pg_catalog" catalog="csecw" type="2" remarks="Y29udmVydCBvcGVyYXRvciBuYW1lIHRvIHJlZ29wZXJhdG9y">
+      <prototype>
+        <parameter name="$1" sqlType="cstring" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="regoperator" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="to_regproc" schema="pg_catalog" catalog="csecw" type="2" remarks="Y29udmVydCBwcm9uYW1lIHRvIHJlZ3Byb2M=">
+      <prototype>
+        <parameter name="$1" sqlType="cstring" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="regproc" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="to_regprocedure" schema="pg_catalog" catalog="csecw" type="2" remarks="Y29udmVydCBwcm9uYW1lIHRvIHJlZ3Byb2NlZHVyZQ==">
+      <prototype>
+        <parameter name="$1" sqlType="cstring" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="regprocedure" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
+      </prototype>
+    </procedure>
+    <procedure name="to_regtype" schema="pg_catalog" catalog="csecw" type="2" remarks="Y29udmVydCB0eXBlIG5hbWUgdG8gcmVndHlwZQ==">
+      <prototype>
+        <parameter name="$1" sqlType="cstring" precision="0" scale="0" nullable="true" jdbcType="1111" type="1" index="1"/>
+        <parameter name="returnValue" sqlType="regtype" precision="0" scale="0" nullable="true" jdbcType="1111" type="5" index="0"/>
       </prototype>
     </procedure>
     <procedure name="to_timestamp" schema="pg_catalog" catalog="csecw" type="2" remarks="Y29udmVydCB0ZXh0IHRvIHRpbWVzdGFtcCB3aXRoIHRpbWUgem9uZQ==">
