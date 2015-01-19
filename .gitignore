@@ -6,4 +6,8 @@ __pycache__
 *.pyc
 
 # PyCharm
-.idea/
+.idea
+
+# SASS cache and map files
+.sass-cache
+*.css.map
