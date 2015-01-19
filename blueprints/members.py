@@ -18,10 +18,10 @@ def login():
         if Auth.check(form.username.data, form.password.data):
             Auth.login(form.username.data, form.password.data)
 
-        if session['user'].role >= Auth.member:
+        if 'user' in session and session['user'].role >= Auth.member:
             return redirect('/')
 
-        if session['user'].role <= Auth.admin:
+        if 'user' in session and session['user'].role <= Auth.admin:
             return redirect('/admin/')
 
     return redirect('/')
