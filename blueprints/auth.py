@@ -10,7 +10,7 @@ from datetime import datetime
 
 blueprint = Blueprint('auth', __name__)
 
-@blueprint.route('/login', methods=["GET", "POST"])
+@blueprint.route('/login/', methods=["GET", "POST"])
 def login():
     form = LoginForm()
 
@@ -27,14 +27,14 @@ def login():
     return render_template('login.html', form=form, hideback=True)
 
 
-@blueprint.route('/logout')
+@blueprint.route('/logout/')
 def logout():
     Auth.logout()
     return redirect('/login')
 
 # This can be treated as an example of how to create a user/how to add something to the database. However, we aren't
 # going to be using this particular function other than for testing purposes
-@blueprint.route('/mktestuser')
+@blueprint.route('/mktestuser/')
 def mktestuser():
 
     user = User()
@@ -49,6 +49,6 @@ def mktestuser():
 
     return "Done. username=\"cowbell\", password=\"cowbell\""
 
-@blueprint.route('/test')
+@blueprint.route('/test/')
 def testlayout():
     return render_template('member/layout.html')

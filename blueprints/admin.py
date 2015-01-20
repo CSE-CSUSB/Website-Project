@@ -23,13 +23,13 @@ def check_auth():
 def view_dashboard():
     return render_template('admin/admin.html')
 
-@blueprint.route('/content')
+@blueprint.route('/content/')
 def view_pages():
     pages = Content.query.all()
 
     return render_template('admin/content/view_pages.html', pages=pages)
 
-@blueprint.route('/content/add', methods=['GET', 'POST'])
+@blueprint.route('/content/add/', methods=['GET', 'POST'])
 def add_page():
     form = EditPageForm()
 
@@ -50,7 +50,7 @@ def add_page():
 
     return render_template('admin/content/edit_page.html', action='Create New', title='Create Page', form=form)
 
-@blueprint.route('/content/edit/<id>', methods=['GET', 'POST'])
+@blueprint.route('/content/edit/<id>/', methods=['GET', 'POST'])
 def edit_page(id):
     page = Content.query.get(id)
 
@@ -78,7 +78,7 @@ def edit_page(id):
 
     return render_template('admin/content/edit_page.html', action='Edit', title='Edit Page', form=form)
 
-@blueprint.route('/content/delete/<id>', methods=['GET', 'POST'])
+@blueprint.route('/content/delete/<id>/', methods=['GET', 'POST'])
 def delete_page(id):
     page = Content.query.get(id)
 
