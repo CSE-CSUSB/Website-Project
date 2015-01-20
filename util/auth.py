@@ -1,8 +1,7 @@
 from models.user import User
 from functools import wraps
-from flask import session, redirect, url_for
+from flask import request, session, redirect, url_for
 import scrypt, base64, random, re
-
 
 class Auth:
 
