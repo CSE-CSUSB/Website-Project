@@ -7,7 +7,7 @@ from CommonMark.CommonMark import DocParser, HTMLRenderer
 blueprint = Blueprint('content', __name__)
 
 @blueprint.route('/', defaults={'path': 'index'})
-@blueprint.route('/<path:path>')
+@blueprint.route('/<path:path>/')
 def content(path):
     item = Content.query.filter_by(url=path).first()
 
@@ -19,5 +19,4 @@ def content(path):
 
     renderer = HTMLRenderer()
 
-    return render_template('content.html', content=renderer.render(ast), title=item.title)
-
+    return render_template('page.html', content=renderer.render(ast), title=item.title)

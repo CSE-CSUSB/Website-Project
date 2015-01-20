@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="header">
+        <a href="/"><img src="/static/public/img/logo.png" alt="CSE Club at CSUSB" /></a>
+    </div>
+
+    <div class="clear"></div><div class="clearfix"></div>
+
+    {% autoescape false %}
+        {% block pagecontent %}
+            {% if content %}
+                {% autoescape false %}
+                    {{ content }}
+                {% endautoescape %}
+            {% endif %}
+        {% endblock %}
+    {% endautoescape %}
+
+    <div class="clear"></div><div class="clearfix"></div>
+
+    {% include 'footer.html' %}
+
+    {% if not hideback %}
+    <div class="back">
+        <a href="javascript:history.go(-1);">Go Back</a>
+    </div>
+    {% endif %}
+{% endblock %}

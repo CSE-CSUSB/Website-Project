@@ -1,0 +1,22 @@
+{% extends 'members/members.html' %}
+{% block pagecontent %}
+    <div class="sidebar admin">
+        <h3>Management</h3>
+
+        <ul class="nav admin">
+            <li><a href="/admin/content/">Content</a></li>
+            <li><a href="/admin/blog/">Blog</a></li>
+            <li><a href="/admin/members">Members</a></li>
+        </ul>
+
+        <!-- generate links to pages just for admins here -->
+    </div>
+
+    <div class="content admin">
+        {% block admincontent %}
+            {% if content %}
+                {{ content }}
+            {% endif %}
+        {% endblock %}
+    </div>
+{% endblock %}

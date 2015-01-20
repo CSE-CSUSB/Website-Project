@@ -18,3 +18,8 @@ class Content(db.Model):
 
     content = db.Column(db.Text)
 
+    # null if not at all, otherwise negative for admin, 0+ for members
+    require_level = db.Column(db.Boolean)
+
+    # 0 for not at all, 1 for main page, 2 for members area, 3 for admin area
+    in_navigation = db.Column(db.Integer)

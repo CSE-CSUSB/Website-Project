@@ -1,11 +1,6 @@
 CREATE TABLE sessions (
-  "id"     SERIAL    NOT NULL PRIMARY KEY,
   "key"    TEXT      NOT NULL UNIQUE,
-  "user"   INTEGER   NOT NULL,
-  "ip"     TEXT      NOT NULL,
-  "start"  TIMESTAMP NOT NULL,
-  "active" TIMESTAMP NOT NULL,
-  "valid"  BOOLEAN   NOT NULL
+  "value"  INTEGER   NOT NULL
 );
 
 CREATE TABLE users (
@@ -19,12 +14,14 @@ CREATE TABLE users (
 );
 
 CREATE TABLE content (
-  "id"         SERIAL    NOT NULL PRIMARY KEY,
-  "url"        TEXT      NOT NULL UNIQUE,
-  "title"      TEXT      NOT NULL,
-  "created_by" INTEGER   NOT NULL,
-  "created_on" TIMESTAMP NOT NULL,
-  "edited_by"  INTEGER   NOT NULL,
-  "edited_on"  TIMESTAMP NOT NULL,
-  "content"    TEXT      NOT NULL
+  "id"            SERIAL    NOT NULL PRIMARY KEY,
+  "url"           TEXT      NOT NULL UNIQUE,
+  "title"         TEXT      NOT NULL,
+  "created_by"    INTEGER   NOT NULL,
+  "created_on"    TIMESTAMP NOT NULL,
+  "edited_by"     INTEGER   NOT NULL,
+  "edited_on"     TIMESTAMP NOT NULL,
+  "content"       TEXT      NOT NULL,
+  "require_level" INTEGER   NULL     DEFAULT NULL,
+  "in_navigation" INTEGER   NOT NULL DEFAULT 0
 );

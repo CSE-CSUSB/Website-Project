@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <header class="nav">
+        <div class="logo">
+            <a href="/"><img src="/static/public/img/logo.png" alt="CSE Club at CSUSB" /></a>
+        </div>
+
+        <ul>
+            {% if get_admin() %}
+                <li><a href="/admin/">Admin Panel</a></li>
+            {% endif %}
+            <li><a href="/members/profile">My Profile</a></li>
+
+            <!-- nav generation soon(tm) -->
+        </ul>
+    </header>
+
+    <div class="clear"></div><div class="clearfix"></div>
+
+    {% block pagecontent %}
+        {% if content %}
+            {{ content }}
+        {% endif %}
+    {% endblock %}
+
+    <div class="clear"></div><div class="clearfix"></div>
+
+    {% include 'footer.html' %}
+{% endblock %}
