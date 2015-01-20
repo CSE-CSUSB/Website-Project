@@ -5,20 +5,23 @@ from loader import db
 from flask import Blueprint, render_template, redirect, session
 
 from models.content import Content
-from forms.editpage import EditPageForm
-from forms.delpage import DelPageForm
+from forms.pages import EditPageForm, DelPageForm
+
 from util.auth import Auth
 
 blueprint = Blueprint('admin', __name__, url_prefix='/admin')
 
 @blueprint.before_request
 def check_auth():
-    if not 'user' in session or session['user'].role >= Auth.member:
-        return redirect('/')
+    if not 'user' in session:
+        return redirect('/login')
+
+    if session['user'].role >= Auth.member:
+        return redirect('/members')
 
 @blueprint.route('/')
 def view_dashboard():
-    return render_template('admin/view_dashboard.html')
+    return render_template('admin/admin.html')
 
 @blueprint.route('/content')
 def view_pages():

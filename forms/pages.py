@@ -10,3 +10,7 @@ class EditPageForm(Form):
     content = TextAreaField('Content', validators=[DataRequired()])
 
     submit = SubmitField('Submit', validators=[DataRequired()])
+
+
+class DelPageForm(Form):
+    submit = SubmitField('Delete', validators=[DataRequired()])

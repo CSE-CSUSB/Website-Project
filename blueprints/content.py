@@ -19,5 +19,4 @@ def content(path):
 
     renderer = HTMLRenderer()
 
-    return render_template('content.html', content=renderer.render(ast), title=item.title)
-
+    return render_template('page.html', content=renderer.render(ast), title=item.title)

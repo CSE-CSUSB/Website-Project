@@ -17,7 +17,6 @@ class Auth:
     def check(username, password):
         user = User.query.filter_by(username=username).first()
 
-        print(user)
         if user is not None and Auth.verify_password(password, user.password):
             return True
 

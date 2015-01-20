@@ -628,4 +628,8 @@ ul.nav {
   margin-top: 4em;
   text-align: center; }
 
+.login {
+  max-width: 400px;
+  margin: 0 auto; }
+
 /*# sourceMappingURL=main.css.map */
