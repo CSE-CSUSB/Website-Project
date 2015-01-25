@@ -4,4 +4,4 @@ blueprint = Blueprint('index', __name__)
 
 @blueprint.route('/')
 def index():
-    return render_template('page.html', content="Welcome to the CSE Club website! <a href=\"/login\">Log in</a>", hideback=True)
+    return render_template('blog.html', hideback=True)

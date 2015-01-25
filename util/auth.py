@@ -1,7 +1,8 @@
 from models.user import User
-from functools import wraps
-from flask import request, session, redirect, url_for
+from flask import session
 import scrypt, base64, random, re
+from sqlalchemy import or_
+
 
 class Auth:
 
@@ -13,8 +14,11 @@ class Auth:
     associate = 2
 
     @staticmethod
-    def check(username, password):
-        user = User.query.filter_by(username=username).first()
+    def check(id, password):
+        if id.isdigit():
+            user = User.query.filter_by(cid=id).first()
+        else:
+            user = User.query.filter(or_(User.email_primary==id, User.email_csusb==id)).first()
 
         if user is not None and Auth.verify_password(password, user.password):
             return True
@@ -22,8 +26,11 @@ class Auth:
         return False
 
     @staticmethod
-    def login(username, password):
-        user = User.query.filter_by(username=username).first()
+    def login(id, password):
+        if id.isdigit():
+            user = User.query.filter_by(cid=id).first()
+        else:
+            user = User.query.filter(or_(User.email_primary==id, User.email_csusb==id)).first()
 
         if user is not None and Auth.verify_password(password, user.password):
             session['user'] = user

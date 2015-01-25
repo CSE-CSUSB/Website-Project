@@ -4,13 +4,22 @@ CREATE TABLE sessions (
 );
 
 CREATE TABLE users (
-  "id"       SERIAL    NOT NULL PRIMARY KEY,
-  "username" TEXT      NOT NULL UNIQUE,
-  "password" TEXT      NOT NULL,
-  "salt"     TEXT      NOT NULL,
-  "email"    TEXT      NOT NULL UNIQUE,
-  "created"  TIMESTAMP NOT NULL,
-  "role"     INTEGER   NOT NULL
+  "id"             SERIAL    NOT NULL PRIMARY KEY,
+  "password"       TEXT,
+  "cid"            INT       NOT NULL UNIQUE,
+  "fname"          TEXT      NOT NULL,
+  "lname"          TEXT      NOT NULL,
+  "email_primary"  TEXT      NOT NULL UNIQUE,
+  "email_csusb"    TEXT               UNIQUE,
+  "standing"       TEXT      NOT NULL,
+  "gender"         TEXT,
+  "shirt_size"     TEXT,
+  "shirt_received" TIMESTAMP,
+  "majors"         TEXT      NOT NULL,
+  "minors"         TEXT,
+  "paid_until"     TIMESTAMP,
+  "created"        TIMESTAMP NOT NULL,
+  "role"           INTEGER   NOT NULL
 );
 
 CREATE TABLE content (

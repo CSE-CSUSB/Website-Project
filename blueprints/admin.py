@@ -42,7 +42,7 @@ def add_page():
         page.created_by = session['user'].id
         page.created_on = datetime.now()
         page.edited_by = 0
-        page.edited_on = datetime.now()
+        page.edited_on = datetime.utcfromtimestamp(0)
         page.require_level = form.level.data
         page.in_navigation = form.navigation.data
 

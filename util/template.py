@@ -20,4 +20,4 @@ def get_admin():
 
 @app.template_global()
 def get_name():
-    return session['user'].username
+    return session['user'].fname + ' ' + session['user'].lname

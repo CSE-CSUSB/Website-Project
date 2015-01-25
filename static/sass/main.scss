@@ -301,7 +301,7 @@ h1.logo {
 
 	text-align: center;
 
-	background: url("logo.png") center no-repeat;
+	background: url("/static/public/img/logo.png") center no-repeat;
 
 	border: 0;
 }
@@ -385,4 +385,14 @@ ul.nav {
 .login {
 	max-width: 400px;
 	margin: 0 auto;
+}
+
+.alert {
+    background-color: $color-link;
+    color: $white;
+
+    border-radius: em(8);
+
+    padding: .5em;
+    margin-bottom: 1em;
 }

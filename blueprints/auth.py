@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, session, render_template
+from flask import Blueprint, redirect, session, render_template, flash
 
 from util.auth import Auth
 from forms.login import LoginForm
@@ -17,6 +17,8 @@ def login():
     if form.validate_on_submit():
         if Auth.check(form.username.data, form.password.data):
             Auth.login(form.username.data, form.password.data)
+        else:
+            flash('Invalid credentials.')
 
         if 'user' in session and session['user'].role >= Auth.member:
             return redirect('/members')
@@ -30,6 +32,9 @@ def login():
 @blueprint.route('/logout')
 def logout():
     Auth.logout()
+
+    flash('You have been logged out.')
+
     return redirect('/login')
 
 # This can be treated as an example of how to create a user/how to add something to the database. However, we aren't
@@ -38,17 +43,23 @@ def logout():
 def mktestuser():
 
     user = User()
-    user.username = "mike2"
-    user.password = Auth.hash_password("mike2")
-    user.email = 'mike@2example.com'
-    user.created = datetime.now()
-    user.role = 0
+    user.password = Auth.hash_password("mike")
+    user.cid = '003784312'
+    user.fname = 'Mike'
+    user.lname = 'Korcha'
+    user.email_csusb = 'korcham@coyote.csusb.edu'
+    user.email_primary = 'mikekorcha@gmail.com'
+    user.standing = 'Graduate'
+    user.gender = 'Male'
+    user.shirt_size = 'M'
+    user.shirt_received = datetime.utcfromtimestamp(0)
+    user.majors = 'Computer Science'
+    user.paid_until = datetime.utcfromtimestamp(0)
+    user.created = datetime.utcnow()
+    user.role = Auth.admin
 
     db.session.add(user)
     db.session.commit()
 
     return "Done. username=\"cowbell\", password=\"cowbell\""
 
-@blueprint.route('/test')
-def testlayout():
-    return render_template('member/layout.html')
