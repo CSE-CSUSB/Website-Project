@@ -1,0 +1,16 @@
+{% extends 'admin/admin.html' %}
+{% block admincontent %}
+    <h1>Deleting Page "{{ page.title }}"</h1>
+
+    <p>Are you sure you wish to delete "{{ page.title }}", located at <a href="/{{ page.url }}">/{{ page.url }}</a>? <strong>This cannot be undone!</strong></p>
+
+    <form method="post">
+        {{ form.csrf_token }}
+
+        <div class="inline">
+            {{ form.submit }}
+
+            <a class="button" href="javascript:history.go(-1)">Nevermind</a>
+        </div>
+    </form>
+{% endblock %}

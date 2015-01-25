@@ -451,7 +451,8 @@ select {
   select:-ms-input-placeholder {
     color: #999999; }
 
-input[type="button"], input[type="reset"], input[type="submit"] {
+input[type="button"], input[type="reset"], input[type="submit"],
+a.button {
   outline: 0;
   border: 1px solid transparent;
   border-radius: 0.125em;
@@ -461,7 +462,8 @@ input[type="button"], input[type="reset"], input[type="submit"] {
   color: #ffffff;
   display: block;
   margin: .5em 0 1em; }
-  input[type="button"]:active, input[type="reset"]:active, input[type="submit"]:active {
+  input[type="button"]:active, input[type="reset"]:active, input[type="submit"]:active,
+  a.button:active {
     position: relative;
     top: 1px; }
 
@@ -472,6 +474,8 @@ hr {
 
 .header {
   text-align: center; }
+  .header img {
+    border: 0; }
 
 .footer {
   font-size: .8em;

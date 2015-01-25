@@ -81,6 +81,7 @@ input {
 }
 
 #{$all-text-inputs},
+textarea,
 select {
 	border-radius: em(4);
 	border: 1px solid $color-divider;
@@ -115,7 +116,8 @@ select {
 	}
 }
 
-#{$all-button-inputs} {
+#{$all-button-inputs},
+a.button {
 	outline: 0;
 	border: 1px solid transparent;
 	border-radius: em(2);
@@ -128,12 +130,24 @@ select {
 
 	color: $white;
 
-	display: block;
-	margin: .5em 0 1em;
+	display: inline-block;
+    vertical-align: middle;
+
+	margin: 1em 0;
 
 	&:active {
 		@include position(relative, 1px null null null);
 	}
+}
+
+a.button {
+    padding: .19em 1em;
+
+    text-decoration: none;
+
+    &.right {
+        float: right;
+    }
 }
 
 hr {
@@ -235,19 +249,47 @@ header.nav {
 }
 
 .inline {
-	display: inline-block;
-	margin: .5em 0 1em;
+    @include clearfix;
 
-	label {
-		display: inline;
-		margin-right: .5em;
+	display: inline;
+	margin: 1em 0;
+
+	#{$all-text-inputs},
+    #{$all-button-inputs},
+    label,
+    textarea,
+    select {
+        display: inline;
 	}
 
-	input {
-		display: inline;
+    label {
+        margin-right: 1em;
+    }
 
-		margin: 0;
-	}
+    .column {
+        float: left;
+        vertical-align: middle;
+
+        &.two {
+            width: 50%;
+        }
+
+        &.three {
+            width: 33%;
+        }
+
+        &.left {
+            padding-right: 1em;
+        }
+
+        &.right {
+            padding-left: 1em;
+        }
+
+        &.middle {
+            padding: 0 1em;
+        }
+    }
 }
 
 h1.logo {

@@ -18,8 +18,8 @@ class Content(db.Model):
 
     content = db.Column(db.Text)
 
-    # null if not at all, otherwise negative for admin, 0+ for members
-    require_level = db.Column(db.Boolean)
+    # 2 = officer, 1 = member, 0 = public
+    require_level = db.Column(db.Integer)
 
-    # 0 for not at all, 1 for main page, 2 for members area, 3 for admin area
-    in_navigation = db.Column(db.Integer)
+    # yes or no, will show in the nav of the lowest group its available to
+    in_navigation = db.Column(db.Boolean)

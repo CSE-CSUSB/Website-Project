@@ -1,0 +1,33 @@
+{% extends 'admin/admin.html' %}
+{% block admincontent %}
+    <h1>{{ action }} Page {% if action == "Edit" %}"{{ form.title.data }}"{% endif %}</h1>
+
+    <form method="post">
+        {{ form.csrf_token }}
+
+        {{  form.title.label }}
+        {{  form.title }}
+
+        <div class="inline">
+            <div class="column two left">
+                {{ form.url.label }}
+                {{ form.url }}
+            </div>
+
+            <div class="column two right">
+                {{ form.level.label }}
+                {{ form.level }}
+            </div>
+        </div>
+
+        {{ form.content.label }}
+        {{ form.content(rows=10) }}
+
+        <div class="inline">
+            {{ form.navigation.label }}
+            {{ form.navigation }}
+        </div>
+
+        {{ form.submit }}
+    </form>
+{% endblock %}

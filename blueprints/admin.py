@@ -23,7 +23,7 @@ def check_auth():
 def view_dashboard():
     return render_template('admin/admin.html')
 
-@blueprint.route('/content/')
+@blueprint.route('/content')
 def view_pages():
     pages = Content.query.all()
 
@@ -35,6 +35,7 @@ def add_page():
 
     if form.validate_on_submit():
         page = Content()
+
         page.title = form.title.data
         page.url = form.url.data.lower()
         page.content = form.content.data
@@ -42,13 +43,15 @@ def add_page():
         page.created_on = datetime.now()
         page.edited_by = 0
         page.edited_on = datetime.now()
+        page.require_level = form.level.data
+        page.in_navigation = form.navigation.data
 
         db.session.add(page)
         db.session.commit()
 
         return redirect('/admin/content')
 
-    return render_template('admin/content/edit_page.html', action='Create New', title='Create Page', form=form)
+    return render_template('admin/content/edit_page.html', action='Creating New', title='Create Page', form=form)
 
 @blueprint.route('/content/edit/<id>', methods=['GET', 'POST'])
 def edit_page(id):
@@ -65,6 +68,8 @@ def edit_page(id):
         page.content = form.content.data
         page.edited_by = session['user'].id
         page.edited_on = datetime.now()
+        page.require_level = form.level.data
+        page.in_navigation = form.navigation.data
 
         db.session.merge(page)
         db.session.commit()
@@ -75,8 +80,11 @@ def edit_page(id):
         form.title.data = page.title
         form.url.data = page.url
         form.content.data = page.content
+        print(page.require_level)
+        form.level.data = str(page.require_level)
+        form.navigation.data = page.in_navigation
 
-    return render_template('admin/content/edit_page.html', action='Edit', title='Edit Page', form=form)
+    return render_template('admin/content/edit_page.html', action='Editing', title='Edit Page', form=form)
 
 @blueprint.route('/content/delete/<id>', methods=['GET', 'POST'])
 def delete_page(id):
