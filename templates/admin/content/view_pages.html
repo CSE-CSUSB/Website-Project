@@ -2,6 +2,10 @@
 {% block admincontent %}
     <h1>Content Management</h1>
 
+    {% if get_flashed_messages() %}
+        <div class="alert">{{ get_flashed_messages()[0] }}</div>
+    {% endif %}
+
     <table>
         <tr>
             <th>Title</th>

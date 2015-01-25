@@ -23,3 +23,4 @@ class Content(db.Model):
 
     # yes or no, will show in the nav of the lowest group its available to
     in_navigation = db.Column(db.Boolean)
+

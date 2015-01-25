@@ -3,6 +3,8 @@ from flask import session
 from datetime import datetime
 
 from loader import app
+from models.content import Content
+from sqlalchemy import and_
 
 from util.auth import Auth
 
@@ -21,3 +23,7 @@ def get_admin():
 @app.template_global()
 def get_name():
     return session['user'].fname + ' ' + session['user'].lname
+
+@app.template_global()
+def get_nav(level):
+    return Content.query.filter(and_(Content.in_navigation == True, Content.require_level == level))

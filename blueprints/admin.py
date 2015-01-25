@@ -2,10 +2,11 @@ from datetime import datetime
 
 from loader import db
 
-from flask import Blueprint, render_template, redirect, session
+from flask import Blueprint, render_template, redirect, session, flash
 
 from models.content import Content
 from forms.pages import EditPageForm, DelPageForm
+from sqlalchemy import desc, asc
 
 from util.auth import Auth
 
@@ -25,7 +26,7 @@ def view_dashboard():
 
 @blueprint.route('/content')
 def view_pages():
-    pages = Content.query.all()
+    pages = Content.query.order_by(asc(Content.url)).all()
 
     return render_template('admin/content/view_pages.html', pages=pages)
 
@@ -41,13 +42,15 @@ def add_page():
         page.content = form.content.data
         page.created_by = session['user'].id
         page.created_on = datetime.now()
-        page.edited_by = 0
+        page.edited_by = -1
         page.edited_on = datetime.utcfromtimestamp(0)
         page.require_level = form.level.data
         page.in_navigation = form.navigation.data
 
         db.session.add(page)
         db.session.commit()
+
+        flash('Page "' + page.title + '" created.')
 
         return redirect('/admin/content')
 
@@ -74,15 +77,21 @@ def edit_page(id):
         db.session.merge(page)
         db.session.commit()
 
+        flash('Page "' + page.title + '" updated.')
+
         return redirect('/admin/content')
 
     else:
-        form.title.data = page.title
-        form.url.data = page.url
-        form.content.data = page.content
-        print(page.require_level)
-        form.level.data = str(page.require_level)
-        form.navigation.data = page.in_navigation
+        form.title.data = form.title.data if form.title.data else page.title
+        form.url.data = form.url.data if form.url.data else page.url
+        form.content.data = form.content.data if form.content.data else page.content
+        form.level.data = form.level.data if form.level.data else str(page.require_level)
+        form.navigation.data = form.navigation.data if form.navigation.data else page.in_navigation
+
+        if form.errors.items():
+            for field, errors in form.errors.items():
+                for error in errors:
+                    flash(getattr(form, field).label.text + ' - ' + error)
 
     return render_template('admin/content/edit_page.html', action='Editing', title='Edit Page', form=form)
 
@@ -98,6 +107,8 @@ def delete_page(id):
     if form.validate_on_submit():
         db.session.delete(page)
         db.session.commit()
+
+        flash("Page deleted.")
 
         return redirect('/admin/content')
 

@@ -11,7 +11,10 @@
             {% endif %}
             <li><a href="/members/profile/">My Profile</a></li>
 
-            <!-- nav generation soon(tm) -->
+            {# TODO: Replace get_nav(1) with a predefined constant #}
+            {% for page in get_nav(1) %}
+                <li><a href="/{{ page.url }}">{{ page.title }}</a></li>
+            {% endfor %}
         </ul>
     </header>
 
@@ -19,7 +22,9 @@
 
     {% block pagecontent %}
         {% if content %}
-            {{ content }}
+            {% autoescape false %}
+                {{ content }}
+            {% endautoescape %}
         {% endif %}
     {% endblock %}
 

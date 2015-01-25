@@ -13,6 +13,10 @@ class Auth:
     alumni = 1
     associate = 2
 
+    permission_admin = 2
+    permission_member = 1
+    permission_general = 0
+
     @staticmethod
     def check(id, password):
         if id.isdigit():

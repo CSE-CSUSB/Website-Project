@@ -2,6 +2,16 @@
 {% block admincontent %}
     <h1>{{ action }} Page {% if action == "Edit" %}"{{ form.title.data }}"{% endif %}</h1>
 
+    {% if get_flashed_messages() %}
+        <div class="alert">
+            There was a problem updating the page:<br />
+
+            {% for message in get_flashed_messages() %}
+                {{ message }}<br />
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <form method="post">
         {{ form.csrf_token }}
 
