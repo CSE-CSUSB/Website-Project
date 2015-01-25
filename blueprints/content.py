@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, abort, session, redirect
+from flask import Blueprint, render_template, abort, redirect
 
 from util.template import get_admin, get_loggedin
 
@@ -16,11 +16,11 @@ def content(path):
     if not item:
         abort(404)
 
-    if item.required_level == 1 and not get_loggedin():
-        redirect('/login')
+    if item.require_level == 1 and not get_loggedin():
+        return redirect('/login')
 
-    if item.required_level == 2 and not get_admin():
-        redirect('/login')
+    if item.require_level == 2 and not get_admin():
+        return redirect('/members')
 
     parser = DocParser()
     ast = parser.parse(item.content)
