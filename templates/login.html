@@ -5,6 +5,7 @@
             <div class="alert">{{ get_flashed_messages()[0] }}</div>
         {% endif %}
 
+		<h2>Login</h2>
         <form action="/login" method="post">
             {{ form.csrf_token }}
 
