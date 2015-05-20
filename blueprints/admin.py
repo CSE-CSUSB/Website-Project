@@ -4,7 +4,7 @@ from loader import db
 
 from flask import Blueprint, render_template, redirect, session, flash
 
-from models.content import Content
+from models import Content
 from forms.pages import EditPageForm, DelPageForm
 from sqlalchemy import desc, asc
 

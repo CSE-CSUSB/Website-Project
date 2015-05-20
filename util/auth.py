@@ -1,4 +1,4 @@
-from models.user import User
+from models import Member
 from flask import session
 import scrypt, base64, random, re
 from sqlalchemy import or_
@@ -20,9 +20,9 @@ class Auth:
     @staticmethod
     def check(id, password):
         if id.isdigit():
-            user = User.query.filter_by(cid=id).first()
+            user = Member.query.filter_by(cid=id).first()
         else:
-            user = User.query.filter(or_(User.email_primary==id, User.email_csusb==id)).first()
+            user = Member.query.filter(or_(Member.email_primary==id, Member.email_csusb==id)).first()
 
         if user is not None and Auth.verify_password(password, user.password):
             return True
@@ -32,9 +32,9 @@ class Auth:
     @staticmethod
     def login(id, password):
         if id.isdigit():
-            user = User.query.filter_by(cid=id).first()
+            user = Member.query.filter_by(cid=id).first()
         else:
-            user = User.query.filter(or_(User.email_primary==id, User.email_csusb==id)).first()
+            user = Member.query.filter(or_(Member.email_primary==id, Member.email_csusb==id)).first()
 
         if user is not None and Auth.verify_password(password, user.password):
             session['user'] = user

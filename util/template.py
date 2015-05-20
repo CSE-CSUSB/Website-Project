@@ -3,7 +3,7 @@ from flask import session
 from datetime import datetime
 
 from loader import app
-from models.content import Content
+from models import Content
 from sqlalchemy import and_
 
 from util.auth import Auth

@@ -3,7 +3,7 @@ from util.auth import Auth
 
 from util.template import get_admin, get_loggedin
 
-from models.content import Content
+from models import Content
 
 from CommonMark.CommonMark import DocParser, HTMLRenderer
 

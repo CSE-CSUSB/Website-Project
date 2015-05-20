@@ -5,7 +5,7 @@ from forms.login import LoginForm
 
 # Used simply for creating a test user, remove it when project is complete
 from loader import db
-from models.user import User
+from models import Member
 from datetime import datetime
 
 blueprint = Blueprint('auth', __name__)
@@ -42,7 +42,7 @@ def logout():
 @blueprint.route('/mktestuser')
 def mktestuser():
 
-    user = User()
+    user = Member()
     user.password = Auth.hash_password("mike")
     user.cid = '003784312'
     user.fname = 'Mike'
