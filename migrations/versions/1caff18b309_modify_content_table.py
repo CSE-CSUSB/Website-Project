@@ -1,14 +1,14 @@
-"""empty message
+"""Modify Content table
 
 Revision ID: 1caff18b309
-Revises: 25623db4b6f
+Revises: fa1f64a341
 Create Date: 2015-05-19 23:39:28.568333
 
 """
 
 # revision identifiers, used by Alembic.
 revision = '1caff18b309'
-down_revision = '25623db4b6f'
+down_revision = 'fa1f64a341'
 
 from alembic import op
 import sqlalchemy as sa

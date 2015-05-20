@@ -124,14 +124,18 @@ We rarely work directly with the SQL database, once the blank database is create
 
 Then run the migrate command. This will compare the models defined in models.py to the actual tables in the database (blank at this point) and build a migration file that will perform the necessary steps to bring your database up-to-date with models.py:
 
-    python manage.py db migrate
+    python manage.py db migrate --message "Initial model"
 
-If you make any changes to the database model (models.py), simply create a new migration file and update your own database:
+At any time, you can check the upgrade status of your local database:
 
-    python manage.py db migrate   # Creates a script in /migrations/versions; upload this to GitHub
-    python manage.py db upgrade   # Applies the script to the local database
+    python manage.py db current
 
-Then, after you push your changes to GitHub, the other developers can upgrade their databases. The upgrade command will see the new migration file and do what is necessary to make the local database consistent with the latest revision:
+If you make any changes to the database model (models.py), simply create a new migration file (migrate command) and of course apply it to your own local database (upgrade command):
+
+    python manage.py db migrate --message "Description of changes"
+    python manage.py db upgrade
+
+After you've pushed your changes to GitHub, other developers can upgrade their databases too using this command alone:
  
     python manage.py db upgrade
 

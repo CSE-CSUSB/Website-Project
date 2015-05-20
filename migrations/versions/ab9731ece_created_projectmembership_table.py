@@ -1,4 +1,4 @@
-"""empty message
+"""Created ProjectMembership table
 
 Revision ID: ab9731ece
 Revises: 3339701b09e

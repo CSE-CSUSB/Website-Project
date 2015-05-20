@@ -1,4 +1,4 @@
-"""empty message
+"""Created Event table, modified Member table.
 
 Revision ID: 2f4b2799e06
 Revises: 1caff18b309

@@ -15,13 +15,13 @@ class Sessions(db.Model):
 '''
 class Club(db.Model):
     __tablename__ = 'club'
-    id                      = db.Column(db.Integer, primary_key=True)       # SQLAlchemy will make this a SERIAL type (see reference above)
+    id                      = db.Column(db.Integer, primary_key=True)
     shortname               = db.Column(db.Text, nullable=False)
     longname                = db.Column(db.Text, nullable=False)
 
 class Member(db.Model):
     __tablename__ = 'member'
-    id                      = db.Column(db.Integer, primary_key=True)       # SQLAlchemy will make this a SERIAL type (see reference above)
+    id                      = db.Column(db.Integer, primary_key=True)
     student_id              = db.Column(db.CHAR(length=9), unique=True)
     primary_club            = db.Column(db.Integer, db.ForeignKey('club.id'), nullable=False)
     assigned_team           = db.Column(db.Integer)
@@ -53,7 +53,7 @@ class Member(db.Model):
 
 class Content(db.Model):
     __tablename__ = 'content'
-    id                      = db.Column(db.Integer, primary_key=True)       # SQLAlchemy will make this a SERIAL type (see reference above)
+    id                      = db.Column(db.Integer, primary_key=True)
     content_type            = db.Column(db.Text, nullable=False)
     url                     = db.Column(db.Text, unique=True)
     title                   = db.Column(db.Text)
@@ -67,7 +67,7 @@ class Content(db.Model):
 
 class Event(db.Model):
     __tablename__ = 'event'
-    id                      = db.Column(db.Integer, primary_key=True)       # SQLAlchemy will make this a SERIAL type (see reference above)
+    id                      = db.Column(db.Integer, primary_key=True)
     title                   = db.Column(db.Text, nullable=False)
     hosting_club            = db.Column(db.Integer, db.ForeignKey('club.id'))
     presenter               = db.Column(db.Text)
@@ -87,22 +87,21 @@ class Event(db.Model):
 
 class Attendance(db.Model):
     __tablename__ = 'attendance'
-    id                      = db.Column(db.Integer, primary_key=True)       # SQLAlchemy will make this a SERIAL type (see reference above)
+    id                      = db.Column(db.Integer, primary_key=True)
     member                  = db.Column(db.Integer, db.ForeignKey('member.id'))
     event                   = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
     comment                 = db.Column(db.Text)
 
 class RSVP(db.Model):
     __tablename__ = 'rsvp'
-    id                      = db.Column(db.Integer, primary_key=True)       # SQLAlchemy will make this a SERIAL type (see reference above)
-    member                  = db.Column(db.Integer, db.ForeignKey('member.id'), nullable=False)
-    event                   = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
+    member                  = db.Column(db.Integer, db.ForeignKey('member.id'), primary_key=True)
+    event                   = db.Column(db.Integer, db.ForeignKey('event.id'), primary_key=True)
     reply                   = db.Column(db.Integer, nullable=False)         #0 No, 1 Yes, 2 Maybe
     comment                 = db.Column(db.Text)
 
 class Project(db.Model):
     __tablename__ = 'project'
-    id                      = db.Column(db.Integer, primary_key=True)       # SQLAlchemy will make this a SERIAL type (see reference above)
+    id                      = db.Column(db.Integer, primary_key=True)
     title                   = db.Column(db.Text, nullable=False)
     content_block_id        = db.Column(db.Integer, db.ForeignKey('content.id'))
     leader                  = db.Column(db.Integer, db.ForeignKey('member.id'))

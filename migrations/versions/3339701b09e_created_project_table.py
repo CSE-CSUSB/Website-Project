@@ -1,4 +1,4 @@
-"""empty message
+"""Created Project table
 
 Revision ID: 3339701b09e
 Revises: 179dbf8e532

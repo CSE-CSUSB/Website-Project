@@ -1,4 +1,4 @@
-"""empty message
+"""Created Attendance and RSVP tables
 
 Revision ID: 179dbf8e532
 Revises: 2f4b2799e06
