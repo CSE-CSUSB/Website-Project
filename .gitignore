@@ -11,3 +11,7 @@ __pycache__
 # SASS cache and map files
 .sass-cache
 *.css.map
+
+# Stuff Kenneth is working on
+static-infosec
+templates-infosec
