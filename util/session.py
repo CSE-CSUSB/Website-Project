@@ -1,4 +1,9 @@
 """
+This file is copied from https://github.com/mbr/flask-kvsession/blob/master/flask_kvsession/__init__.py
+and intentionally modified in 5 places (marked with ##ORIGINAL## AND ##ALTERED###)
+"""
+
+"""
 flask_kvsession is a drop-in replacement module for Flask sessions that uses a
 :class:`simplekv.KeyValueStore` as a backend for server-side sessions.
 """
@@ -10,9 +15,11 @@ except ImportError:
     import pickle
 from datetime import datetime
 from random import SystemRandom
-import re, base64, scrypt
+#import re                                  ##ORIGINAL###
+import re, base64, scrypt                   ##ALTERED###
 
-from flask import current_app, request
+#from flask import current_app              ##ORIGINAL###
+from flask import current_app, request      ##ALTERED###
 from flask.sessions import SessionMixin, SessionInterface
 from itsdangerous import Signer, BadSignature
 from simplekv import TimeToLiveMixin
@@ -143,6 +150,14 @@ class KVSessionInterface(SessionInterface):
                 try:
                     # restore the cookie, if it has been manipulated,
                     # we will find out here
+
+                    ##ORIGINAL## >
+                    #sid_s = Signer(app.secret_key).unsign(
+                    #    session_cookie
+                    #).decode('ascii')
+                    #sid = SessionID.unserialize(sid_s)
+                    ##ORIGINAL## <
+                    ##ALTERED## >
                     sid_s = scrypt.decrypt(
                         base64.b64decode(
                             Signer(app.secret_key).unsign(
@@ -150,8 +165,8 @@ class KVSessionInterface(SessionInterface):
                             )
                         ), app.secret_key
                     )
-
                     sid = SessionID.unserialize(sid_s)
+                    ##ALTERED## <
 
                     if sid.has_expired(
                             app.config['PERMANENT_SESSION_LIFETIME']):
@@ -202,6 +217,14 @@ class KVSessionInterface(SessionInterface):
             session.new = False
             session.modified = False
 
+            ##ORIGINAL## >
+            # save sid_s in cookie
+            #cookie_data = Signer(app.secret_key).sign(
+            #    session.sid_s.encode('ascii')
+            #)
+            ##ORIGINAL## <
+            ##ALTERED## >
+            # save sid_s in cookie
             cookie_data = Signer(app.secret_key).sign(
                 base64.b64encode(
                     scrypt.encrypt(
@@ -209,13 +232,25 @@ class KVSessionInterface(SessionInterface):
                     )
                 )
             )
+            ##ALTERED## <
 
+            ##ORIGINAL## >
+            #response.set_cookie(key=app.config['SESSION_COOKIE_NAME'],
+            #                    value=cookie_data,
+            #                    expires=self.get_expiration_time(app, session),
+            #                    path=self.get_cookie_path(app),
+            #                    domain=self.get_cookie_domain(app),
+            #                    secure=app.config['SESSION_COOKIE_SECURE'],
+            #                    httponly=app.config['SESSION_COOKIE_HTTPONLY'])            ##ORIGINAL## <
+            ##ORIGINAL## <
+            ##ALTERED## >
             response.set_cookie(key=app.config['SESSION_COOKIE_NAME'],
                                 value=cookie_data,
                                 expires=self.get_expiration_time(app, session),
                                 domain=self.get_cookie_domain(app),
                                 secure=app.config['SESSION_COOKIE_SECURE'],
                                 httponly=app.config['SESSION_COOKIE_HTTPONLY'])
+            ##ALTERED## <
 
 
 class KVSessionExtension(object):
