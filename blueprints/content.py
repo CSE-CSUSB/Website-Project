@@ -12,6 +12,11 @@ blueprint = Blueprint('content', __name__)
 @blueprint.route('/', defaults={'path': 'index'})
 @blueprint.route('/<path:path>')
 def content(path):
+    #Temporarily, hard-code the main page (THIS MUST BE REMOVED FOR PRODUCTION USE)
+    if path == 'index':
+        return render_template('index.html', hideback=True)
+
+    print("Querying the content table for url='" + path + "'")
     item = Content.query.filter_by(url=path).first()
 
     if not item:

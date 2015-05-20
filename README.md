@@ -37,6 +37,7 @@ Requirements
 * git 2.4.x
 * pip 6.1.x
 * postgresql 9.4.x
+* (the remaining requirements will be installed below using *pip*)
 
 **Note:** Pay close attention to the package names for your distro of Linux...
 
@@ -86,6 +87,10 @@ Use Flask-Migrate to create the tables as specified in the model:
 
     python manage.py db upgrade
 
+*Populate the database with sample data (Optional)*
+
+    python populatesampledata.py
+
 Query the database manually for testing:
 
     psql -U dev clubsitedev
@@ -117,7 +122,40 @@ Ongoing Work
 Developer notes
 ---------------
 
+### URLs
+
+Each module in /blueprints should declare its url_prefix (ex: */admin*, */members*). Within these modules, route declarations are relative. For example, in /blueprints/members.py *@blueprint.route('/settings')* would be a relative link to *http://site.com/members/settings*.
+
+This leaves /blueprints/content.py to be the catch-all for anything in the root path. A request for *http://site.com/anythinghere* will cause it to look in the *content* table for a page with that url.
+
+Our /blueprints/auth.py module is the only one breaking the above convention. It doesn't use url_prefix, as we didn't want the pages to be *http://site.com/auth/login* and *http://site.com/auth/logout*.
+
+### Pip dependencies
+
+Keep this updated. As of 2015-05-20, here are our root dependencies and what packages they depend on:
+
+1. Flask
+  * Werkzeug
+  * Jinja2
+      - MarkupSafe
+  * itsdangerous
+2. Flask-SQLAlchemy
+  * SQLAlchemy
+3. psycopg2
+4. Flask-Migrate
+  * Alembic
+      - Mako
+           * MarkupSafe
+  * Flask-Script
+5. Flask-WTF (used in many of modules in /forms)
+  * WTForms
+6. scrypt (used by /util/session.py
+7. simplekv (used by /util/session.py
+  * six
+8. CommonMark (used by /blueprints/content.py)
+
 ### Database migration
+
 We rarely work directly with the SQL database, once the blank database is created as described above. The Flask-Migration process was first initialized with this command (creates the /migrations folder, alembic.ini, and env.py):
 
     python manage.py db init

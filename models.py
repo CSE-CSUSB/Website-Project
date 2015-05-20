@@ -6,13 +6,12 @@ from loader import db
 # http://docs.sqlalchemy.org/en/latest/dialects/postgresql.html
 # http://www.pythoncentral.io/sqlalchemy-orm-examples/
 
-'''
-# This table is already defined by util.sessions.py, but this is what it looks like
+''' This table is already defined by util.sessions.py, but this is what it looks like
 class Sessions(db.Model):
     __tablename__ = 'sessions'
     key                     = db.Column(db.String(length=250), nullable=False, primary_key=True)
-    value                   = db.Column(db.LargeBinary, nullable=False)
-'''
+    value                   = db.Column(db.LargeBinary, nullable=False)'''
+
 class Club(db.Model):
     __tablename__ = 'club'
     id                      = db.Column(db.Integer, primary_key=True)

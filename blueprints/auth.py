@@ -37,7 +37,7 @@ def logout():
 
     return redirect('/login')
 
-# This can be treated as an example of how to create a user/how to add something to the database. However, we aren't
+'''# This can be treated as an example of how to create a user/how to add something to the database. However, we aren't
 # going to be using this particular function other than for testing purposes
 @blueprint.route('/mktestuser')
 def mktestuser():
@@ -61,5 +61,5 @@ def mktestuser():
     db.session.add(user)
     db.session.commit()
 
-    return "Done. username=\"cowbell\", password=\"cowbell\""
+    return "Done. username=\"cowbell\", password=\"cowbell\""'''
 
