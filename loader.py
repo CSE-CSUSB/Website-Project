@@ -11,11 +11,18 @@ from simplekv.db.sql import SQLAlchemyStore
 from flask import session
 
 app = Flask(__name__)
-print("Loading config")
-app.config.from_object(Config)
+
+# Load the config
+# In the future, consider using an environment variable for this, so the code doesn't have to be changed
+# See the suggestions in http://flask.pocoo.org/docs/0.10/config/
+c = 'config.DevelopmentConfig'
+print("Loading config '" + c + "'")
+app.config.from_object(c)
 
 print("Initializing SQLAlchemy")
 db = SQLAlchemy(app)
+
+print("Initializing sessions")
 sessionStore = SQLAlchemyStore(db.engine, db.metadata, 'sessions')
 KVSessionExtension(sessionStore, app)
 
