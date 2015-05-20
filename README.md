@@ -94,7 +94,7 @@ Other useful functions:
 
 * List all databases: ```\l```
 * List all users: ```\du```
-* List all tables: ```\d```
+* List all tables: ```\dt```
 * Describe table: ```\d <table>```
 
 ### PyCharm IDE (unverified)

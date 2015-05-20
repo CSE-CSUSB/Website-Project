@@ -23,7 +23,7 @@ class Member(db.Model):
     __tablename__ = 'member'
     id                      = db.Column(db.Integer, primary_key=True)       # SQLAlchemy will make this a SERIAL type (see reference above)
     student_id              = db.Column(db.CHAR(length=9), unique=True)
-    club                    = db.Column(db.Integer, db.ForeignKey('club.id'), nullable=False)
+    primary_club            = db.Column(db.Integer, db.ForeignKey('club.id'), nullable=False)
     assigned_team           = db.Column(db.Integer)
     priv_level              = db.Column(db.Integer, nullable=False)         # -2 officer, -1 admin, 0 member, 1 alumni, 2 associate
     pw_hash                 = db.Column(db.Text)
@@ -54,13 +54,61 @@ class Member(db.Model):
 class Content(db.Model):
     __tablename__ = 'content'
     id                      = db.Column(db.Integer, primary_key=True)       # SQLAlchemy will make this a SERIAL type (see reference above)
-    content_type            = db.Column(db.Text)
+    content_type            = db.Column(db.Text, nullable=False)
     url                     = db.Column(db.Text, unique=True)
     title                   = db.Column(db.Text)
     created_on              = db.Column(db.DateTime(timezone=True))
-    created_by              = db.Column(db.Integer)
+    created_by              = db.Column(db.Integer, db.ForeignKey('member.id'))
     edited_on               = db.Column(db.DateTime(timezone=True))
-    edited_by               = db.Column(db.Integer)
+    edited_by               = db.Column(db.Integer, db.ForeignKey('member.id'))
     required_priv_level     = db.Column(db.Integer)                         # 2 = officer, 1 = member, 0 = public
     show_in_nav             = db.Column(db.Boolean)                         # yes or no, will show in the nav of the lowest group its available to
-    content                 = db.Column(db.Text)
+    data_blob               = db.Column(db.Text, nullable=False)
+
+class Event(db.Model):
+    __tablename__ = 'event'
+    id                      = db.Column(db.Integer, primary_key=True)       # SQLAlchemy will make this a SERIAL type (see reference above)
+    title                   = db.Column(db.Text, nullable=False)
+    hosting_club            = db.Column(db.Integer, db.ForeignKey('club.id'))
+    presenter               = db.Column(db.Text)
+    picture                 = db.Column(db.Text)
+    shorturl                = db.Column(db.Text, unique=True)
+    start_time              = db.Column(db.DateTime(timezone=True))
+    end_time                = db.Column(db.DateTime(timezone=True))
+    location                = db.Column(db.Text)
+    location_type           = db.Column(db.Integer)
+    contact_info            = db.Column(db.Text)
+    content_block_id        = db.Column(db.Integer, db.ForeignKey('content.id'))
+    rsvp_max_replies        = db.Column(db.Integer)
+    rsvp_allow_maybe        = db.Column(db.Boolean, nullable=False)
+    rsvp_allow_comments     = db.Column(db.Boolean, nullable=False)
+    rsvp_public_view        = db.Column(db.Boolean, nullable=False)
+    rsvp_send_reminder      = db.Column(db.Boolean, nullable=False)
+
+class Attendance(db.Model):
+    __tablename__ = 'attendance'
+    id                      = db.Column(db.Integer, primary_key=True)       # SQLAlchemy will make this a SERIAL type (see reference above)
+    member                  = db.Column(db.Integer, db.ForeignKey('member.id'))
+    event                   = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
+    comment                 = db.Column(db.Text)
+
+class RSVP(db.Model):
+    __tablename__ = 'rsvp'
+    id                      = db.Column(db.Integer, primary_key=True)       # SQLAlchemy will make this a SERIAL type (see reference above)
+    member                  = db.Column(db.Integer, db.ForeignKey('member.id'), nullable=False)
+    event                   = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
+    reply                   = db.Column(db.Integer, nullable=False)         #0 No, 1 Yes, 2 Maybe
+    comment                 = db.Column(db.Text)
+
+class Project(db.Model):
+    __tablename__ = 'project'
+    id                      = db.Column(db.Integer, primary_key=True)       # SQLAlchemy will make this a SERIAL type (see reference above)
+    title                   = db.Column(db.Text, nullable=False)
+    content_block_id        = db.Column(db.Integer, db.ForeignKey('content.id'))
+    leader                  = db.Column(db.Integer, db.ForeignKey('member.id'))
+
+class ProjectMembership(db.Model):
+    __tablename__ = 'projectmembership'
+    project                 = db.Column(db.Integer, db.ForeignKey('project.id'), primary_key=True)
+    member                  = db.Column(db.Integer, db.ForeignKey('member.id'), primary_key=True)
+    add_date                = db.Column(db.DateTime(timezone=True))
