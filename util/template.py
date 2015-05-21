@@ -18,7 +18,7 @@ def get_loggedin():
 
 @app.template_global()
 def get_admin():
-    return True if 'user' in session and session['user'].role <= Auth.admin else False
+    return True if 'user' in session and session['user'].priv_level <= Auth.admin else False
 
 @app.template_global()
 def get_name():
@@ -26,4 +26,4 @@ def get_name():
 
 @app.template_global()
 def get_nav(level):
-    return Content.query.filter(and_(Content.in_navigation == True, Content.require_level == level))
+    return Content.query.filter(and_(Content.show_in_nav == True, Content.required_priv_level == level))

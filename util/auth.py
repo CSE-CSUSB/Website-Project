@@ -20,11 +20,11 @@ class Auth:
     @staticmethod
     def check(id, password):
         if id.isdigit():
-            user = Member.query.filter_by(cid=id).first()
+            user = Member.query.filter_by(student_id=id).first()
         else:
-            user = Member.query.filter(or_(Member.email_primary==id, Member.email_csusb==id)).first()
+            user = Member.query.filter(or_(Member.email1==id, Member.email2==id)).first()
 
-        if user is not None and Auth.verify_password(password, user.password):
+        if user is not None and Auth.verify_password(password, user.pw_hash):
             return True
 
         return False
@@ -32,11 +32,11 @@ class Auth:
     @staticmethod
     def login(id, password):
         if id.isdigit():
-            user = Member.query.filter_by(cid=id).first()
+            user = Member.query.filter_by(student_id=id).first()
         else:
-            user = Member.query.filter(or_(Member.email_primary==id, Member.email_csusb==id)).first()
+            user = Member.query.filter(or_(Member.email1==id, Member.email2==id)).first()
 
-        if user is not None and Auth.verify_password(password, user.password):
+        if user is not None and Auth.verify_password(password, user.pw_hash):
             session['user'] = user
 
         return

@@ -53,15 +53,16 @@ class Member(db.Model):
 class Content(db.Model):
     __tablename__ = 'content'
     id                      = db.Column(db.Integer, primary_key=True)
-    content_type            = db.Column(db.Text, nullable=False)
-    url                     = db.Column(db.Text, unique=True)
+    content_type            = db.Column(db.Text, nullable=False)            # html, markdown, none
+    url                     = db.Column(db.Text, unique=True)               # Which url to expose and respond to
+    render_template         = db.Column(db.Text)                            # Which template to render it against, if any
     title                   = db.Column(db.Text)
     created_on              = db.Column(db.DateTime(timezone=True))
     created_by              = db.Column(db.Integer, db.ForeignKey('member.id'))
     edited_on               = db.Column(db.DateTime(timezone=True))
     edited_by               = db.Column(db.Integer, db.ForeignKey('member.id'))
-    required_priv_level     = db.Column(db.Integer)                         # 2 = officer, 1 = member, 0 = public
-    show_in_nav             = db.Column(db.Boolean)                         # yes or no, will show in the nav of the lowest group its available to
+    required_priv_level     = db.Column(db.Integer, nullable=False)         # 2 = officer, 1 = member, 0 = public
+    show_in_nav             = db.Column(db.Boolean, nullable=False)                         # yes or no, will show in the nav of the lowest group its available to
     data_blob               = db.Column(db.Text, nullable=False)
 
 class Event(db.Model):

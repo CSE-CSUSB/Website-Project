@@ -1,7 +1,11 @@
+import os
+
 from flask import Blueprint, render_template, abort, redirect
 from util.auth import Auth
 
 from util.template import get_admin, get_loggedin
+
+import jinja2
 
 from models import Content
 
@@ -14,7 +18,10 @@ blueprint = Blueprint('content', __name__)
 def content(path):
     #Temporarily, hard-code the main page (THIS MUST BE REMOVED FOR PRODUCTION USE)
     if path == 'index':
-        return render_template('index.html', hideback=True)
+        try:
+            return render_template('index.html', hideback=True)
+        except jinja2.exceptions.TemplateNotFound:
+            pass
 
     print("Querying the content table for url='" + path + "'")
     item = Content.query.filter_by(url=path).first()
@@ -22,21 +29,21 @@ def content(path):
     if not item:
         abort(404)
 
-    if item.require_level == Auth.permission_member and not get_loggedin():
+    if item.required_priv_level == Auth.permission_member and not get_loggedin():
         return redirect('/login')
 
-    if item.require_level == Auth.permission_admin and not get_admin():
+    if item.required_priv_level == Auth.permission_admin and not get_admin():
         return redirect('/members')
 
     parser = DocParser()
-    ast = parser.parse(item.content)
+    ast = parser.parse(item.data_blob)
 
     renderer = HTMLRenderer()
 
-    if item.require_level == Auth.permission_admin:
+    if item.required_priv_level == Auth.permission_admin:
         return render_template('admin/admin.html', content=renderer.render(ast), title=item.title)
 
-    if item.require_level == Auth.permission_member:
+    if item.required_priv_level == Auth.permission_member:
         return render_template('members/members.html', content=renderer.render(ast), title=item.title)
 
-    return render_template('page.html', content=renderer.render(ast), title=item.title)
+    return render_template('page-sidebar.html', content=renderer.render(ast), title=item.title)

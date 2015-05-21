@@ -20,10 +20,10 @@ def login():
         else:
             flash('Invalid credentials.')
 
-        if 'user' in session and session['user'].role >= Auth.member:
+        if 'user' in session and session['user'].priv_level >= Auth.member:
             return redirect('/members')
 
-        if 'user' in session and session['user'].role <= Auth.admin:
+        if 'user' in session and session['user'].priv_level <= Auth.admin:
             return redirect('/admin')
 
     return render_template('login.html', form=form, hideback=True)

@@ -10,4 +10,4 @@ def check_auth():
 
 @blueprint.route('/')
 def view_membersarea():
-    return render_template('members/members.html')
+    return render_template('members/members.html', title='Members Area')

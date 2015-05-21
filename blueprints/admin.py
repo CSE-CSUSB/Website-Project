@@ -17,7 +17,7 @@ def check_auth():
     if not 'user' in session:
         return redirect('/login')
 
-    if session['user'].role >= Auth.member:
+    if session['user'].priv_level >= Auth.member:
         return redirect('/members')
 
 @blueprint.route('/')
