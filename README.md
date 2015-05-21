@@ -137,15 +137,15 @@ Keep this updated. As of 2015-05-20, here are our root dependencies and what pac
 1. Flask
   * Werkzeug
   * Jinja2
-      - MarkupSafe
+    - MarkupSafe
   * itsdangerous
 2. Flask-SQLAlchemy
   * SQLAlchemy
 3. psycopg2
 4. Flask-Migrate
   * Alembic
-      - Mako
-           * MarkupSafe
+    - Mako
+      * MarkupSafe
   * Flask-Script
 5. Flask-WTF (used in many of modules in /forms)
   * WTForms

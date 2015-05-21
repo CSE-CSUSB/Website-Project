@@ -8,7 +8,7 @@ from simplekv.db.sql import SQLAlchemyStore
 
 from flask import session
 
-print("Initializing Flask using __name__ = '" + __name__ + "'")
+print("\nInitializing Flask using __name__ = '" + __name__ + "'")
 app = Flask(__name__, static_url_path='/static', static_folder='static-infosec', template_folder='templates-infosec')
 #app = Flask(__name__)
 
@@ -26,8 +26,18 @@ print("Initializing sessions")
 sessionStore = SQLAlchemyStore(db.engine, db.metadata, 'sessions')
 KVSessionExtension(sessionStore, app)
 
-print("Loading modules...")
-app.basepath = '/'.join(os.path.realpath(__file__).split("/")[:-1]) + '/'
+# Is there any way we can put thin into app.config ?
+BLUEPRINTS_ENABLED = ['admin','auth','content','members']
+
+print("Loading blueprints..." + str(BLUEPRINTS_ENABLED))
+bpdir = 'blueprints'
+for m in BLUEPRINTS_ENABLED:
+    imp = __import__(bpdir, fromlist=[m])
+    attr = getattr(imp, m)
+    if hasattr(attr, 'blueprint'):
+        app.register_blueprint(attr.blueprint)
+
+'''app.basepath = '/'.join(os.path.realpath(__file__).split("/")[:-1]) + '/'
 for root, dirs, files in os.walk(app.basepath + 'blueprints'):
     for name in [n for n in files if "__init__.py" not in n and n.endswith(".py")]:
         n = os.path.join(root, name)[:-3].replace(app.basepath, '').replace('/', '.')
@@ -36,6 +46,12 @@ for root, dirs, files in os.walk(app.basepath + 'blueprints'):
         imp = __import__(module, fromlist=[attr])
         attr = getattr(imp, attr)
         if hasattr(attr, 'blueprint'):
-            app.register_blueprint(attr.blueprint)
+            app.register_blueprint(attr.blueprint)'''
+
+print("Enabled routes...")
+for u in app.url_map.iter_rules():
+    print(" " + str(u.rule) + " -> " + str(u.endpoint))
+print ('\n------------\n\n\n\n')
 
 import util.template
+import util.errhndlr
