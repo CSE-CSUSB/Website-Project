@@ -1,0 +1,15 @@
+{% extends 'page.html' %}
+
+{% block pagecontent %}
+<ul>
+  {% if get_admin() %}
+    <li><a href="/admin/">Admin Panel</a></li>
+  {% endif %}
+  <li><a href="/members/profile/">My Profile</a></li>
+
+  {# TODO: Replace get_nav(1) with a predefined constant #}
+  {% for page in get_nav(1) %}
+    <li><a href="/{{ page.url }}">{{ page.title }}</a></li>
+  {% endfor %}
+</ul>
+{% endblock %}
