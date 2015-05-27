@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block contentarea %}
+<div id="content">
+  <!-- insert the page content here -->
+  {% block pagecontent %}
+  <h1>Content block '{{ title }}'</h1>
+  {{ content|safe }}
+  {% endblock %}
+</div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'admin/rawadmin-master.html' %}
+{% block adminblock %}
+<ul>
+    {% for t in tables %}
+    <li>
+        <a href="/rawadmin/table/{{ t }}">{{ t }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

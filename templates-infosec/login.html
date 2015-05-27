@@ -1,0 +1,20 @@
+{% extends 'page.html' %}
+{% block pagecontent %}
+  <div class="login">
+    {% if get_flashed_messages() %}
+      <div class="alert">{{ get_flashed_messages()[0] }}</div>
+    {% endif %}
+
+    <form action="/login" method="post">
+      {{ form.csrf_token }}
+
+      {{ form.username.label }}
+      {{ form.username }}
+
+      {{ form.password.label }}
+      {{ form.password}}
+
+      {{ form.submit }}
+    </form>
+  </div>
+{% endblock %}

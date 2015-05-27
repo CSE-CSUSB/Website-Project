@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block contentarea %}
+<div id="sidebar">
+  <!-- insert your sidebar items here -->
+  {% block sidebar %}
+  <h3>Search</h3>
+  <form method="post" action="#" id="search_form">
+    <p>
+      <input class="search" type="text" name="search_field" value="Enter keywords....." />
+      <input name="search" type="image" style="border: 0; margin: 0 0 -9px 5px;" src="static/search.png" alt="Search" title="Search" />
+    </p>
+  </form>
+  <h3>Suggest a workshop</h3>
+  <h3>Recent Blog Posts</h3>
+  <div class='blogpost'>
+    <header>
+      <h4><img src="static/avatar.jpg" />Passwords, Passphrases, Password Managers</h4>
+      <h5>February 11, 2015</h5>
+    </header>
+    <p>Most people know passwords should be long and should never be written down on a Post-It note on your monitor. But how do you keep all those passwords in your head?<br /><a href="#">Read more</a></p>
+  </div>
+  <div class='blogpost'>
+    <header>
+      <h4><img src="static/avatar.jpg" />Heartbleed vs. Shellshock</h4>
+      <h5>October 24, 2015</h5>
+    </header>
+    <p>Is the claim true that the recent Shellshock vulnerability is worse than Heartbleed?<br /><a href="#">Read more</a></p>
+  </div>
+  <div class='blogpost'>
+    <header>
+      <h4><img src="static/avatar.jpg" />Summer at Esri</h4>
+      <h5>November 28, 2015</h5>
+    </header>
+    <p>Over the summer, I was given the opportunity to be a part of the Desktop and Mobility Solutions Team at Esri in Redlands, CA.  Little did I know, the 12 week long program as an intern, would not only change my perspective of internships, but drastically change my view of how I learn and express my knowledge of computers.<br /><a href="#">Read more</a></p>
+  </div>
+  {% endblock %}
+</div>
+<div id="content">
+  <!-- insert the page content here -->
+  {% block content %}
+  <h1>Content block '{{ title }}'</h1>
+  {{ content|safe }}
+  {% endblock %}
+</div>
+{% endblock %}

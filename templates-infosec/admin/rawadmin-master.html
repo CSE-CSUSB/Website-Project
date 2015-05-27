@@ -1,0 +1,10 @@
+{% extends 'page.html' %}
+{% block head %}
+{{ super() }}
+<!--<link rel="stylesheet" type="text/css" href="/static/admin.css" />-->
+{% endblock %}
+{% block pagecontent %}
+  <h1>Raw Table Access</h1>
+  {% block adminblock %}
+  {% endblock %}
+{% endblock %}

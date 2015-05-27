@@ -1,0 +1,30 @@
+{% extends 'admin/admin.html' %}
+{% block admincontent %}
+  <h1>Content Management</h1>
+
+  {% if get_flashed_messages() %}
+    <div class="alert">{{ get_flashed_messages()[0] }}</div>
+  {% endif %}
+
+  <table>
+    <tr>
+      <th>Title</th>
+      <th>URL</th>
+      <th>Author</th>
+      <th>Last Edit</th>
+      <th>Actions</th>
+    </tr>
+    {% for page in pages %}
+      <tr>
+        <td>{{ page.title }}</td>
+        <td><a href="/{{ page.url }}">/{{ page.url }}</a></td>
+        <td>{{ page.created_by }}</td>
+        <td>{{ page.edited_on }} by {{ page.edited_by }}</td>
+        <td><a href="/admin/content/edit/{{ page.id }}">Edit</a> <a href="/admin/content/delete/{{ page.id }}">Delete</a></td>
+      </tr>
+    {% endfor %}
+  </table>
+
+  <a class="button right" href="/admin/content/add">New Page</a>
+
+{% endblock %}
