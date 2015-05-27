@@ -26,17 +26,25 @@ print("Initializing sessions")
 sessionStore = SQLAlchemyStore(db.engine, db.metadata, 'sessions')
 KVSessionExtension(sessionStore, app)
 
-# Is there any way we can put thin into app.config ?
-BLUEPRINTS_ENABLED = ['admin','auth','content','members']
+# Is there any way we can put these into app.config ?
+BLUEPRINTS_ENABLED = ['bp_auth','bp_content','bp_members','bp_rawadmin']
 
 print("Loading blueprints..." + str(BLUEPRINTS_ENABLED))
 bpdir = 'blueprints'
 for m in BLUEPRINTS_ENABLED:
-    imp = __import__(bpdir, fromlist=[m])
-    attr = getattr(imp, m)
-    if hasattr(attr, 'blueprint'):
-        app.register_blueprint(attr.blueprint)
+    # Check if file exists
+    if os.path.exists(bpdir + '/' + m + '.py'):
+        # Perform low-level python import
+        imp = __import__(bpdir, fromlist=[m])
+        # Get a referenc to the blueprint variable that should be defined in each file
+        attr = getattr(imp, m)
+        if hasattr(attr, 'blueprint'):
+            # Register the blueprint with Flask
+            app.register_blueprint(attr.blueprint)
+    else:
+        print('Cannot find blue print \'' + m + '\'')
 
+# What in the world does this chunk of code do? If we keep it, it needs comments.
 '''app.basepath = '/'.join(os.path.realpath(__file__).split("/")[:-1]) + '/'
 for root, dirs, files in os.walk(app.basepath + 'blueprints'):
     for name in [n for n in files if "__init__.py" not in n and n.endswith(".py")]:
@@ -48,10 +56,11 @@ for root, dirs, files in os.walk(app.basepath + 'blueprints'):
         if hasattr(attr, 'blueprint'):
             app.register_blueprint(attr.blueprint)'''
 
-print("Enabled routes...")
-for u in app.url_map.iter_rules():
-    print(" " + str(u.rule) + " -> " + str(u.endpoint))
-print ('\n------------\n\n\n\n')
+if app.config['DEBUG']:
+    print("Enabled routes...")
+    for u in app.url_map.iter_rules():
+        print(" " + str(u.rule) + " -> " + str(u.endpoint))
+    print ('\n------------\n\n\n\n')
 
 import util.template
 import util.errhndlr

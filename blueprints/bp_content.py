@@ -11,7 +11,7 @@ from models import Content
 
 from CommonMark.CommonMark import DocParser, HTMLRenderer
 
-blueprint = Blueprint('content', __name__)
+blueprint = Blueprint('bp_content', __name__)
 
 @blueprint.route('/', defaults={'path': 'index'})
 @blueprint.route('/<path:path>')
@@ -19,7 +19,7 @@ def content(path):
     #Temporarily, hard-code the main page (THIS MUST BE REMOVED FOR PRODUCTION USE)
     if path == 'index':
         try:
-            return render_template('index.html', hideback=True)
+            return render_template('index.html')
         except jinja2.exceptions.TemplateNotFound:
             pass
 

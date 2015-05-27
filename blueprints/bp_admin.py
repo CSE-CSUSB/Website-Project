@@ -10,7 +10,7 @@ from sqlalchemy import desc, asc
 
 from util.auth import Auth
 
-blueprint = Blueprint('admin', __name__, url_prefix='/admin')
+blueprint = Blueprint('bp_admin', __name__, url_prefix='/admin')
 
 @blueprint.before_request
 def check_auth():
@@ -38,14 +38,15 @@ def add_page():
         page = Content()
 
         page.title = form.title.data
+        page.content_type = 'page'
         page.url = form.url.data.lower()
-        page.content = form.content.data
+        page.data_blob = form.content.data
         page.created_by = session['user'].id
         page.created_on = datetime.now()
         page.edited_by = -1
         page.edited_on = datetime.utcfromtimestamp(0)
-        page.require_level = form.level.data
-        page.in_navigation = form.navigation.data
+        page.required_priv_level = form.level.data
+        page.show_in_nav = form.navigation.data
 
         db.session.add(page)
         db.session.commit()
@@ -68,11 +69,11 @@ def edit_page(id):
     if form.validate_on_submit():
         page.title = form.title.data
         page.url = form.url.data
-        page.content = form.content.data
+        page.data_blob = form.content.data
         page.edited_by = session['user'].id
         page.edited_on = datetime.now()
-        page.require_level = form.level.data
-        page.in_navigation = form.navigation.data
+        page.required_priv_level = form.level.data
+        page.show_in_nav = form.navigation.data
 
         db.session.merge(page)
         db.session.commit()
@@ -84,9 +85,9 @@ def edit_page(id):
     else:
         form.title.data = form.title.data if form.title.data else page.title
         form.url.data = form.url.data if form.url.data else page.url
-        form.content.data = form.content.data if form.content.data else page.content
-        form.level.data = form.level.data if form.level.data else str(page.require_level)
-        form.navigation.data = form.navigation.data if form.navigation.data else page.in_navigation
+        form.content.data = form.content.data if form.content.data else page.data_blob
+        form.level.data = form.level.data if form.level.data else str(page.required_priv_level)
+        form.navigation.data = form.navigation.data if form.navigation.data else page.show_in_nav
 
         if form.errors.items():
             for field, errors in form.errors.items():

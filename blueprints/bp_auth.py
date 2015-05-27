@@ -8,7 +8,7 @@ from loader import db
 from models import Member
 from datetime import datetime
 
-blueprint = Blueprint('auth', __name__)
+blueprint = Blueprint('bp_auth', __name__)
 
 @blueprint.route('/login', methods=["GET", "POST"])
 def login():
