@@ -135,23 +135,23 @@ Our /blueprints/auth.py module is the only one breaking the above convention. It
 Keep this updated. As of 2015-05-20, here are our root dependencies and what packages they depend on:
 
 1. Flask
-  * Werkzeug
-  * Jinja2
-    - MarkupSafe
-  * itsdangerous
+    * Werkzeug
+    * Jinja2
+        - MarkupSafe
+    * itsdangerous
 2. Flask-SQLAlchemy
-  * SQLAlchemy
+    * SQLAlchemy
 3. psycopg2
 4. Flask-Migrate
-  * Alembic
-    - Mako
-      * MarkupSafe
-  * Flask-Script
+    * Alembic
+        - Mako
+            * MarkupSafe
+    * Flask-Script
 5. Flask-WTF (used in many of modules in /forms)
-  * WTForms
+    * WTForms
 6. scrypt (used by /util/session.py
 7. simplekv (used by /util/session.py
-  * six
+    * six
 8. CommonMark (used by /blueprints/content.py)
 
 ### Database migration

@@ -31,7 +31,7 @@ class Member(db.Model):
     name_middle             = db.Column(db.Text, nullable=False)
     name_last               = db.Column(db.Text, nullable=False)
     phone                   = db.Column(db.Text)
-    Texting_ok              = db.Column(db.Boolean)
+    texting_ok              = db.Column(db.Boolean)
     email1                  = db.Column(db.Text, unique=True, nullable=False)
     email2                  = db.Column(db.Text, unique=True)
     picture                 = db.Column(db.Text)
@@ -54,7 +54,7 @@ class Content(db.Model):
     __tablename__ = 'content'
     id                      = db.Column(db.Integer, primary_key=True)
     content_type            = db.Column(db.Text, nullable=False)            # html, markdown, none
-    url                     = db.Column(db.Text, unique=True)               # Which url to expose and respond to
+    url                     = db.Column(db.Text)                            # Which url to expose and respond to
     render_template         = db.Column(db.Text)                            # Which template to render it against, if any
     title                   = db.Column(db.Text)
     created_on              = db.Column(db.DateTime(timezone=True))
@@ -62,7 +62,7 @@ class Content(db.Model):
     edited_on               = db.Column(db.DateTime(timezone=True))
     edited_by               = db.Column(db.Integer, db.ForeignKey('member.id'))
     required_priv_level     = db.Column(db.Integer, nullable=False)         # 2 = officer, 1 = member, 0 = public
-    show_in_nav             = db.Column(db.Boolean, nullable=False)                         # yes or no, will show in the nav of the lowest group its available to
+    show_in_nav             = db.Column(db.Integer, nullable=False)         # 0 = none, 1 = main nav menu, 2 = sub menu
     data_blob               = db.Column(db.Text, nullable=False)
 
 class Event(db.Model):
@@ -94,8 +94,9 @@ class Attendance(db.Model):
 
 class RSVP(db.Model):
     __tablename__ = 'rsvp'
-    member                  = db.Column(db.Integer, db.ForeignKey('member.id'), primary_key=True)
-    event                   = db.Column(db.Integer, db.ForeignKey('event.id'), primary_key=True)
+    id                      = db.Column(db.Integer, primary_key=True)
+    member                  = db.Column(db.Integer, db.ForeignKey('member.id'), nullable=False)
+    event                   = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
     reply                   = db.Column(db.Integer, nullable=False)         #0 No, 1 Yes, 2 Maybe
     comment                 = db.Column(db.Text)
 
@@ -108,6 +109,7 @@ class Project(db.Model):
 
 class ProjectMembership(db.Model):
     __tablename__ = 'projectmembership'
-    project                 = db.Column(db.Integer, db.ForeignKey('project.id'), primary_key=True)
-    member                  = db.Column(db.Integer, db.ForeignKey('member.id'), primary_key=True)
+    id                      = db.Column(db.Integer, primary_key=True)
+    project                 = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    member                  = db.Column(db.Integer, db.ForeignKey('member.id'), nullable=False)
     add_date                = db.Column(db.DateTime(timezone=True))
