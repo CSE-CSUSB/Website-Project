@@ -13,11 +13,11 @@ def get_year():
     return datetime.now().year
 
 @app.template_global()
-def get_loggedin():
+def is_loggedin():
     return True if 'user' in session else False
 
 @app.template_global()
-def get_admin():
+def is_admin():
     return True if 'user' in session and session['user'].priv_level <= Auth.admin else False
 
 @app.template_global()
@@ -26,4 +26,4 @@ def get_name():
 
 @app.template_global()
 def get_nav(level):
-    return Content.query.filter(and_(Content.show_in_nav == True, Content.required_priv_level == level))
+    return Content.query.filter(and_(Content.show_in_nav == 1, Content.required_priv_level == level))

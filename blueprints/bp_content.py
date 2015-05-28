@@ -3,7 +3,7 @@ import os
 from flask import Blueprint, render_template, abort, redirect
 from util.auth import Auth
 
-from util.template import get_admin, get_loggedin
+from util.template import is_admin, is_loggedin
 
 import jinja2
 
@@ -23,16 +23,22 @@ def content(path):
         except jinja2.exceptions.TemplateNotFound:
             pass
 
+    if path == 'events':
+        try:
+            return render_template('events.html')
+        except jinja2.exceptions.TemplateNotFound:
+            pass
+
     print("Querying the content table for url='" + path + "'")
     item = Content.query.filter_by(url=path).first()
 
     if not item:
         abort(404)
 
-    if item.required_priv_level == Auth.permission_member and not get_loggedin():
+    if item.required_priv_level == Auth.permission_member and not is_loggedin():
         return redirect('/login')
 
-    if item.required_priv_level == Auth.permission_admin and not get_admin():
+    if item.required_priv_level == Auth.permission_admin and not is_admin():
         return redirect('/members')
 
     parser = DocParser()
