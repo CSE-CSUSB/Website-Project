@@ -1,0 +1,73 @@
+{% extends 'page.html' %}
+{% block head %}
+{{ super() }}<link href="/static/style.css" rel="stylesheet" />
+<link href="/static/calendar.css" rel="stylesheet" />
+{% endblock %}
+
+{% block contentarea %}
+
+<h1>Events Calendar</h1>
+<h2>May 2015</h2>
+<table id="month">
+  <thead>
+    <tr>
+      <th class="weekend">Sunday</th>
+      <th>Monday</th>
+      <th>Tuesday</th>
+      <th>Wednesday</th>
+      <th>Thursday</th>
+      <th>Friday</th>
+      <th class="weekend">Saturday</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="weekend previous"><span class="date">28</span><div class="day"></div></td>
+      <td class="previous"><span class="date">29</span><div class="day"></div></td>
+      <td class="previous"><span class="date">30</span><div class="day"></div></td>
+      <td class="previous"><span class="date">31</span><div class="day"></div></td>
+      <td><span class="date">1</span><div class="day"></div></td>
+      <td><span class="date">2</span><div class="day"></div></td>
+      <td class="weekend"><span class="date">3</span><div class="day"></div></td>
+    </tr>
+    <tr>
+      <td class="weekend"><span class="date">4</span><div class="day"></div></td>
+      <td><span class="date">5</span><div class="day"></div></td>
+      <td><span class="date">6</span><div class="day"></div></td>
+      <td><span class="date">7</span><div class="day"></div></td>
+      <td><span class="date">8</span><div class="day"></div></td>
+      <td><span class="date">9</span><div class="day"></div></td>
+      <td class="weekend"><span class="date">10</span><div class="day"></div></td>
+    </tr>
+    <tr>
+      <td class="weekend"><span class="date">11</span><div class="day"></div></td>
+      <td><span class="date">12</span><div class="day"></div></td>
+      <td><span class="date">13</span><div class="day"></div></td>
+      <td><span class="date">14</span><div class="day"><p>Sample Holiday</p></div></td>
+      <td><span class="date">15</span><div class="day"><p><strong>Sample Title</strong><br />Test message</p></div></td>
+
+      <td><span class="date">16</span><div class="day"></div></td>
+      <td class="weekend"><span class="date">17</span><div class="day"></div></td>
+    </tr>
+    <tr>
+      <td class="weekend"><span class="date">18</span><div class="day"></div></td>
+      <td><span class="date">19</span><div class="day"></div></td>
+      <td><span class="date">20</span><div class="day"></div></td>
+      <td><span class="date">21</span><div class="day"></div></td>
+      <td><span class="date">22</span><div class="day"></div></td>
+      <td><span class="date">23</span><div class="day"></div></td>
+      <td class="weekend"><span class="date">24</span><div class="day"></div></td>
+    </tr>
+    <tr>
+      <td class="weekend"><span class="date">25</span><div class="day"></div></td>
+      <td><span class="date">26</span><div class="day"></div></td>
+      <td><span class="date">27</span><div class="day"></div></td>
+      <td><span class="date">28</span><div class="day"></div></td>
+      <td class="next"><span class="date">1</span><div class="day"></div></td>
+      <td class="next"><span class="date">2</span><div class="day"></div></td>
+      <td class="weekend next"><span class="date">3</span><div class="day"></div></td>
+    </tr>
+  </tbody>
+</table>
+
+{% endblock %}

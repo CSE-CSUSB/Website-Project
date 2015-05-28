@@ -37,8 +37,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/"><img alt="Brand" src="/static/orglogo.png" width="46" height="46" style='position:relative; top:-12px' /></a>
-        <!--<a class="navbar-brand" href="/"><img alt="Brand" src="/static/clublogo.png" width="284" height="66" style='position:relative; top:-19px' /></a>-->
+        <a class="navbar-brand" href="/"><img alt="Brand" src="/static/clublogo.png" width="195" height="46" style='position:relative; top:-12px' /></a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
@@ -51,6 +50,7 @@
               <li class="dropdown-header">Active</li>
               <li><a href="/projects/1">Pen Test Network</a></li>
               <li><a href="/projects/2">Raspberry Pi security system</a></li>
+              <li class="divider"></li>
               <li class="dropdown-header">Other</li>
               <li><a href="/projects/3">Start a project</a></li>
             </ul>
@@ -73,21 +73,13 @@
           <li><a href="#contact">About Us</a></li>
           {% endblock %}
         </ul>
-        <!--<form class="navbar-form navbar-left" role="search">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search for...">
-            <span class="input-group-btn">
-              <button class="btn btn-default" type="submit">Go</button>
-            </span>
-          </div>
-        </form>-->
         <ul class="nav navbar-nav navbar-right">
-          {% if get_loggedin() %}
+          {% if is_loggedin() %}
             <li class="dropdown">
               <a href="/members" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Mike Korcha <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="/members">Members Area</a></li>
-                {% if get_admin() %}
+                {% if is_admin() %}
                   <li><a href="/admin">Site Administration</a></li>
                   <li><a href="/rawadmin">Raw Table Access</a></li>
                 {% endif %}
@@ -96,21 +88,11 @@
               </ul>
             </li>
           {% else %}
+            <li><a href="/signup">Sign up</a></li>
             <li><a href="/login">Login</a></li>
           {% endif %}
         </ul>
       </div><!--/.nav-collapse -->
-      <!--<div id="navbar" class="navbar-collapse collapse">
-        <form class="navbar-form navbar-right">
-          <div class="form-group">
-            <input type="text" placeholder="Email" class="form-control">
-          </div>
-          <div class="form-group">
-            <input type="password" placeholder="Password" class="form-control">
-          </div>
-          <button type="submit" class="btn btn-success">Sign in</button>
-        </form>
-      </div>--><!--/.navbar-collapse -->
     </div>
   </nav>
 

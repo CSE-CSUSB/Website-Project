@@ -1,18 +1,33 @@
 body {
-  padding-top: 70px;
-  padding-bottom: 30px;
+  padding-top: 60px;
+  padding-bottom: 10px;
 }
 
-.theme-dropdown .dropdown-menu {
-  position: static;
-  display: block;
-  margin-bottom: 20px;
+.dropdown-header {
+  text-align:center;
+  font-style:italic;
 }
 
-.theme-showcase > p > .btn {
-  margin: 5px 0;
+.eventtable>thead>tr>th {
+  border-bottom:1px solid #337ab7;
+}
+.eventtable>tbody>tr>td {
+  border-top:1px solid #337ab7;
 }
 
-.theme-showcase .navbar .container {
-  width: auto;
+tr.event_generic td {
+  background-color:white;
+}
+tr.event_ours td, .eventlegend_ours {
+  background-color:#B6D7A8;
+}
+tr.event_acm td, .eventlegend_acm {
+  background-color:#CFE2F3;
+}
+tr.event_external td {
+  background-color:#F9F9F9;
+}
+
+.eventlegend {
+  padding:3px;
 }

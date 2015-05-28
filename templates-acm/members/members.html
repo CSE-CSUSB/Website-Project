@@ -6,7 +6,7 @@
         </div>
 
         <ul>
-            {% if get_admin() %}
+            {% if is_admin() %}
                 <li><a href="/admin/">Admin Panel</a></li>
             {% endif %}
             <li><a href="/members/profile/">My Profile</a></li>

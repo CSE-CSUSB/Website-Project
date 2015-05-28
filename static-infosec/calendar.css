@@ -1,0 +1,10 @@
+#month { border-collapse: collapse; margin-left: 2em; }
+#month th, #month td { border: 1px solid #000; }
+#month thead { background-color:#9c9; }
+#month td { width: 7em; height: 7em; padding: .2em; vertical-align: top; overflow: auto; }
+td .day { width: 7em; height: 6em; overflow:auto; margin-top: 0; }
+#month tbody .weekend { background-color:#ded; }
+#month tbody .next, #month tbody .previous { background-color:#ddd; }
+#container h1 { margin: 0 0 .5em .5em; font: 2em Arial, Helvetica, sans-serif; color: #060; }
+#month th { font: 1em  bold Arial, Helvetica, sans-serif; }
+p {margin-top: 0; }

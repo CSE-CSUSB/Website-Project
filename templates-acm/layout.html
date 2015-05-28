@@ -24,7 +24,7 @@
             {% endblock %}
 
             <div class="member">
-                {% if get_loggedin() %}
+                {% if is_loggedin() %}
                     Welcome, {{ get_name() }}! <a href="/members/">Members Area</a> <a href="/logout">Log Out</a>
                 {% else %}
                     <a href="/login">Log in</a> to access features exclusive to club members.
