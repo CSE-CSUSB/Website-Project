@@ -17,17 +17,10 @@ blueprint = Blueprint('bp_content', __name__)
 @blueprint.route('/<path:path>')
 def content(path):
     #Temporarily, hard-code the main page (THIS MUST BE REMOVED FOR PRODUCTION USE)
-    if path == 'index':
-        try:
-            return render_template('index.html')
-        except jinja2.exceptions.TemplateNotFound:
-            pass
-
-    if path == 'events':
-        try:
-            return render_template('events.html')
-        except jinja2.exceptions.TemplateNotFound:
-            pass
+    try:
+        return render_template(path + '.html', curpage=path.split("/")[0])
+    except jinja2.exceptions.TemplateNotFound:
+        pass
 
     print("Querying the content table for url='" + path + "'")
     item = Content.query.filter_by(url=path).first()

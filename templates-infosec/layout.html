@@ -42,20 +42,20 @@
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           {% block menu %}
-          <li class="active"><a href="/">Home</a></li>
-          <li><a href="/events">Events</a></li>
-          <li class="dropdown"><!--Projects-->
+          <li{% if curpage=='index' %} class="active"{% endif %}><a href="/">Home</a></li>
+          <li{% if curpage=='events' %} class="active"{% endif %}><a href="/events">Events</a></li>
+          <li class="dropdown{% if curpage=='projects' %} active{% endif %}"><!--Projects-->
             <a href="/projects" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Projects <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li class="dropdown-header">Active</li>
-              <li><a href="/projects/1">Pen Test Network</a></li>
-              <li><a href="/projects/2">Raspberry Pi security system</a></li>
+              <li><a href="/projects/pentest">Pen Test Network</a></li>
+              <li><a href="/projects/pisec">Raspberry Pi security system</a></li>
               <li class="divider"></li>
               <li class="dropdown-header">Other</li>
-              <li><a href="/projects/3">Start a project</a></li>
+              <li><a href="/projects/suggest">Start a project</a></li>
             </ul>
           </li>
-          <li class="dropdown"><!--Competitions-->
+          <li class="dropdown{% if curpage=='competitions' %} active{% endif %}"><!--Competitions-->
             <a href="/competitions" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Competitions <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li class="dropdown-header">Active</li>
@@ -68,9 +68,9 @@
               <li><a href="/competitions/cyberpatriot">Cyber Patriot</a></li>
             </ul>
           </li>
-          <li><a href="/blog">Blog</a></li>
-          <li><a href="/wiki">Wiki</a></li>
-          <li><a href="#contact">About Us</a></li>
+          <li{% if curpage=='blog' %} class="active"{% endif %}><a href="/blog">Blog</a></li>
+          <li{% if curpage=='wiki' %} class="active"{% endif %}><a href="/wiki">Wiki</a></li>
+          <li{% if curpage=='aboutus' %} class="active"{% endif %}><a href="/aboutus">About Us</a></li>
           {% endblock %}
         </ul>
         <ul class="nav navbar-nav navbar-right">

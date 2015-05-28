@@ -19,7 +19,7 @@ Developers
 * Beverly Abadines, *BeverlyAb*
 * Mark Holmes, *maholmes1*
 * Dylan Allbee, *dallbee*
-* Kenneth Johnson <kenpilot@gmail.com>, *securedirective*
+* Kenneth Johnson, *securedirective*
 
 Getting Involved
 ----------------
