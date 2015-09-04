@@ -20,6 +20,7 @@ Developers
 * Mark Holmes, *maholmes1*
 * Dylan Allbee, *dallbee*
 * Kenneth Johnson, *securedirective*
+* Patrick Gillespie, *alofoxx*
 
 Getting Involved
 ----------------
