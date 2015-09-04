@@ -47,7 +47,7 @@ class Auth:
 
     @staticmethod
     def hash_password(password):
-        salt = base64.b64encode((''.join(chr(random.randint(0, 255)) for i in range(32))).encode('utf-8'))
+        salt = base64.b64encode((''.join(chr(random.randint(0, 127)) for i in range(32))).encode('utf-8'))
         hash = base64.b64encode(scrypt.hash(password, salt))
         return (b''.join([b'$', salt, b'$', hash])).decode('ascii')
 
