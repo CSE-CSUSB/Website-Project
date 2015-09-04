@@ -54,7 +54,7 @@ class Auth:
     @staticmethod
     def verify_password(password, hash):
         salt, hash = re.split(b'\$', hash.encode('utf-8'))[1:]
-        if scrypt.hash(password, salt) == base64.b64decode(hash):
+        if scrypt.hash(password.encode('utf-8'), salt) == base64.b64decode(hash):
             return True
 
         return False
